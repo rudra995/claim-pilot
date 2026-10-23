@@ -1,0 +1,115 @@
+{
+  "case_id": "case2",
+  "title": "Ramesh's knee replacement: room over cap, pre-op X-ray report missing",
+  "patient": {
+    "patient_id": "PAT-0002",
+    "name": "Ramesh Iyer",
+    "age": 58,
+    "gender": "M",
+    "city": "Bengaluru"
+  },
+  "policy": {
+    "policy_id": "POL-A-0002",
+    "insurer": "Demo Insurer A",
+    "product": "Health Secure Individual",
+    "sum_insured": 300000,
+    "start_date": "2022-04-01",
+    "rules": [
+      {
+        "rule_id": "POL-A-4.2",
+        "type": "room_rent_cap",
+        "value": {"percent_of_sum_insured": 1.0, "per": "day"},
+        "clause_id": "4.2",
+        "clause_text": "Room rent is payable up to 1% of the sum insured per day. Where the insured occupies a room above this limit, doctor fees, nursing and operation theatre charges are paid in the proportion that the eligible room rent bears to the actual room rent. Implants and medicines are not subject to this proportion.",
+        "proportionate": true,
+        "linked_charges": ["doctor_fees", "nursing", "ot_charges"],
+        "excluded_from_proportionate": ["implants", "pharmacy"],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "POL-A-ANX2",
+        "type": "non_payable",
+        "value": {"categories": ["consumables"], "items": ["gloves", "admission kit", "mask"]},
+        "clause_id": "Annexure II",
+        "clause_text": "Items listed in Annexure II, including gloves, masks and admission kits, are not payable.",
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "POL-A-5.3",
+        "type": "waiting_period",
+        "value": {"procedures": ["total_knee_replacement", "total_hip_replacement"], "months": 24},
+        "clause_id": "5.3",
+        "clause_text": "Joint replacement surgery is covered only after 24 months of continuous coverage.",
+        "verified_by_human": true
+      }
+    ]
+  },
+  "admission": {
+    "admission_id": "ADM-0002",
+    "patient_id": "PAT-0002",
+    "policy_id": "POL-A-0002",
+    "procedure": "total_knee_replacement",
+    "icd10": "M17.1",
+    "room_category": "single_deluxe",
+    "admit_date": "2026-10-05",
+    "discharge_date": "2026-10-09",
+    "tpa_id": "TPA-A",
+    "emergency": false
+  },
+  "bill_lines": [
+    {"line_id": "ADM-0002-L1", "category": "room", "description": "Single deluxe room, 4 days x 5,000", "quantity": 4, "amount": 20000},
+    {"line_id": "ADM-0002-L2", "category": "doctor_fees", "description": "Surgeon and doctor fees", "amount": 60000},
+    {"line_id": "ADM-0002-L3", "category": "nursing", "description": "Nursing charges", "amount": 8000},
+    {"line_id": "ADM-0002-L4", "category": "ot_charges", "description": "Operation theatre charges", "amount": 30000},
+    {"line_id": "ADM-0002-L5", "category": "implants", "description": "Knee implant", "amount": 90000},
+    {"line_id": "ADM-0002-L6", "category": "pharmacy", "description": "Medicines", "amount": 25000},
+    {"line_id": "ADM-0002-L7", "category": "consumables", "description": "Consumables (gloves, admission kit)", "amount": 7000}
+  ],
+  "documents": [
+    {
+      "doc_id": "ADM-0002-D1",
+      "type": "admission_note",
+      "fields": {
+        "chief_complaint": "Right knee pain for 3 years, worse on walking, not relieved by physiotherapy and painkillers",
+        "provisional_diagnosis": "Primary osteoarthritis, right knee",
+        "planned_treatment": "Right total knee replacement",
+        "imaging_mentioned": "Pre-op X-ray done; report not attached"
+      }
+    },
+    {
+      "doc_id": "ADM-0002-D2",
+      "type": "lab_report",
+      "fields": {
+        "test": "Pre-operative blood work",
+        "haemoglobin_g_dl": 13.4,
+        "hba1c_percent": 5.8
+      }
+    },
+    {
+      "doc_id": "ADM-0002-D3",
+      "type": "operative_note",
+      "fields": {
+        "procedure": "Right total knee replacement",
+        "implant": "Cemented posterior-stabilised knee system",
+        "duration_minutes": 110
+      }
+    },
+    {
+      "doc_id": "ADM-0002-D4",
+      "type": "discharge_summary",
+      "fields": {
+        "diagnosis": "Primary osteoarthritis, right knee",
+        "icd10": "M17.1",
+        "reason_for_admission": "End-stage osteoarthritis of the right knee after failed conservative treatment, needing joint replacement",
+        "treatment_given": "Right total knee replacement",
+        "length_of_stay_days": 4,
+        "condition_at_discharge": "Walking with a walker, wound healthy"
+      }
+    },
+    {
+      "doc_id": "ADM-0002-D5",
+      "type": "final_bill",
+      "fields": {"total_billed": 240000}
+    }
+  ]
+}
