@@ -1,0 +1,105 @@
+{
+  "case_id": "case3",
+  "title": "Gastroenteritis admission: discharge summary doesn't say why admission was needed",
+  "patient": {
+    "patient_id": "PAT-0003",
+    "name": "Lakshmi Rao",
+    "age": 64,
+    "gender": "F",
+    "city": "Mysuru"
+  },
+  "policy": {
+    "policy_id": "POL-B-0003",
+    "insurer": "Demo Insurer B",
+    "product": "Senior Care Plus",
+    "sum_insured": 400000,
+    "start_date": "2021-07-01",
+    "rules": [
+      {
+        "rule_id": "POL-B-2.4",
+        "type": "room_rent_cap",
+        "value": {"percent_of_sum_insured": 1.0, "per": "day"},
+        "clause_id": "2.4",
+        "clause_text": "Room rent is payable up to 1% of the sum insured per day. Associated medical expenses are paid in the same proportion if a higher room is chosen.",
+        "proportionate": true,
+        "linked_charges": ["doctor_fees", "nursing", "ot_charges"],
+        "excluded_from_proportionate": ["implants", "pharmacy"],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "POL-B-6.1",
+        "type": "co_pay",
+        "value": {"percent": 10.0, "min_age": 60},
+        "clause_id": "6.1",
+        "clause_text": "A co-payment of 10% of every admissible claim applies to insured persons aged 60 or above.",
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "POL-B-ANX3",
+        "type": "non_payable",
+        "value": {"categories": ["consumables"], "items": ["gloves", "admission kit", "mask"]},
+        "clause_id": "Annexure III",
+        "clause_text": "Items listed in Annexure III, including gloves, masks and admission kits, are not payable.",
+        "verified_by_human": true
+      }
+    ]
+  },
+  "admission": {
+    "admission_id": "ADM-0003",
+    "patient_id": "PAT-0003",
+    "policy_id": "POL-B-0003",
+    "procedure": "gastroenteritis_medical_management",
+    "icd10": "A09",
+    "room_category": "twin_sharing",
+    "admit_date": "2026-10-16",
+    "discharge_date": "2026-10-19",
+    "tpa_id": "TPA-B",
+    "emergency": true
+  },
+  "bill_lines": [
+    {"line_id": "ADM-0003-L1", "category": "room", "description": "Twin sharing room, 3 days x 3,000", "quantity": 3, "amount": 9000},
+    {"line_id": "ADM-0003-L2", "category": "doctor_fees", "description": "Physician visits", "amount": 12000},
+    {"line_id": "ADM-0003-L3", "category": "nursing", "description": "Nursing charges", "amount": 4500},
+    {"line_id": "ADM-0003-L4", "category": "investigations", "description": "Blood tests, electrolytes, stool culture", "amount": 7500},
+    {"line_id": "ADM-0003-L5", "category": "pharmacy", "description": "IV fluids and medicines", "amount": 9500}
+  ],
+  "documents": [
+    {
+      "doc_id": "ADM-0003-D1",
+      "type": "admission_note",
+      "fields": {
+        "chief_complaint": "Loose stools and vomiting for 2 days, dizziness",
+        "provisional_diagnosis": "Acute gastroenteritis with dehydration",
+        "planned_treatment": "IV fluids, antiemetics, monitoring",
+        "vitals": "BP 92/60, pulse 112"
+      }
+    },
+    {
+      "doc_id": "ADM-0003-D2",
+      "type": "lab_report",
+      "fields": {
+        "test": "Serum electrolytes and renal function",
+        "sodium_mmol_l": 129,
+        "potassium_mmol_l": 3.1,
+        "creatinine_mg_dl": 1.6
+      }
+    },
+    {
+      "doc_id": "ADM-0003-D3",
+      "type": "discharge_summary",
+      "fields": {
+        "diagnosis": "Acute gastroenteritis",
+        "icd10": "A09",
+        "reason_for_admission": null,
+        "treatment_given": "IV fluids, antiemetics, oral rehydration",
+        "length_of_stay_days": 3,
+        "condition_at_discharge": "Stable, tolerating oral fluids"
+      }
+    },
+    {
+      "doc_id": "ADM-0003-D4",
+      "type": "final_bill",
+      "fields": {"total_billed": 42500}
+    }
+  ]
+}
