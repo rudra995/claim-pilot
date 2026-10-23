@@ -5,3 +5,6 @@ __pycache__/
 *.db
 data/generated/
 data/documents/
+data/chroma/
+data/clauses/
+.DS_Store

@@ -131,3 +131,34 @@ def test_sum_insured_ceiling_applies_last() -> None:
     result = run(data)  # ₹42,500 bill, 10% co-pay → ₹38,250, then capped at ₹30,000
     assert result.payable == 30_000
     assert [(d.rule_id, d.amount) for d in result.deductions] == [("POL-B-6.1", 4_250), (SUM_INSURED_RULE_ID, 8_250)]
+
+
+@pytest.mark.parametrize(
+    ("cap", "daily", "room_payable"),
+    [
+        ({"percent_of_sum_insured": 2.0, "amount": 3_000}, 3_000, 9_000),  # ₹3,000 is lower than 2% (₹10,000)
+        ({"percent_of_sum_insured": 0.6, "amount": 5_000}, 3_000, 9_000),  # 0.6% (₹3,000) is lower than ₹5,000
+        ({"percent_of_sum_insured": 2.0, "amount": 20_000}, 10_000, 12_000),  # both above the ₹4,000 room
+    ],
+)
+def test_room_cap_uses_lower_of_percent_and_amount(cap: dict, daily: int, room_payable: int) -> None:
+    data = load("case1.json")  # ₹5,00,000 sum insured, room ₹4,000 a day for 3 days
+    room_rule = next(r for r in data["policy"]["rules"] if r["type"] == "room_rent_cap")
+    room_rule["value"] = {**cap, "per": "day"}
+    payable = {line.line_id: line.payable for line in run(data).lines}
+    assert payable["ADM-0001-L1"] == room_payable
+    if room_payable < 12_000:
+        assert any(f"₹{daily:,} a day" in d.reason for d in run(data).deductions)
+
+
+def test_sub_limit_uses_lower_of_percent_and_amount() -> None:
+    data = load("case1.json")  # ₹98,000 bill, ₹5,00,000 sum insured
+    data["policy"]["rules"].append(
+        rule(
+            "POL-C-7.4",
+            "sub_limit",
+            {"procedure": "laparoscopic_appendectomy", "percent_of_sum_insured": 10.0, "amount": 60_000},
+            "7.4",
+        )
+    )
+    assert run(data).payable == 50_000  # 10% of sum insured is lower than ₹60,000

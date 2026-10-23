@@ -80,6 +80,8 @@ def test_rule_from_design_example() -> None:
         {"type": "non_payable", "value": {"items": ["gloves"]}},
         {"type": "exclusion", "value": {"procedures": ["cosmetic_surgery"]}},
         {"type": "icu_cap", "value": {"percent_of_sum_insured": 2.0}},
+        {"type": "room_rent_cap", "value": {"percent_of_sum_insured": 2.0, "amount": 5000}},
+        {"type": "sub_limit", "value": {"procedure": "cataract_surgery", "percent_of_sum_insured": 25.0, "amount": 40000}},
     ],
 )
 def test_every_rule_type_validates(rule: dict) -> None:
@@ -89,12 +91,13 @@ def test_every_rule_type_validates(rule: dict) -> None:
 @pytest.mark.parametrize(
     "change",
     [
-        {"value": {"percent_of_sum_insured": 1.0, "amount": 3000}},  # both caps
+        {"value": {"per": "day"}},  # no cap at all
         {"value": {"percent": 10}},  # value shape of another type
         {"type": "co_pay", "value": {"percent": 10}},  # proportionate on a non-cap rule
         {"linked_charges": []},  # proportionate with nothing linked
         {"excluded_from_proportionate": ["nursing"]},  # linked and excluded
         {"type": "made_up"},
+        {"type": "sub_limit", "value": {"procedure": "cataract_surgery"}},  # sub-limit without a cap
         {"clause_id": ""},
     ],
 )

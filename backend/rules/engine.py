@@ -15,7 +15,7 @@ from fractions import Fraction
 from pydantic import BaseModel, ConfigDict, Field
 
 from backend.schemas import BillCategory, BillLine, Case, Rule, RuleType
-from backend.schemas.rules import DailyCapValue
+from backend.schemas.rules import DailyCapValue, SubLimitValue
 
 # The sum insured comes from the policy schedule, not an extracted rule.
 SUM_INSURED_RULE_ID = "SUM_INSURED"
@@ -82,7 +82,7 @@ def assess(case: Case) -> Assessment:
 
     procedure = case.admission.procedure
     for rule in _of_type(rules, RuleType.SUB_LIMIT):
-        limit = rule.value.amount
+        limit = _round(_cap(rule.value, case.policy.sum_insured))
         if rule.value.procedure == procedure and bill.total > limit:
             bill.cut_claim(
                 bill.total - limit, rule, f"{procedure} above sub-limit", f"Capped at ₹{limit:,}"
@@ -207,7 +207,7 @@ def _is_non_payable(rule: Rule, line: BillLine) -> bool:
 
 def _apply_daily_cap(bill: _Bill, rule: Rule, case: Case) -> None:
     """Cap room (or ICU) lines per day; if proportionate, cut linked charges by the same ratio."""
-    daily_cap = _daily_cap(rule.value, case.policy.sum_insured)
+    daily_cap = _cap(rule.value, case.policy.sum_insured)
     target, label = _CAP_TARGETS[rule.type]
     capped_lines = [
         line for line in case.bill_lines if line.category == target and bill.payable[line.line_id]
@@ -233,10 +233,14 @@ def _apply_daily_cap(bill: _Bill, rule: Rule, case: Case) -> None:
             )
 
 
-def _daily_cap(value: DailyCapValue, sum_insured: int) -> Fraction:
+def _cap(value: DailyCapValue | SubLimitValue, sum_insured: int) -> Fraction:
+    """The cap in rupees: a share of sum insured, a fixed amount, or the lower of the two."""
+    caps = []
+    if value.percent_of_sum_insured is not None:
+        caps.append(sum_insured * _exact(value.percent_of_sum_insured) / 100)
     if value.amount is not None:
-        return Fraction(value.amount)
-    return sum_insured * _exact(value.percent_of_sum_insured) / 100
+        caps.append(Fraction(value.amount))
+    return min(caps)
 
 
 def _of_type(rules: list[Rule], *types: RuleType) -> list[Rule]:

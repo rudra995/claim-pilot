@@ -27,23 +27,30 @@ class _Value(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
 
-class DailyCapValue(_Value):
-    """room_rent_cap and icu_cap: a per-day cap, as a share of sum insured or a fixed amount."""
+class _CapValue(_Value):
+    """A cap as a share of sum insured, a fixed amount, or both.
+
+    With both, the lower one applies, as in "2% of sum insured, maximum ₹5,000 a day".
+    """
 
     percent_of_sum_insured: float | None = Field(default=None, gt=0, le=100)
     amount: int | None = Field(default=None, gt=0)
-    per: Literal["day"] = "day"
 
     @model_validator(mode="after")
-    def _exactly_one_cap(self) -> "DailyCapValue":
-        if (self.percent_of_sum_insured is None) == (self.amount is None):
-            raise ValueError("give exactly one of percent_of_sum_insured or amount")
+    def _at_least_one_cap(self) -> "_CapValue":
+        if self.percent_of_sum_insured is None and self.amount is None:
+            raise ValueError("give percent_of_sum_insured, amount, or both")
         return self
 
 
-class SubLimitValue(_Value):
+class DailyCapValue(_CapValue):
+    """room_rent_cap and icu_cap: a per-day cap."""
+
+    per: Literal["day"] = "day"
+
+
+class SubLimitValue(_CapValue):
     procedure: NonEmptyStr
-    amount: int = Field(gt=0)
 
 
 class WaitingPeriodValue(_Value):
