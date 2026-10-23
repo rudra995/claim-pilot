@@ -1,0 +1,155 @@
+{
+  "policy_id": "iffco_tokio_arogya_sanjeevani",
+  "rules": [
+    {
+      "rule_id": "iffco_tokio_arogya_sanjeevani-4.1-room_rent_cap",
+      "type": "room_rent_cap",
+      "value": {
+        "percent_of_sum_insured": 2.0,
+        "amount": 5000,
+        "per": "day"
+      },
+      "clause_id": "4.1",
+      "clause_text": "4.1. Hospitalization The Company shall indemnify medical expenses incurred for Hospitalization of the Insured Person during the Policy year, up to the Sum Insured and Cumulative Bonus specified in the policy schedule, for, i. Room Rent, Boarding, Nursing Expenses as provided by the Hospital / Nursing Home up to 2% of the sum insured subject to maximum of Rs.5000/-, per day. ii. Intensive Care Unit (ICU) / Intensive Cardiac Care Unit (ICCU) expenses up to 5% of sum insured subject to maximum of Rs.10,000/- per day. iii. Surgeon, Anesthetist, Medical Practitioner, Consultants, Specialist Fees whether paid directly to the treating doctor / surgeon or to the hospital iv. Anesthesia, blood, oxygen, operation theatre charges, surgical appliances, medicines and drugs, cost of organ, costs towards diagnostics, diagnostic imaging modalities and such similar other expenses. 4.1.1.Other expenses i. Expenses incurred on treatment of cataract subject to the sub limits ii. Dental treatment, necessitated due to disease or injury iii. Plastic surgery necessitated due to disease or injury iv. All the day care treatments v. Expenses incurred on road Ambulance subject to a maximum of Rs.2000/- per hospitalisation. Note: 1. Expenses of Hospitalization for a minimum period of 24 consecutive hours only shall be admissible. However, the time limit shall not apply in respect of Day Care Treatment 2. In case of admission to a room/ICU/ICCU at rates exceeding the aforesaid limits, the reimbursement/payment of all other expenses incurred at the Hospital, with the exception of cost of medicines, shall be effected in the same proportion as the admissible rate per day bears to the actual rate per day of Room Rent/ICU/ICCU charges.",
+      "proportionate": true,
+      "linked_charges": [
+        "doctor_fees",
+        "nursing"
+      ],
+      "excluded_from_proportionate": [
+        "pharmacy",
+        "investigations",
+        "consumables",
+        "other"
+      ],
+      "verified_by_human": false
+    },
+    {
+      "rule_id": "iffco_tokio_arogya_sanjeevani-4.1-icu_cap",
+      "type": "icu_cap",
+      "value": {
+        "percent_of_sum_insured": 5.0,
+        "amount": 10000,
+        "per": "day"
+      },
+      "clause_id": "4.1",
+      "clause_text": "4.1. Hospitalization The Company shall indemnify medical expenses incurred for Hospitalization of the Insured Person during the Policy year, up to the Sum Insured and Cumulative Bonus specified in the policy schedule, for, i. Room Rent, Boarding, Nursing Expenses as provided by the Hospital / Nursing Home up to 2% of the sum insured subject to maximum of Rs.5000/-, per day. ii. Intensive Care Unit (ICU) / Intensive Cardiac Care Unit (ICCU) expenses up to 5% of sum insured subject to maximum of Rs.10,000/- per day. iii. Surgeon, Anesthetist, Medical Practitioner, Consultants, Specialist Fees whether paid directly to the treating doctor / surgeon or to the hospital iv. Anesthesia, blood, oxygen, operation theatre charges, surgical appliances, medicines and drugs, cost of organ, costs towards diagnostics, diagnostic imaging modalities and such similar other expenses. 4.1.1.Other expenses i. Expenses incurred on treatment of cataract subject to the sub limits ii. Dental treatment, necessitated due to disease or injury iii. Plastic surgery necessitated due to disease or injury iv. All the day care treatments v. Expenses incurred on road Ambulance subject to a maximum of Rs.2000/- per hospitalisation. Note: 1. Expenses of Hospitalization for a minimum period of 24 consecutive hours only shall be admissible. However, the time limit shall not apply in respect of Day Care Treatment 2. In case of admission to a room/ICU/ICCU at rates exceeding the aforesaid limits, the reimbursement/payment of all other expenses incurred at the Hospital, with the exception of cost of medicines, shall be effected in the same proportion as the admissible rate per day bears to the actual rate per day of Room Rent/ICU/ICCU charges.",
+      "proportionate": true,
+      "linked_charges": [
+        "room",
+        "doctor_fees",
+        "nursing",
+        "ot_charges",
+        "implants",
+        "pharmacy",
+        "investigations",
+        "consumables"
+      ],
+      "excluded_from_proportionate": [
+        "other"
+      ],
+      "verified_by_human": false
+    },
+    {
+      "rule_id": "iffco_tokio_arogya_sanjeevani-4.3-sub_limit",
+      "type": "sub_limit",
+      "value": {
+        "percent_of_sum_insured": 25.0,
+        "amount": 40000,
+        "procedure": "cataract_surgery"
+      },
+      "clause_id": "4.3",
+      "clause_text": "4.3. Cataract Treatment The Company shall indemnify medical expenses incurred for treatment of Cataract, subject to a limit of 25% of Sum Insured orRs.40,000/-, whichever is lower, per each eye in one policy year.",
+      "proportionate": false,
+      "linked_charges": [],
+      "excluded_from_proportionate": [],
+      "verified_by_human": false
+    },
+    {
+      "rule_id": "iffco_tokio_arogya_sanjeevani-9.3-co_pay",
+      "type": "co_pay",
+      "value": {
+        "percent": 5.0,
+        "min_age": null
+      },
+      "clause_id": "9.3",
+      "clause_text": "9.3 Co-payment Each and every claim under the Policy shall be subject to a Co-payment of 5% applicable to claim amount admissible and payable as per the terms and conditions of the Policy. The amount payable shall be after deduction of the co- payment.",
+      "proportionate": false,
+      "linked_charges": [],
+      "excluded_from_proportionate": [],
+      "verified_by_human": false
+    },
+    {
+      "rule_id": "iffco_tokio_arogya_sanjeevani-7.8-non_payable",
+      "type": "non_payable",
+      "value": {
+        "categories": [
+          "consumables"
+        ],
+        "items": [
+          "BABY FOOD",
+          "BABY UTILITIES CHARGES",
+          "BEAUTY SERVICES",
+          "BELTS/ BRACES",
+          "BUDS",
+          "COLD PACK/HOT PACK",
+          "CARRY BAGS",
+          "EMAIL / INTERNET CHARGES",
+          "FOOD CHARGES (OTHER THAN PATIENT's DIET PROVIDED BY HOSPITAL)",
+          "LEGGINGS",
+          "LAUNDRY CHARGES",
+          "MINERAL WATER",
+          "SANITARY PAD",
+          "TELEPHONE CHARGES",
+          "GUEST SERVICES",
+          "CREPE BANDAGE",
+          "DIAPER OF ANY TYPE",
+          "EYELET COLLAR",
+          "SLINGS",
+          "BLOOD GROUPING AND CROSS MATCHING OF DONORS SAMPLES",
+          "SERVICE CHARGES WHERE NURSING CHARGE ALSO CHARGED",
+          "Television Charges",
+          "SURCHARGES",
+          "ATTENDANT CHARGES",
+          "EXTRA DIET OF PATIENT (OTHER THAN THAT WHICH FORMS PART OF BED CHARGE)",
+          "BIRTH CERTIFICATE",
+          "CERTIFICATE CHARGES",
+          "COURIER CHARGES",
+          "CONVEYANCE CHARGES",
+          "MEDICAL CERTIFICATE",
+          "MEDICAL RECORDS",
+          "PHOTOCOPIES CHARGES",
+          "MORTUARY CHARGES",
+          "WALKING AIDS CHARGES",
+          "OXYGEN CYLINDER (FOR USAGE OUTSIDE THE HOSPITAL)",
+          "SPACER",
+          "SPIROMETRE",
+          "NEBULIZER KIT",
+          "STEAM INHALER",
+          "ARMSLING",
+          "THERMOMETER",
+          "CERVICAL COLLAR",
+          "SPLINT",
+          "DIABETIC FOOT WEAR",
+          "KNEE BRACES (LONG/ SHORT/ HINGED)"
+        ]
+      },
+      "clause_id": "7.8",
+      "clause_text": "7.8 Excluded Providers: (Code-Excl11) Expenses incurred towards treatment in any hospital or by any Medical Practitioner or any other provider specifically excluded by the Insurer and disclosed in its website / notified to the policyholders are not admissible.  However, in case of life threatening situations or following an accident, expenses up to the stage of stabilization are payable but not the complete claim.",
+      "proportionate": false,
+      "linked_charges": [],
+      "excluded_from_proportionate": [],
+      "verified_by_human": false
+    }
+  ],
+  "skipped": [
+    {
+      "type": "waiting_period",
+      "reason": "not a valid waiting_period rule: procedures: List should have at least 1 item after validation, not 0 (value keys allowed: procedures, months)"
+    },
+    {
+      "type": "exclusion",
+      "reason": "clause 6.3 is not a permanent exclusion"
+    }
+  ]
+}

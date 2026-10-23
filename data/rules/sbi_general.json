@@ -1,0 +1,162 @@
+{
+  "policy_id": "sbi_general",
+  "rules": [
+    {
+      "rule_id": "sbi_general-4.1-room_rent_cap",
+      "type": "room_rent_cap",
+      "value": {
+        "percent_of_sum_insured": 2.0,
+        "amount": 5000,
+        "per": "day"
+      },
+      "clause_id": "4.1",
+      "clause_text": "4.1. Hospitalization The Company shall indemnify medical expenses incurred for Hospitalization of the Insured Person during the Policy year, up to the Sum Insured and Cumulative Bonus speciﬁed in the policy schedule, for, i. Room Rent, Boarding, Nursing Expenses as provided by the Hospital / Nursing Home up to 2% of the sum insured subject to maximum `5,000/ par day. ii. Intensive Care Unit (ICU) / Intensive Cardiac Care Unit (ICCU) expenses up to 5% of sum insured subject to maximum of `10,000/- per day. iii. Surgeon, Anaesthetist, Medical Practitioner, Consultants, Specialist Fees whether paid directly to the treating doctor/ surgeon or to the hospital iv. Anaesthesia, blood, oxygen, operation theatre charges, surgical appliances, medicines and drugs, costs towards diagnostics, diagnostic imaging modalities and such similar other expenses.",
+      "proportionate": true,
+      "linked_charges": [
+        "doctor_fees",
+        "nursing"
+      ],
+      "excluded_from_proportionate": [
+        "pharmacy",
+        "investigations",
+        "consumables",
+        "other"
+      ],
+      "verified_by_human": false
+    },
+    {
+      "rule_id": "sbi_general-4.1.1-icu_cap",
+      "type": "icu_cap",
+      "value": {
+        "percent_of_sum_insured": null,
+        "amount": 2000,
+        "per": "day"
+      },
+      "clause_id": "4.1.1",
+      "clause_text": "4.1.1. Other expenses i. Expenses incurred on treatment of cataract subject to the sub limits. ii. Dental treatment necessitated due to disease or injury iii. Plastic surgery necessitated due to disease or injury iv. All the day care treatments v. Expenses incurred on road Ambulance subject to a maximum of `2000/- per hospitalisation. Note: 1. Expenses of Hospitalization for a minimum period of 24 consecutive hours only shall be admissible. However, the time limit shall not apply in respect of Day Care Treatment. 2. In case of admission to a room/ICU/ICCU at rates exceeding the aforesaid limits, the reimbursement/payment of all other expenses incurred at the Hospital, with the exception of cost of medicines, shall be eﬀected in the same proportion as the admissible rate per day bears to the actual rate per day of Room Rent/ ICU/ICCU charges.",
+      "proportionate": true,
+      "linked_charges": [
+        "room",
+        "icu",
+        "doctor_fees",
+        "nursing",
+        "ot_charges",
+        "implants",
+        "investigations",
+        "consumables"
+      ],
+      "excluded_from_proportionate": [
+        "pharmacy"
+      ],
+      "verified_by_human": false
+    },
+    {
+      "rule_id": "sbi_general-4.3-sub_limit",
+      "type": "sub_limit",
+      "value": {
+        "percent_of_sum_insured": 25.0,
+        "amount": 40000,
+        "procedure": "cataract_surgery"
+      },
+      "clause_id": "4.3",
+      "clause_text": "4.3. Cataract Treatment The company shall indemnify medical expenses incurred for treatment of Cataract, subject to a limit of 25% of Sum Insured or `40,000/-, whichever is lower, per each eye in one policy year.",
+      "proportionate": false,
+      "linked_charges": [],
+      "excluded_from_proportionate": [],
+      "verified_by_human": false
+    },
+    {
+      "rule_id": "sbi_general-4.7-non_payable",
+      "type": "non_payable",
+      "value": {
+        "categories": [
+          "consumables"
+        ],
+        "items": [
+          "BABY FOOD",
+          "BABY UTILITIES CHARGES",
+          "BEAUTY SERVICES",
+          "BELTS/ BRACES",
+          "BUDS",
+          "COLD PACK/HOT PACK",
+          "CARRY BAGS",
+          "EMAIL / INTERNET CHARGES",
+          "FOOD CHARGES OTHER THAN PATIENT's DIET PROVIDED BY HOSPITAL",
+          "LEGGINGS",
+          "LAUNDRY CHARGES",
+          "MINERAL WATER",
+          "SANITARY PAD",
+          "TELEPHONE CHARGES",
+          "GUEST SERVICES",
+          "CREPE BANDAGE",
+          "DIAPER OF ANY TYPE",
+          "EYELET COLLAR",
+          "SLINGS",
+          "BLOOD GROUPING AND CROSS MATCHING OF DONORS SAMPLES",
+          "SERVICE CHARGES WHERE NURSING CHARGE ALSO CHARGED",
+          "Television Char es",
+          "SURCHARGES",
+          "ATTENDANT CHARGES",
+          "EXTRA DIET OF PATIENT (OTHER THAN THAT WHICH FORMS PART OF BED CHARGE",
+          "BIRTH CERTIFICATE",
+          "CERTIFICATE CHARGES",
+          "COURIER CHARGES",
+          "CONVEYANCE CHARGES",
+          "MEDICAL CERTIFICATE",
+          "MEDICAL RECORDS",
+          "PHOTOCOPIES CHARGES",
+          "MORTUARY CHARGES",
+          "WALKING AIDS CHARGES",
+          "OXYGEN CYLINDER FOR USAGE OUTSIDE THE HOSPITAL",
+          "SPACER",
+          "SPIROMETRE",
+          "NEBULIZER KIT",
+          "STEAM INHALER",
+          "ARMSLING",
+          "THERMOMETER",
+          "CERVICAL COLLAR",
+          "SPLINT",
+          "DIABETIC FOOTWEAR",
+          "KNEE BRACES LONG/ SHORT/ HINGED",
+          "KNEE IMMOBILIZER/SHOULDER IMMOBILIZER",
+          "LUMBO SACRAL BELT",
+          "NIMBUS BED OR WATER OR AIR BED CHARGES",
+          "AMBULANCE COLLAR",
+          "AMBULANCE EQUIPMENT",
+          "ABDOMINAL BINDER",
+          "PRIVATE NURSES CHARGES- SPECIAL NURSING CHARGES",
+          "SUGAR FREE Tablets",
+          "CREAMS POWDERS LOTIONS (Toiletries are not payable, only prescribed medical pharmaceuticals payable 55 ECG ELECTRODES",
+          "GLOVES",
+          "NEBULISATION KIT",
+          "ANY KIT WITH NO DETAILS MENTIONED [DELIVERY KIT, ORTHOKIT, RECOVERY KIT, ETC 59 KIDNEY TRAY",
+          "MASK",
+          "OUNCE GLASS",
+          "OXYGEN MASK",
+          "PELVIC TRACTION BELT",
+          "PAN CAN",
+          "TROLLY COVER",
+          "UROMETER, URINE JUG",
+          "AMBULANCE",
+          "VASOFIX SAFETY"
+        ]
+      },
+      "clause_id": "4.7",
+      "clause_text": "4.7. The expenses that are not covered in this policy are placed under List-I of Annexure-A. The list of expenses that are to be subsumed into room charges, or procedure charges or costs of treatment are placed under List-II, List-Ill and List-IV of Annexure-A respectively.",
+      "proportionate": false,
+      "linked_charges": [],
+      "excluded_from_proportionate": [],
+      "verified_by_human": false
+    }
+  ],
+  "skipped": [
+    {
+      "type": "waiting_period",
+      "reason": "not a valid waiting_period rule: procedures: List should have at least 1 item after validation, not 0 (value keys allowed: procedures, months)"
+    },
+    {
+      "type": "exclusion",
+      "reason": "clause 4.1.1 is not a permanent exclusion"
+    }
+  ]
+}

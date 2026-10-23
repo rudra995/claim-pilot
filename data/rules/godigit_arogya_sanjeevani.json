@@ -1,0 +1,133 @@
+{
+  "policy_id": "godigit_arogya_sanjeevani",
+  "rules": [
+    {
+      "rule_id": "godigit_arogya_sanjeevani-C.1-room_rent_cap",
+      "type": "room_rent_cap",
+      "value": {
+        "percent_of_sum_insured": 2.0,
+        "amount": 5000,
+        "per": "day"
+      },
+      "clause_id": "C.1",
+      "clause_text": "1. Hospitalization The Company shall indemnify medical expenses incurred for Hospitalization of the Insured Person during the Policy year, up to the Sum Insured and Cumulative Bonus specified in the policy schedule, for, i. Room Rent, Boarding, Nursing Expenses as provided by the Hospital / Nursing Home up to 2% of the sum insured subject to maximum of Rs.5000 /-, per day. ii. Intensive Care Unit (ICU)/ Intensive Cardiac Care Unit (ICCU) expenses up to 5% of sum insured subject to maximum of Rs. 10,000/- per day. iii. Surgeon, Anaesthetist, Medical Practitioner, Consultants, Specialist Fees whether paid directly to the treating doctor/ surgeon or to the hospital iv. Anesthesia, blood, oxygen, operation theatre charges, surgical appliances, medicines and drugs, costs towards diagnostics, diagnostic imaging modalities and such similar other expenses.",
+      "proportionate": true,
+      "linked_charges": [
+        "room",
+        "nursing"
+      ],
+      "excluded_from_proportionate": [
+        "doctor_fees",
+        "icu",
+        "ot_charges",
+        "implants",
+        "pharmacy",
+        "investigations",
+        "consumables",
+        "other"
+      ],
+      "verified_by_human": false
+    },
+    {
+      "rule_id": "godigit_arogya_sanjeevani-C.1-icu_cap",
+      "type": "icu_cap",
+      "value": {
+        "percent_of_sum_insured": 5.0,
+        "amount": 10000,
+        "per": "day"
+      },
+      "clause_id": "C.1",
+      "clause_text": "1. Hospitalization The Company shall indemnify medical expenses incurred for Hospitalization of the Insured Person during the Policy year, up to the Sum Insured and Cumulative Bonus specified in the policy schedule, for, i. Room Rent, Boarding, Nursing Expenses as provided by the Hospital / Nursing Home up to 2% of the sum insured subject to maximum of Rs.5000 /-, per day. ii. Intensive Care Unit (ICU)/ Intensive Cardiac Care Unit (ICCU) expenses up to 5% of sum insured subject to maximum of Rs. 10,000/- per day. iii. Surgeon, Anaesthetist, Medical Practitioner, Consultants, Specialist Fees whether paid directly to the treating doctor/ surgeon or to the hospital iv. Anesthesia, blood, oxygen, operation theatre charges, surgical appliances, medicines and drugs, costs towards diagnostics, diagnostic imaging modalities and such similar other expenses.",
+      "proportionate": true,
+      "linked_charges": [
+        "doctor_fees",
+        "nursing"
+      ],
+      "excluded_from_proportionate": [
+        "pharmacy",
+        "implants",
+        "investigations",
+        "consumables",
+        "other"
+      ],
+      "verified_by_human": false
+    },
+    {
+      "rule_id": "godigit_arogya_sanjeevani-C.3-sub_limit",
+      "type": "sub_limit",
+      "value": {
+        "percent_of_sum_insured": 25.0,
+        "amount": 40000,
+        "procedure": "cataract_surgery"
+      },
+      "clause_id": "C.3",
+      "clause_text": "3. Proportionate deductions will not apply in respect of the hospitals which do not follow differential billing or for those expenses in respect of which differential billing is not adopted based on the room category. 2. AYUSH Treatment The Company shall indemnify medical expenses incurred for inpatient care treatment under Ayurveda, Yoga and Naturopathy, Unani, Siddha and Homeopathy systems of medicines during each Policy Year up to the limit of sum insured as specified in the policy schedule in any AYUSH Hospital. 3. Cataract Treatment The Company shall indemnify medical expenses incurred for treatment of Cataract, subject to a limit of 25% of Sum Insured or Rs.40,000/-, whichever is lower, per each eye in one policy year.",
+      "proportionate": false,
+      "linked_charges": [],
+      "excluded_from_proportionate": [],
+      "verified_by_human": false
+    },
+    {
+      "rule_id": "godigit_arogya_sanjeevani-Annexure_A-non_payable",
+      "type": "non_payable",
+      "value": {
+        "categories": [
+          "consumables"
+        ],
+        "items": [
+          "BABY FOOD",
+          "BABY UTILITIES CHARGES",
+          "BEAUTY SERVICES",
+          "BELTS/BRACES",
+          "BUDS",
+          "COLD PACK/HOT PACK",
+          "CARRY BAGS",
+          "EMAIL/ INTERNET CHARGES",
+          "FOOD CHARGES (OTHER THAN PATIENT's DIET PROVIDED BY HOSPITAL)",
+          "LEGGINGS",
+          "LAUNDRY CHARGES",
+          "MINERAL WATER",
+          "SANITARY PAD",
+          "TELEPHONE CHARGES",
+          "GUEST SERVICES",
+          "CREPE BANDAGE",
+          "DIAPER OF ANY TYPE",
+          "EYELET COLLAR",
+          "SLINGS",
+          "BLOOD GROUPING AND CROSS MATCHING OF DONORS SAMPLES",
+          "SERVICE CHARGES WHERE NURSING CHARGE ALSO CHARGED",
+          "Television Charges",
+          "SURCHARGES",
+          "ATTENDANT CHARGES",
+          "EXTRA DIET OF PATIENT",
+          "BIRTH CERTIFICATE",
+          "CERTIFICATE CHARGES",
+          "COURIER CHARGES",
+          "CONVEYANCE CHARGES",
+          "MEDICAL CERTIFICATE",
+          "MEDICAL RECORDS",
+          "PHOTOCOPIES CHARGES",
+          "MORTUARY CHARGES",
+          "WALKING AIDS CHARGES",
+          "OXYGEN CYLINDER (FOR USAGE OUTSIDE THE HOSPITAL)",
+          "SPACER",
+          "SPIROMETRE",
+          "NEBULIZER KIT",
+          "STEAM INHALER"
+        ]
+      },
+      "clause_id": "Annexure A",
+      "clause_text": "ANNEXURE A List I – Optional Items SI No Item 1. BABY FOOD (Not Payable) 2. BABY UTILITIES CHARGES (Not Payable) 3. BEAUTY SERVICES (Not Payable) 4. BELTS/BRACES  (Payable incases where insured has undergone Surgery of thoracic or lumbar spine) 5. BUDS (Not Payable) 6. COLD PACK/HOT PACK (Not Payable) 7. CARRY BAGS (Not Payable) 8. EMAIL/ INTERNET CHARGES (Not Payable) 9. FOOD CHARGES (OTHER THAN PATIENT's DIET PROVIDED BY HOSPITAL) (Not Payable) 10. LEGGINGS  (Payable in Bariatric and Varicose Vein Surgery and may be considered for at least these conditions where Surgery itself is Payable) 11. LAUNDRY CHARGES (Not Payable) 12. MINERAL WATER (Not Payable) 13. SANITARY PAD (Not Payable) 14. TELEPHONE CHARGES (Not Payable) 15. GUEST SERVICES (Not Payable) 16. CREPE BANDAGE (Not Payable) 17. DIAPER OF ANY TYPE (Not Payable) 18. EYELET COLLAR (Not Payable) 19. SLINGS  (Reasonable costs for one sling in case of upper arm fractures should be considered) 20. BLOOD GROUPING AND CROSS MATCHING OF DONORS SAMPLES  (Part Of Cost Of Blood, Not Payable) 21. SERVICE CHARGES WHERE NURSING CHARGE ALSO CHARGED 22. Television Charges  (Payable Under Room Charges Not if separately levied) 23. SURCHARGES  (Part of Room Charge Not Payable Separately) 24. ATTENDANT CHARGES (Part of Room Charge Not Payable Separately) 25. EXTRA DIET OF PATIENT (OTHER THAN THAT WHICH FORMS PART OF BED CHARGE) (Patient Diet provided by hospital is Payable) 26. BIRTH CERTIFICATE (Not Payable) 27. CERTIFICATE CHARGES (Not Payable) 28. COURIER CHARGES (Not Payable) 29. CONVEYANCE CHARGES (Not Payable) 30. MEDICAL CERTIFICATE (Not Payable) 31. MEDICAL RECORDS (Not Payable) 32. PHOTOCOPIES CHARGES (Not Payable) 33. MORTUARY CHARGES  (Payable upto 24 Hours. Shifting charges not Payable) 34. WALKING AIDS CHARGES (Not Payable) 35. OXYGEN CYLINDER (FOR USAGE OUTSIDE THE HOSPITAL) (Not Payable) 36. SPACER (Not Payable) 37. SPIROMETRE (Device Not Payable) 38. NEBULIZER KIT (Not Payable) 39. STEAM INHALER (Not Payable) 40. ARMSLING (Not Payable) 41. THERMOMETER (Not Payable) 42. CERVICAL COLLAR (Not Payable) 43. SPLINT (Not Payable) 44. DIABETIC FOOTWEAR (Not Payable) 45. KNEE BRACES (LONG/ SHORT/ HINGED) (Not Payable) 46. KNEE IMMOBILIZER/SHOULDER IMMOBILIZER (Not Payable) 47. LUMBO SACRAL BELT (Payable only where Insured has undergone Surgery of Lumbar Spine) 48. NIMBUS BED OR WATER OR AIR BED CHARGES  (Payable for any ICU patient requiring more than 3 days in ICU, all patients with paraplegia / quadriplegia for any reason and at reasonable cost of approximately Rs. 200 / day 49. AMBULANCE COLLAR (Not Payable) 50. AMBULANCE EQUIPMENT (Not Payable) 51. ABDOMINAL BINDER (Not Payable) 52. PRIVATE NURSES CHARGES- SPECIAL NURSING CHARGES  (Post hospitalization nursing charges not Payable) 53. SUGAR FREE Tablets  (Payable. Sugar free variants of admissible medicines are Not excluded) 54. CREAMS POWDERS LOTIONS (Toiletries are not payable, only prescribed medical pharmaceuticals payable) 55. ECG ELECTRODES  (Upto 5 electrodes are required for every case visiting OT or ICU. For longer stay in ICU, may require a change and at least one set every second day must be Payable) 56. GLOVES  (Sterilized Gloves Payable / Unsterilized Gloves not payable) 57. NEBULISATION KIT  (Payable Reasonably only if used during Hospitalization) 58. ANY KIT WITH NO DETAILS MENTIONED [DELIVERY KIT, ORTHOKIT, RECOVERY KIT, etc.] 59. KIDNEY TRAY (Not Payable) 60. MASK (Not Payable) 61. OUNCE GLASS (Not Payable) 62. OXYGEN MASK (Not Payable) 63. PELVIC TRACTION BELT (Not Payable) 64. PAN CAN (Not Payable) 65. TROLLY COVER (Not Payable) 66. UROMETER, URINE JUG (Not Payable) 67. AMBULANCE (Payable Reasonably only if used during Hospitalization upto sub-limit mentioned in the policy schedule) 68. VASOFIX SAFETY (Not Payable) List II - Items that are to be subsumed into Room Charges SI No Item 1 BABY CHARGES (UNLESS SPECIFIED/INDICATED) (Not Payable) 2 HAND WASH (Not Payable) 3 SHOE COVER (Not Payable) 4 CAPS (Not Payable) 5 CRADLE CHARGES (Not Payable) 6 COMB (Not Payable) 7 EAU-DE-COLOGNE/ ROOM FRESHNERS (Not Payable) 8 FOOT COVER (Not Payable) 9 GOWN (Not Payable) 10 SLIPPERS (Not Payable) 11 TISSUE PAPER (Not Payable) 12 TOOTHPASTE (Not Payable) 13 TOOTHBRUSH (Not Payable) 14 BED PAN (Not Payable) 15 FACE MASK (Not Payable) 16 FLEXI MASK (Not Payable) 17 HAND HOLDER (Not Payable) 18 SPUTUM CUP  (Payable Under Investigation Charges, Not as Consumable) 19 DISINFECTANT LOTIONS  (Not Payable-Part of Dressing Charges) 20 LUXURY TAX  (Only Actual Tax Levied by Government is Payable - Part of Room Charge for Sub Limits) 21 HVAC (Part of Room Charge Not Payable Separately) 22 HOUSE KEEPING CHARGES (Part of Room Charge Not Payable Separately) 23 AIR CONDITIONER CHARGES  (Payable Under Room Charges Not if separately levied) 24 IM IV INJECTION CHARGES (Part of Nursing Charges, Not Payable) 25 CLEAN SHEET (Part of Laundry/housekeeping Not Payable Separately) 26 BLANKET/WARMER BLANKET (Not Payable- Part of Room Charges) 27 ADMISSION KIT (Not Payable) 28 DIABETIC CHART CHARGES (Not Payable) 29 DOCUMENTATION CHARGES/ ADMINISTRATIVE EXPENSES (Not Payable) 30 DISCHARGE PROCEDURE CHARGES (Not Payable) 31 DAILY CHART CHARGES (Not Payable) 32 ENTRANCE PASS/ VISITORS PASS CHARGES (Not Payable) 33 EXPENSES RELATED TO PRESCRIPTION ON DISCHARGE (To be Claimed by Patient under Post -Hospitalization where admissible) 34 FILE OPENING CHARGES (Not Payable) 35 INCIDENTAL EXPENSES/ MISC. CHARGES (NOT EXPLAINED) (Not Payable) 36 PATIENT IDENTIFICATION BAND/ NAME TAG (Not Payable) 37 PULSEOXYMETER CHARGES (Not Payable) 38 Nursing, DMO/ RMO charges included in room rent under associated medical expenses (Not Payable) List III - Items that are to be subsumed into Procedure Charges SI No. Item 1 HAIR REMOVAL CREAM (Not Payable) 2 DISPOSABLES RAZORS CHARGES (for site preparations) (Payable for site preparations) 3 EYE PAD (Not Payable) 4 EYE SHIELD (Not Payable) 5 CAMERA COVER (Not Payable) 6 DVD, CD CHARGES (Payable only if CD is specifically sought by Insurer/TPA) 7 GAUSE SOFT (Not Payable) 8 GAUZE (Not Payable) 9 WARD AND THEATRE BOOKING CHARGE  (Payable Under OT Charges, Not Payable Separately) 10 ARTHROSCOPY AND ENDOSCOPY INSTRUMENTS  (Rental Charged By The Hospital Payable. Purchase of Instruments Not Payable.) 11 MICROSCOPE COVER  (Payable Under OT Charges, Not Payable Separately) 12 SURGICAL BLADES, HARMONICSCALPEL, SHAVER  (Payable Under OT Charges, Not Payable Separately) 13 SURGICAL DRILL  (Payable Under OT Charges, Not Payable Separately) 14 EYE KIT  (Payable Under OT Charges, Not Payable Separately) 15 EYE DRAPE  (Payable Under OT Charges, Not Payable Separately) 16 X-RAY FILM (Payable Under Radiology Charges, Not as Consumable) 17 BOYLES APPARATUS CHARGES  (Part Of OT Charges, Not Separately) 18 COTTON  (Not Payable-Part of Dressing Charges) 19 COTTON BANDAGE  (Not Payable-Part of Dressing Charges) 20 SURGICAL TAPE  (Not Payable-payable by the Patient when Prescribed, otherwise included as Dressing Charges) 21 APRON  (Not Payable -Part of Hospital Services/Disposable Linen to be Part of OT/ICU Charges) 22 TORNIQUET Not payable (service is charged by hospital, consumables cannot be separately charged. 23 ORTHOBUNDLE, GYNAEC BUNDLE  (Part of Dressing Charges) List IV - Items that are to be subsumed into costs of treatment SI No. Item 1 ADMISSION/REGISTRATION CHARGES (Not Payable) 2 HOSPITALISATION FOR EVALUATION/ DIAGNOSTIC PURPOSE Unless A Claim Is Accepted Under Section1 - A. Accidental Hospitalization Cover And/Or B. Accidental & Illness Hospitalization Cover 3 URINE CONTAINER (Not Payable) 4 BLOOD RESERVATION CHARGES AND ANTE NATAL BOOKING CHARGES (Not Payable) 5 BIPAP MACHINE (Not Payable) 6 CPAP/ CAPD EQUIPMENTS (Device Not Payable) 7 INFUSION PUMP- COST (Device Not Payable) 8 HYDROGEN PEROXIDE\\SPIRIT\\ DISINFECTANTS ETC  (May be Payable when prescribed for patient, not Payable for hospital use in OT or ward or for dressings in hospital) 9 NUTRITION PLANNING CHARGES - DIETICIAN CHARGES- DIET CHARGES (Patient diet provided by hospital is payable) 10 HIV KIT  (Payable Only as Pre-Operative Screening) 11 ANTISEPTIC MOUTHWASH  (Payable when prescribed) 12 LOZENGES  (Payable when prescribed) 13 MOUTH PAINT (Payable when prescribed) 14 VACCINATION CHARGES 15 ALCOHOL SWABES  (Not Payable. Part of hospital's own internal cost) 16 SCRUB SOLUTIONISTERILLIUM (Not Payable. Part of hospital's own internal cost) 17 Glucometer& Strips (Not Payable pre hospitalization or post hospitalization / Reports and Charts required/ Device not payable) 18 URINE BAG  (Payable where medically necessary till a reasonable cost - maximum 1 per 24 hrs) List V – Additional Non Payable Items Sr. No List of Expenses Generally Excluded (\"Non-medical\") 1. Brush 2. Cosy Towel 3. Moisturiser Paste Brush 4. Powder 5. Barber Charges 6. Oil Charges 7. Bed Under Pad Charges 8. Cost Of Spectacles/ Contact Lenses/ Hearing Aids, Etc., 9. Dental Treatment Expenses That Do Not Require Hospitalisation 10. Home Visit Charges 11. Donor Screening Charges 12. Band Aids, Bandages, Sterile Injections, Needles, Syringes 13. Blade 14. Maintenance Charges 15. Preparation Charges 16. Washing Charges 17. Medicine Box 18. Commode 19. Digestion Gels 20. Novarapid 21. Volini Gel/ Analgesic Gel 22. Zytee Gel 23. AHD (Ancillary And Hospital Disinfection (Eg.,Biomedical Waste Disposal/Management, Sanitation, Sanitization/Fumigation Charges Etc.) 24. Visco Belt Charges 25. Examination Gloves 26. Outstation Consultant's/ Surgeon's Fees 27. Paper Gloves 28. Referral Doctor's Fees 29. Sofnet 30. Softovac 31. Stockings",
+      "proportionate": false,
+      "linked_charges": [],
+      "excluded_from_proportionate": [],
+      "verified_by_human": false
+    }
+  ],
+  "skipped": [
+    {
+      "type": "waiting_period",
+      "reason": "not a valid waiting_period rule: procedures: List should have at least 1 item after validation, not 0 (value keys allowed: procedures, months)"
+    }
+  ]
+}

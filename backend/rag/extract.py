@@ -21,6 +21,7 @@ from typing import Any
 from pydantic import ValidationError
 
 from backend import llm
+from backend.rag.ingest import pieces
 from backend.rag.search import ClauseHit, search
 from backend.schemas import BillCategory, Rule, RuleType
 from backend.schemas.rules import VALUE_MODELS
@@ -105,7 +106,7 @@ def _parse(policy_id: str, rule_type: RuleType, answer: str, clauses: dict[str, 
     data = _json_object(answer)
     items = data.get("rules", [])
     if rule_type in _ONE_PER_POLICY and len(items) > 1:
-        raise ValueError(f"give exactly one {rule_type.value} rule, the main limit; got {len(items)}")
+        items = _stated_with_subject(rule_type, items, clauses)
     rules = []
     for item in items:
         if not isinstance(item, dict):
@@ -137,8 +138,32 @@ def _parse(policy_id: str, rule_type: RuleType, answer: str, clauses: dict[str, 
 
 _RULE_FIELDS = {"value", "proportionate", "linked_charges", "excluded_from_proportionate"}
 _ONE_PER_POLICY = {RuleType.ROOM_RENT_CAP, RuleType.ICU_CAP}
-_EXCLUDES = re.compile(r"exclu|not covered|not payable|shall not be liable", re.I)
+_EXCLUDES = re.compile(r"\bexcl|not covered|not payable|shall not be liable", re.I)
+# A cap's numbers must be printed in the list item that names what it caps.
+_CAP_SUBJECT = {RuleType.ROOM_RENT_CAP: re.compile(r"room", re.I), RuleType.ICU_CAP: re.compile(r"\bICU|intensive", re.I)}
 _WAITING = re.compile(r"waiting period|months of continuous coverage", re.I)
+
+
+def _stated_with_subject(
+    rule_type: RuleType, items: list[Any], clauses: dict[str, ClauseHit]
+) -> list[Any]:
+    """Of several answers for a one-per-policy cap, the single one whose numbers sit in its own list item."""
+    kept = []
+    for item in items:
+        if isinstance(item, dict) and (clause := _cited_clause(str(_tidy(item).get("clause_id")), clauses)):
+            if _cap_item(rule_type, _numbers(_tidy(item)["value"]), clause.text):
+                kept.append(item)
+    if len(kept) != 1:
+        raise ValueError(f"give exactly one {rule_type.value} rule, the main limit; got {len(items)}")
+    return kept
+
+
+def _cap_item(rule_type: RuleType, numbers: set[float], text: str) -> bool:
+    """True if one list item of the clause names the cap's subject and prints all its numbers."""
+    return any(
+        _CAP_SUBJECT[rule_type].search(item) and numbers <= _numbers_in(item.replace(",", ""))
+        for item in pieces(text)
+    )
 
 
 def _tidy(item: dict[str, Any]) -> dict[str, Any]:
@@ -170,6 +195,8 @@ def _check_against_clause(rule: Rule, clause: ClauseHit) -> None:
         raise ValueError(f"numbers not in clause {clause.clause_id}: {sorted(invented)}")
     if rule.type == RuleType.WAITING_PERIOD and not re.search(rf"\b{rule.value.months}\s*months?\b", text, re.I):
         raise ValueError(f"clause {clause.clause_id} does not say '{rule.value.months} months'; give months only")
+    if rule.type in _CAP_SUBJECT and not _cap_item(rule.type, _numbers(rule.value.model_dump()), text):
+        raise ValueError(f"clause {clause.clause_id} has no item about the {rule.type.value} that states these numbers")
     if rule.type == RuleType.EXCLUSION and (not _EXCLUDES.search(text) or _WAITING.search(text)):
         raise ValueError(f"clause {clause.clause_id} is not a permanent exclusion")
     names = {

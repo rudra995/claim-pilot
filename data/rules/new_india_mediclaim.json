@@ -1,0 +1,82 @@
+{
+  "policy_id": "new_india_mediclaim",
+  "rules": [
+    {
+      "rule_id": "new_india_mediclaim-3.1-room_rent_cap",
+      "type": "room_rent_cap",
+      "value": {
+        "percent_of_sum_insured": 1.0,
+        "amount": null,
+        "per": "day"
+      },
+      "clause_id": "3.1",
+      "clause_text": "3.1 Our liability for all claims admitted during the Period of Insurance will be only up to Sum Insured for which the Insured Person is covered as mentioned in the Schedule. In respect of those Insured Persons with Cumulative Bonus/Buffer, Our liability for claims admitted under this Policy shall not exceed the aggregate of the Sum Insured and the Cumulative Bonus/Buffer. Subject to this, We will reimburse the following Reasonable and Customary, and Medically Necessary Expenses admissible as per the terms and conditions of the Policy: 3.1 (a) Room rent, Boarding, DMO / RMO / CMO / RMP Charges, Nursing (Including Injection / Drugs and Intra venous fluid administration expenses), not exceeding 1% of the Sum Insured per day 3.1 (b) Intensive Care Unit (ICU) / Intensive Cardiac Care Unit (ICCU), Intensivist charges, Monitor and Pulse Oxymeter expenses not exceeding 2% of the Sum Insured per day. 3.1 (c) Associate Medical Expenses; such as Professional fees of Surgeon, Anaesthetist, Consultant, Specialist; Anaesthesia, Operating Theatre Charges and Procedure Charges such as Dialysis, Chemotherapy, Radiotherapy & similar medical expenses related to the treatment. 3.1 (d) Cost of Pharmacy and Consumables, Cost of Implants, Artificial Limbs and Medical Devices and Cost of Diagnostics 3.1 (e) Pre-Hospitalization Medical expenses for up to 30 days 3.1 (f) Post-Hospitalization Medical expenses for up to 60 days Note: Dental Treatment (Inpatient): We will cover for medical expenses incurred towards dental treatment done under anaesthesia necessitated due to an accident/injury/illness requiring Hospitalization as Inpatient treatment.",
+      "proportionate": true,
+      "linked_charges": [
+        "room"
+      ],
+      "excluded_from_proportionate": [
+        "doctor_fees",
+        "nursing",
+        "ot_charges",
+        "implants",
+        "pharmacy",
+        "investigations",
+        "consumables",
+        "other"
+      ],
+      "verified_by_human": false
+    },
+    {
+      "rule_id": "new_india_mediclaim-3.1-icu_cap",
+      "type": "icu_cap",
+      "value": {
+        "percent_of_sum_insured": 2.0,
+        "amount": null,
+        "per": "day"
+      },
+      "clause_id": "3.1",
+      "clause_text": "3.1 Our liability for all claims admitted during the Period of Insurance will be only up to Sum Insured for which the Insured Person is covered as mentioned in the Schedule. In respect of those Insured Persons with Cumulative Bonus/Buffer, Our liability for claims admitted under this Policy shall not exceed the aggregate of the Sum Insured and the Cumulative Bonus/Buffer. Subject to this, We will reimburse the following Reasonable and Customary, and Medically Necessary Expenses admissible as per the terms and conditions of the Policy: 3.1 (a) Room rent, Boarding, DMO / RMO / CMO / RMP Charges, Nursing (Including Injection / Drugs and Intra venous fluid administration expenses), not exceeding 1% of the Sum Insured per day 3.1 (b) Intensive Care Unit (ICU) / Intensive Cardiac Care Unit (ICCU), Intensivist charges, Monitor and Pulse Oxymeter expenses not exceeding 2% of the Sum Insured per day. 3.1 (c) Associate Medical Expenses; such as Professional fees of Surgeon, Anaesthetist, Consultant, Specialist; Anaesthesia, Operating Theatre Charges and Procedure Charges such as Dialysis, Chemotherapy, Radiotherapy & similar medical expenses related to the treatment. 3.1 (d) Cost of Pharmacy and Consumables, Cost of Implants, Artificial Limbs and Medical Devices and Cost of Diagnostics 3.1 (e) Pre-Hospitalization Medical expenses for up to 30 days 3.1 (f) Post-Hospitalization Medical expenses for up to 60 days Note: Dental Treatment (Inpatient): We will cover for medical expenses incurred towards dental treatment done under anaesthesia necessitated due to an accident/injury/illness requiring Hospitalization as Inpatient treatment.",
+      "proportionate": true,
+      "linked_charges": [
+        "icu",
+        "ot_charges"
+      ],
+      "excluded_from_proportionate": [
+        "doctor_fees",
+        "nursing",
+        "implants",
+        "pharmacy",
+        "investigations",
+        "consumables",
+        "other"
+      ],
+      "verified_by_human": false
+    },
+    {
+      "rule_id": "new_india_mediclaim-3.3-sub_limit",
+      "type": "sub_limit",
+      "value": {
+        "percent_of_sum_insured": 20.0,
+        "amount": 50000,
+        "procedure": "cataract_surgery"
+      },
+      "clause_id": "3.3",
+      "clause_text": "3.3 LIMIT ON PAYMENT FOR CATARACT: Our liability for payment of any claim relating to Cataract, for each eye, shall not exceed 20% of the Sum Insured subject to a maximum of Rs. 50,000. The limit mentioned above shall be applicable per event for all the Policies of Our Company including Group Policies. Even if two or more Policies of New India are invoked, sublimit of the Policy chosen by Insured shall prevail and our liability is restricted to stated sublimit.",
+      "proportionate": false,
+      "linked_charges": [],
+      "excluded_from_proportionate": [],
+      "verified_by_human": false
+    }
+  ],
+  "skipped": [
+    {
+      "type": "waiting_period",
+      "reason": "clause 4.2 does not say '90 months'; give months only"
+    },
+    {
+      "type": "non_payable",
+      "reason": "not a valid non_payable rule: limit: Extra inputs are not permitted (value keys allowed: categories, items)"
+    }
+  ]
+}

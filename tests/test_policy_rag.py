@@ -162,11 +162,26 @@ def test_layout_slips_are_tidied() -> None:
     assert problem is None and parsed.proportionate and parsed.clause_id == "4.1"
 
 
-def test_only_one_room_cap() -> None:
-    two = json.loads(GOOD_ANSWER)
-    two["rules"].append(dict(two["rules"][0], value={"percent_of_sum_insured": 2, "per": "day"}))
-    rules, problem = extract_rules("p", RuleType.ROOM_RENT_CAP, [ROOM_CLAUSE], answers(*[json.dumps(two)] * 3))
-    assert rules == [] and "exactly one" in (problem or "")
+ROOM_AND_ICU = ClauseHit(
+    "p", "4.1", "Hospitalization", 6,
+    "4.1 Expenses for, i. Room Rent, Boarding, Nursing up to 2% of sum insured, maximum Rs.5,000 per day."
+    " ii. ICU expenses up to 5% of sum insured, maximum Rs.10,000 per day.",
+    0.3,
+)
+
+
+def test_room_cap_picked_from_its_own_item() -> None:
+    # The model gives the ICU limit as a second room rule; only the room item states 2% / 5,000.
+    room = {"clause_id": "4.1", "value": {"percent_of_sum_insured": 2, "amount": 5000, "per": "day"}}
+    icu = {"clause_id": "4.1", "value": {"percent_of_sum_insured": 5, "amount": 10000, "per": "day"}}
+    [rule], problem = extract_rules("p", RuleType.ROOM_RENT_CAP, [ROOM_AND_ICU], answers(json.dumps({"rules": [room, icu]})))
+    assert problem is None and rule.value.amount == 5000
+
+
+def test_cap_numbers_must_be_in_the_room_item() -> None:
+    icu_as_room = json.dumps({"rules": [{"clause_id": "4.1", "value": {"percent_of_sum_insured": 5, "per": "day"}}]})
+    rules, problem = extract_rules("p", RuleType.ROOM_RENT_CAP, [ROOM_AND_ICU], answers(*[icu_as_room] * 3))
+    assert rules == [] and "no item about the room_rent_cap" in (problem or "")
 
 
 def test_waiting_period_clause_is_not_an_exclusion() -> None:
