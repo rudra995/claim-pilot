@@ -1,0 +1,69 @@
+{
+  "doc_id": "ADM-0002-D5",
+  "admission_id": "ADM-0002",
+  "type": "final_bill",
+  "scanned": false,
+  "header": {
+    "patient_name": "Ramesh Iyer",
+    "patient_id": "PAT-0002",
+    "age": "58",
+    "gender": "M",
+    "admission_id": "ADM-0002",
+    "admit_date": "2026-10-05",
+    "discharge_date": "2026-10-09"
+  },
+  "fields": {
+    "total_billed": 240000
+  },
+  "bill_lines": [
+    {
+      "line_id": "ADM-0002-L1",
+      "category": "room",
+      "description": "Single deluxe room, 4 days x 5,000",
+      "quantity": 4,
+      "amount": 20000
+    },
+    {
+      "line_id": "ADM-0002-L2",
+      "category": "doctor_fees",
+      "description": "Surgeon and doctor fees",
+      "quantity": 1,
+      "amount": 60000
+    },
+    {
+      "line_id": "ADM-0002-L3",
+      "category": "nursing",
+      "description": "Nursing charges",
+      "quantity": 1,
+      "amount": 8000
+    },
+    {
+      "line_id": "ADM-0002-L4",
+      "category": "ot_charges",
+      "description": "Operation theatre charges",
+      "quantity": 1,
+      "amount": 30000
+    },
+    {
+      "line_id": "ADM-0002-L5",
+      "category": "implants",
+      "description": "Knee implant",
+      "quantity": 1,
+      "amount": 90000
+    },
+    {
+      "line_id": "ADM-0002-L6",
+      "category": "pharmacy",
+      "description": "Medicines",
+      "quantity": 1,
+      "amount": 25000
+    },
+    {
+      "line_id": "ADM-0002-L7",
+      "category": "consumables",
+      "description": "Consumables (gloves, admission kit)",
+      "quantity": 1,
+      "amount": 7000
+    }
+  ]
+}

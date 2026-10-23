@@ -1,0 +1,19 @@
+{
+  "doc_id": "ADM-0002-D3",
+  "admission_id": "ADM-0002",
+  "type": "operative_note",
+  "scanned": false,
+  "header": {
+    "patient_name": "Ramesh Iyer",
+    "patient_id": "PAT-0002",
+    "age": "58",
+    "gender": "M",
+    "admission_id": "ADM-0002",
+    "admit_date": "2026-10-05"
+  },
+  "fields": {
+    "procedure": "Right total knee replacement",
+    "implant": "Cemented posterior-stabilised knee system",
+    "duration_minutes": 110
+  }
+}

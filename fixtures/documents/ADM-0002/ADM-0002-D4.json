@@ -1,0 +1,24 @@
+{
+  "doc_id": "ADM-0002-D4",
+  "admission_id": "ADM-0002",
+  "type": "discharge_summary",
+  "scanned": false,
+  "header": {
+    "patient_name": "Ramesh Iyer",
+    "patient_id": "PAT-0002",
+    "age": "58",
+    "gender": "M",
+    "admission_id": "ADM-0002",
+    "admit_date": "2026-10-05",
+    "discharge_date": "2026-10-09"
+  },
+  "fields": {
+    "diagnosis": "Primary osteoarthritis, right knee",
+    "icd10": "M17.1",
+    "reason_for_admission": "End-stage osteoarthritis of the right knee after failed conservative treatment, needing joint replacement",
+    "treatment_given": "Right total knee replacement",
+    "length_of_stay_days": 4,
+    "condition_at_discharge": "Walking with a walker, wound healthy"
+  },
+  "narrative": "The patient was admitted for end-stage osteoarthritis of the right knee following failed conservative treatment. A right total knee replacement was performed to alleviate symptoms and improve mobility. The patient's condition improved postoperatively, and he was discharged on day four walking with a walker and with a healthy surgical wound."
+}

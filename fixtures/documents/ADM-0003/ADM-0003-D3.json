@@ -1,0 +1,24 @@
+{
+  "doc_id": "ADM-0003-D3",
+  "admission_id": "ADM-0003",
+  "type": "discharge_summary",
+  "scanned": false,
+  "header": {
+    "patient_name": "Lakshmi Rao",
+    "patient_id": "PAT-0003",
+    "age": "64",
+    "gender": "F",
+    "admission_id": "ADM-0003",
+    "admit_date": "2026-10-16",
+    "discharge_date": "2026-10-19"
+  },
+  "fields": {
+    "diagnosis": "Acute gastroenteritis",
+    "icd10": "A09",
+    "reason_for_admission": null,
+    "treatment_given": "IV fluids, antiemetics, oral rehydration",
+    "length_of_stay_days": 3,
+    "condition_at_discharge": "Stable, tolerating oral fluids"
+  },
+  "narrative": "The patient experienced a three-day hospital course for acute gastroenteritis. She received intravenous fluids and antiemetics during her stay. The patient tolerated oral rehydration well upon discharge and was stable."
+}

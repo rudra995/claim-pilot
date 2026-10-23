@@ -1,0 +1,55 @@
+{
+  "doc_id": "ADM-0003-D4",
+  "admission_id": "ADM-0003",
+  "type": "final_bill",
+  "scanned": false,
+  "header": {
+    "patient_name": "Lakshmi Rao",
+    "patient_id": "PAT-0003",
+    "age": "64",
+    "gender": "F",
+    "admission_id": "ADM-0003",
+    "admit_date": "2026-10-16",
+    "discharge_date": "2026-10-19"
+  },
+  "fields": {
+    "total_billed": 42500
+  },
+  "bill_lines": [
+    {
+      "line_id": "ADM-0003-L1",
+      "category": "room",
+      "description": "Twin sharing room, 3 days x 3,000",
+      "quantity": 3,
+      "amount": 9000
+    },
+    {
+      "line_id": "ADM-0003-L2",
+      "category": "doctor_fees",
+      "description": "Physician visits",
+      "quantity": 1,
+      "amount": 12000
+    },
+    {
+      "line_id": "ADM-0003-L3",
+      "category": "nursing",
+      "description": "Nursing charges",
+      "quantity": 1,
+      "amount": 4500
+    },
+    {
+      "line_id": "ADM-0003-L4",
+      "category": "investigations",
+      "description": "Blood tests, electrolytes, stool culture",
+      "quantity": 1,
+      "amount": 7500
+    },
+    {
+      "line_id": "ADM-0003-L5",
+      "category": "pharmacy",
+      "description": "IV fluids and medicines",
+      "quantity": 1,
+      "amount": 9500
+    }
+  ]
+}

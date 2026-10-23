@@ -69,6 +69,7 @@
     {
       "doc_id": "ADM-0002-D1",
       "type": "admission_note",
+      "file_path": "fixtures/documents/ADM-0002/ADM-0002-D1.pdf",
       "fields": {
         "chief_complaint": "Right knee pain for 3 years, worse on walking, not relieved by physiotherapy and painkillers",
         "provisional_diagnosis": "Primary osteoarthritis, right knee",
@@ -79,6 +80,7 @@
     {
       "doc_id": "ADM-0002-D2",
       "type": "lab_report",
+      "file_path": "fixtures/documents/ADM-0002/ADM-0002-D2.pdf",
       "fields": {
         "test": "Pre-operative blood work",
         "haemoglobin_g_dl": 13.4,
@@ -88,6 +90,7 @@
     {
       "doc_id": "ADM-0002-D3",
       "type": "operative_note",
+      "file_path": "fixtures/documents/ADM-0002/ADM-0002-D3.pdf",
       "fields": {
         "procedure": "Right total knee replacement",
         "implant": "Cemented posterior-stabilised knee system",
@@ -97,6 +100,7 @@
     {
       "doc_id": "ADM-0002-D4",
       "type": "discharge_summary",
+      "file_path": "fixtures/documents/ADM-0002/ADM-0002-D4.pdf",
       "fields": {
         "diagnosis": "Primary osteoarthritis, right knee",
         "icd10": "M17.1",
@@ -109,6 +113,7 @@
     {
       "doc_id": "ADM-0002-D5",
       "type": "final_bill",
+      "file_path": "fixtures/documents/ADM-0002/ADM-0002-D5.pdf",
       "fields": {"total_billed": 240000}
     }
   ]

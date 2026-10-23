@@ -67,6 +67,7 @@
     {
       "doc_id": "ADM-0003-D1",
       "type": "admission_note",
+      "file_path": "fixtures/documents/ADM-0003/ADM-0003-D1.pdf",
       "fields": {
         "chief_complaint": "Loose stools and vomiting for 2 days, dizziness",
         "provisional_diagnosis": "Acute gastroenteritis with dehydration",
@@ -77,6 +78,7 @@
     {
       "doc_id": "ADM-0003-D2",
       "type": "lab_report",
+      "file_path": "fixtures/documents/ADM-0003/ADM-0003-D2.pdf",
       "fields": {
         "test": "Serum electrolytes and renal function",
         "sodium_mmol_l": 129,
@@ -87,6 +89,7 @@
     {
       "doc_id": "ADM-0003-D3",
       "type": "discharge_summary",
+      "file_path": "fixtures/documents/ADM-0003/ADM-0003-D3.pdf",
       "fields": {
         "diagnosis": "Acute gastroenteritis",
         "icd10": "A09",
@@ -99,6 +102,7 @@
     {
       "doc_id": "ADM-0003-D4",
       "type": "final_bill",
+      "file_path": "fixtures/documents/ADM-0003/ADM-0003-D4.pdf",
       "fields": {"total_billed": 42500}
     }
   ]

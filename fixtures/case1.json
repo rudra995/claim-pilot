@@ -60,6 +60,7 @@
     {
       "doc_id": "ADM-0001-D1",
       "type": "admission_note",
+      "file_path": "fixtures/documents/ADM-0001/ADM-0001-D1.pdf",
       "fields": {
         "chief_complaint": "Right lower abdominal pain for 18 hours with fever and vomiting",
         "provisional_diagnosis": "Acute appendicitis",
@@ -69,6 +70,7 @@
     {
       "doc_id": "ADM-0001-D2",
       "type": "lab_report",
+      "file_path": "fixtures/documents/ADM-0001/ADM-0001-D2.pdf",
       "fields": {
         "test": "Complete blood count and abdominal ultrasound",
         "wbc_per_ul": 15800,
@@ -78,6 +80,7 @@
     {
       "doc_id": "ADM-0001-D3",
       "type": "operative_note",
+      "file_path": "fixtures/documents/ADM-0001/ADM-0001-D3.pdf",
       "fields": {
         "procedure": "Laparoscopic appendectomy",
         "finding": "Acutely inflamed appendix, no perforation",
@@ -87,6 +90,7 @@
     {
       "doc_id": "ADM-0001-D4",
       "type": "discharge_summary",
+      "file_path": "fixtures/documents/ADM-0001/ADM-0001-D4.pdf",
       "fields": {
         "diagnosis": "Acute appendicitis",
         "icd10": "K35.8",
@@ -99,6 +103,7 @@
     {
       "doc_id": "ADM-0001-D5",
       "type": "final_bill",
+      "file_path": "fixtures/documents/ADM-0001/ADM-0001-D5.pdf",
       "fields": {"total_billed": 98000}
     }
   ]

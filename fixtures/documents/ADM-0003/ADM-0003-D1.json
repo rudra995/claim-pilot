@@ -1,0 +1,20 @@
+{
+  "doc_id": "ADM-0003-D1",
+  "admission_id": "ADM-0003",
+  "type": "admission_note",
+  "scanned": false,
+  "header": {
+    "patient_name": "Lakshmi Rao",
+    "patient_id": "PAT-0003",
+    "age": "64",
+    "gender": "F",
+    "admission_id": "ADM-0003",
+    "admit_date": "2026-10-16"
+  },
+  "fields": {
+    "chief_complaint": "Loose stools and vomiting for 2 days, dizziness",
+    "provisional_diagnosis": "Acute gastroenteritis with dehydration",
+    "planned_treatment": "IV fluids, antiemetics, monitoring",
+    "vitals": "BP 92/60, pulse 112"
+  }
+}

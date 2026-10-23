@@ -1,0 +1,20 @@
+{
+  "doc_id": "ADM-0002-D1",
+  "admission_id": "ADM-0002",
+  "type": "admission_note",
+  "scanned": false,
+  "header": {
+    "patient_name": "Ramesh Iyer",
+    "patient_id": "PAT-0002",
+    "age": "58",
+    "gender": "M",
+    "admission_id": "ADM-0002",
+    "admit_date": "2026-10-05"
+  },
+  "fields": {
+    "chief_complaint": "Right knee pain for 3 years, worse on walking, not relieved by physiotherapy and painkillers",
+    "provisional_diagnosis": "Primary osteoarthritis, right knee",
+    "planned_treatment": "Right total knee replacement",
+    "imaging_mentioned": "Pre-op X-ray done; report not attached"
+  }
+}

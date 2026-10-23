@@ -1,0 +1,24 @@
+{
+  "doc_id": "ADM-0001-D4",
+  "admission_id": "ADM-0001",
+  "type": "discharge_summary",
+  "scanned": false,
+  "header": {
+    "patient_name": "Priya Menon",
+    "patient_id": "PAT-0001",
+    "age": "34",
+    "gender": "F",
+    "admission_id": "ADM-0001",
+    "admit_date": "2026-10-12",
+    "discharge_date": "2026-10-15"
+  },
+  "fields": {
+    "diagnosis": "Acute appendicitis",
+    "icd10": "K35.8",
+    "reason_for_admission": "Acute appendicitis confirmed on ultrasound needing emergency surgery",
+    "treatment_given": "Laparoscopic appendectomy, IV antibiotics",
+    "length_of_stay_days": 3,
+    "condition_at_discharge": "Stable, tolerating oral diet"
+  },
+  "narrative": "The patient was admitted due to acute appendicitis confirmed by ultrasound. She underwent a laparoscopic appendectomy and received IV antibiotics as treatment. The patient's condition stabilized during her three-day hospitalization and she was discharged on an oral diet."
+}

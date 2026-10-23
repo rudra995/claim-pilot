@@ -1,0 +1,62 @@
+{
+  "doc_id": "ADM-0001-D5",
+  "admission_id": "ADM-0001",
+  "type": "final_bill",
+  "scanned": false,
+  "header": {
+    "patient_name": "Priya Menon",
+    "patient_id": "PAT-0001",
+    "age": "34",
+    "gender": "F",
+    "admission_id": "ADM-0001",
+    "admit_date": "2026-10-12",
+    "discharge_date": "2026-10-15"
+  },
+  "fields": {
+    "total_billed": 98000
+  },
+  "bill_lines": [
+    {
+      "line_id": "ADM-0001-L1",
+      "category": "room",
+      "description": "Single standard room, 3 days x 4,000",
+      "quantity": 3,
+      "amount": 12000
+    },
+    {
+      "line_id": "ADM-0001-L2",
+      "category": "doctor_fees",
+      "description": "Surgeon and anaesthetist fees",
+      "quantity": 1,
+      "amount": 35000
+    },
+    {
+      "line_id": "ADM-0001-L3",
+      "category": "nursing",
+      "description": "Nursing charges",
+      "quantity": 1,
+      "amount": 6000
+    },
+    {
+      "line_id": "ADM-0001-L4",
+      "category": "ot_charges",
+      "description": "Operation theatre charges",
+      "quantity": 1,
+      "amount": 25000
+    },
+    {
+      "line_id": "ADM-0001-L5",
+      "category": "pharmacy",
+      "description": "Medicines",
+      "quantity": 1,
+      "amount": 12000
+    },
+    {
+      "line_id": "ADM-0001-L6",
+      "category": "investigations",
+      "description": "Blood tests and abdominal ultrasound",
+      "quantity": 1,
+      "amount": 8000
+    }
+  ]
+}

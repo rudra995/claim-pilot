@@ -1,0 +1,19 @@
+{
+  "doc_id": "ADM-0001-D1",
+  "admission_id": "ADM-0001",
+  "type": "admission_note",
+  "scanned": false,
+  "header": {
+    "patient_name": "Priya Menon",
+    "patient_id": "PAT-0001",
+    "age": "34",
+    "gender": "F",
+    "admission_id": "ADM-0001",
+    "admit_date": "2026-10-12"
+  },
+  "fields": {
+    "chief_complaint": "Right lower abdominal pain for 18 hours with fever and vomiting",
+    "provisional_diagnosis": "Acute appendicitis",
+    "planned_treatment": "Emergency laparoscopic appendectomy"
+  }
+}

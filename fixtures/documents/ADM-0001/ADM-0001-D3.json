@@ -1,0 +1,19 @@
+{
+  "doc_id": "ADM-0001-D3",
+  "admission_id": "ADM-0001",
+  "type": "operative_note",
+  "scanned": false,
+  "header": {
+    "patient_name": "Priya Menon",
+    "patient_id": "PAT-0001",
+    "age": "34",
+    "gender": "F",
+    "admission_id": "ADM-0001",
+    "admit_date": "2026-10-12"
+  },
+  "fields": {
+    "procedure": "Laparoscopic appendectomy",
+    "finding": "Acutely inflamed appendix, no perforation",
+    "duration_minutes": 55
+  }
+}

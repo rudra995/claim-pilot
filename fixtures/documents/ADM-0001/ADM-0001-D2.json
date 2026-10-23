@@ -1,0 +1,20 @@
+{
+  "doc_id": "ADM-0001-D2",
+  "admission_id": "ADM-0001",
+  "type": "lab_report",
+  "scanned": false,
+  "header": {
+    "patient_name": "Priya Menon",
+    "patient_id": "PAT-0001",
+    "age": "34",
+    "gender": "F",
+    "admission_id": "ADM-0001",
+    "admit_date": "2026-10-12"
+  },
+  "fields": {
+    "test": "Complete blood count and abdominal ultrasound",
+    "wbc_per_ul": 15800,
+    "ultrasound_finding": "Inflamed, non-compressible appendix, 9 mm diameter"
+  },
+  "narrative": "The patient's complete blood count showed a white blood cell count of 15,800 cells per microliter, indicating an acute inflammatory response. The abdominal ultrasound revealed an inflamed, non-compressible appendix measuring 9 mm in diameter, consistent with acute appendicitis. These findings support the clinical diagnosis and suggest that surgical intervention may be warranted to prevent complications such as perforation or abscess formation."
+}

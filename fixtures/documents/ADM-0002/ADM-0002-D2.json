@@ -1,0 +1,20 @@
+{
+  "doc_id": "ADM-0002-D2",
+  "admission_id": "ADM-0002",
+  "type": "lab_report",
+  "scanned": false,
+  "header": {
+    "patient_name": "Ramesh Iyer",
+    "patient_id": "PAT-0002",
+    "age": "58",
+    "gender": "M",
+    "admission_id": "ADM-0002",
+    "admit_date": "2026-10-05"
+  },
+  "fields": {
+    "test": "Pre-operative blood work",
+    "haemoglobin_g_dl": 13.4,
+    "hba1c_percent": 5.8
+  },
+  "narrative": "The patient's pre-operative hemoglobin level of 13.4 g/dL is within the normal range, indicating adequate oxygen-carrying capacity for surgical procedures. The HbA1c percentage of 5.8% suggests good glycemic control, reducing the risk of postoperative complications related to diabetes mellitus."
+}

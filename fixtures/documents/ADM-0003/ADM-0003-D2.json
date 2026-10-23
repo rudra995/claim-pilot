@@ -1,0 +1,21 @@
+{
+  "doc_id": "ADM-0003-D2",
+  "admission_id": "ADM-0003",
+  "type": "lab_report",
+  "scanned": false,
+  "header": {
+    "patient_name": "Lakshmi Rao",
+    "patient_id": "PAT-0003",
+    "age": "64",
+    "gender": "F",
+    "admission_id": "ADM-0003",
+    "admit_date": "2026-10-16"
+  },
+  "fields": {
+    "test": "Serum electrolytes and renal function",
+    "sodium_mmol_l": 129,
+    "potassium_mmol_l": 3.1,
+    "creatinine_mg_dl": 1.6
+  },
+  "narrative": "Serum sodium level of 129 mmol/L indicates hyponatremia, while potassium at 3.1 mmol/L suggests hypokalemia. Elevated creatinine at 1.6 mg/dL may indicate renal impairment or decreased glomerular filtration rate, which could be related to the dehydration and gastrointestinal symptoms."
+}
