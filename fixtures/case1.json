@@ -1,0 +1,105 @@
+{
+  "case_id": "case1",
+  "title": "Clean laparoscopic appendix surgery",
+  "patient": {
+    "patient_id": "PAT-0001",
+    "name": "Priya Menon",
+    "age": 34,
+    "gender": "F",
+    "city": "Bengaluru"
+  },
+  "policy": {
+    "policy_id": "POL-C-0001",
+    "insurer": "Demo Insurer C",
+    "product": "Family Health Shield",
+    "sum_insured": 500000,
+    "start_date": "2023-01-15",
+    "rules": [
+      {
+        "rule_id": "POL-C-3.1",
+        "type": "room_rent_cap",
+        "value": {"percent_of_sum_insured": 1.0, "per": "day"},
+        "clause_id": "3.1",
+        "clause_text": "Room rent is payable up to 1% of the sum insured per day. If a higher room is chosen, associated medical expenses are paid in the same proportion.",
+        "proportionate": true,
+        "linked_charges": ["doctor_fees", "nursing", "ot_charges", "pharmacy"],
+        "excluded_from_proportionate": ["implants"],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "POL-C-ANX1",
+        "type": "non_payable",
+        "value": {"categories": ["consumables"], "items": ["gloves", "admission kit", "mask"]},
+        "clause_id": "Annexure I",
+        "clause_text": "Items listed in Annexure I (gloves, masks, admission kits and similar consumables) are not payable.",
+        "verified_by_human": true
+      }
+    ]
+  },
+  "admission": {
+    "admission_id": "ADM-0001",
+    "patient_id": "PAT-0001",
+    "policy_id": "POL-C-0001",
+    "procedure": "laparoscopic_appendectomy",
+    "icd10": "K35.8",
+    "room_category": "single_standard",
+    "admit_date": "2026-10-12",
+    "discharge_date": "2026-10-15",
+    "tpa_id": "TPA-C",
+    "emergency": true
+  },
+  "bill_lines": [
+    {"line_id": "ADM-0001-L1", "category": "room", "description": "Single standard room, 3 days x 4,000", "quantity": 3, "amount": 12000},
+    {"line_id": "ADM-0001-L2", "category": "doctor_fees", "description": "Surgeon and anaesthetist fees", "amount": 35000},
+    {"line_id": "ADM-0001-L3", "category": "nursing", "description": "Nursing charges", "amount": 6000},
+    {"line_id": "ADM-0001-L4", "category": "ot_charges", "description": "Operation theatre charges", "amount": 25000},
+    {"line_id": "ADM-0001-L5", "category": "pharmacy", "description": "Medicines", "amount": 12000},
+    {"line_id": "ADM-0001-L6", "category": "investigations", "description": "Blood tests and abdominal ultrasound", "amount": 8000}
+  ],
+  "documents": [
+    {
+      "doc_id": "ADM-0001-D1",
+      "type": "admission_note",
+      "fields": {
+        "chief_complaint": "Right lower abdominal pain for 18 hours with fever and vomiting",
+        "provisional_diagnosis": "Acute appendicitis",
+        "planned_treatment": "Emergency laparoscopic appendectomy"
+      }
+    },
+    {
+      "doc_id": "ADM-0001-D2",
+      "type": "lab_report",
+      "fields": {
+        "test": "Complete blood count and abdominal ultrasound",
+        "wbc_per_ul": 15800,
+        "ultrasound_finding": "Inflamed, non-compressible appendix, 9 mm diameter"
+      }
+    },
+    {
+      "doc_id": "ADM-0001-D3",
+      "type": "operative_note",
+      "fields": {
+        "procedure": "Laparoscopic appendectomy",
+        "finding": "Acutely inflamed appendix, no perforation",
+        "duration_minutes": 55
+      }
+    },
+    {
+      "doc_id": "ADM-0001-D4",
+      "type": "discharge_summary",
+      "fields": {
+        "diagnosis": "Acute appendicitis",
+        "icd10": "K35.8",
+        "reason_for_admission": "Acute appendicitis confirmed on ultrasound needing emergency surgery",
+        "treatment_given": "Laparoscopic appendectomy, IV antibiotics",
+        "length_of_stay_days": 3,
+        "condition_at_discharge": "Stable, tolerating oral diet"
+      }
+    },
+    {
+      "doc_id": "ADM-0001-D5",
+      "type": "final_bill",
+      "fields": {"total_billed": 98000}
+    }
+  ]
+}
