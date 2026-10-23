@@ -31,14 +31,16 @@ We build in phases from `BUILD_PHASES.md`, one phase per prompt.
 
 ## Commits
 
+We work on `main` only: no feature branches, no PRs. Commit straight to `main` and push.
+
 One commit per phase, message `Phase N: <short summary>`. Every commit ends with both teammates as co-authors, after a blank line:
 
 ```
-Co-authored-by: Rudra Solanki <RUDRA_GITHUB_EMAIL>
-Co-authored-by: Janhavi Bhattad <JANHAVI_GITHUB_EMAIL>
+Co-authored-by: Rudra Solanki <solankirudra69@icloud.com>
+Co-authored-by: Janhavi Bhattad <janhavi.n.bhattad@gmail.com>
 ```
 
-<!-- Replace the emails with the ones on each GitHub account, or GitHub won't link the co-author. -->
+These two are the only co-authors. Never add Claude (or any AI tool) as a co-author or contributor, and don't add "Generated with" lines.
 
 ## Commands
 
@@ -51,7 +53,7 @@ Co-authored-by: Janhavi Bhattad <JANHAVI_GITHUB_EMAIL>
 ## Conventions
 
 - Python 3.11, type hints everywhere, Pydantic v2.
-- One branch per task: `feat/<area>-<thing>`. Small commits.
+- Everything happens on `main`. Small commits.
 - Any rules-engine change needs a test. `tests/test_ramesh.py` must keep passing (insurer pays ₹1,85,800).
 - Prefer simple, readable code over clever code; this is demoed live.
 
