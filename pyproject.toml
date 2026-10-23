@@ -10,6 +10,9 @@ dependencies = [
     "pillow>=10",
     "numpy>=1.26",
     "chromadb>=1.0",
+    "xgboost>=2.1",
+    "pandas>=2.2",
+    "scikit-learn>=1.5",
 ]
 
 [project.optional-dependencies]

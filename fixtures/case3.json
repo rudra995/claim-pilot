@@ -48,7 +48,7 @@
     "admission_id": "ADM-0003",
     "patient_id": "PAT-0003",
     "policy_id": "POL-B-0003",
-    "procedure": "gastroenteritis_medical_management",
+    "procedure": "gastroenteritis_management",
     "icd10": "A09",
     "room_category": "twin_sharing",
     "admit_date": "2026-10-16",

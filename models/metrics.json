@@ -1,0 +1,33 @@
+{
+  "cost": {
+    "train_rows": 800,
+    "test_rows": 200,
+    "test_from": "2026-03-27",
+    "bill": {
+      "p50_mean_abs_error": 12287.86,
+      "share_under_p90": 0.885,
+      "share_under_p50": 0.445
+    },
+    "los": {
+      "p50_mean_abs_error": 0.79,
+      "share_under_p90": 1.0,
+      "share_under_p50": 0.685
+    }
+  },
+  "denial": {
+    "train_rows": 800,
+    "test_rows": 200,
+    "test_from": "2026-03-27",
+    "roc_auc_denied": 0.977,
+    "roc_auc_not_approved": 0.986,
+    "roc_auc_macro_ovr": 0.988,
+    "recall_denied": 0.861,
+    "precision_denied": 1.0,
+    "accuracy": 0.975,
+    "test_outcomes": {
+      "APPROVED": 94,
+      "PARTIALLY_APPROVED": 70,
+      "DENIED": 36
+    }
+  }
+}
