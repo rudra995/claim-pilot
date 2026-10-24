@@ -117,13 +117,21 @@ def test_document_reader_matches_ground_truth(name: str) -> None:
                 assert read.fields[field].page == 1
 
 
-def test_case3_missing_reason_goes_to_a_person(db: Path) -> None:
+def test_preauth_uses_only_records_that_exist_at_admission(db: Path) -> None:
+    """Case 3's discharge summary and final bill are written later; the pre-auth can't read or send them."""
     result = run_admission(load("case3.json"), db)
-    reader = result.results["document_reader"].output
+    reading = result.results["document_reader"].data
+    assert [d.doc_id for d in reading.documents] == ["ADM-0003-D1", "ADM-0003-D2"]
+    assert result.results["preauth"].data.documents == ["ADM-0003-D1", "ADM-0003-D2"]
+    risk = result.results["denial_risk"].data
+    assert not {"missing_discharge_summary", "admission_reason_missing"} & {item.flag for item in risk.items}
+    assert result.state == ClaimState.AWAITING_HUMAN
+
+
+def test_case3_missing_reason_goes_to_a_person_at_discharge() -> None:
+    reader = intake.run("CLM-TEST", load("case3.json").documents).output
     assert reader.next == "human_review" and reader.confidence < intake.MIN_CONFIDENCE
     assert any("reason for admission" in f.issue for f in reader.findings)
-    assert result.review_flags == ["document_reader: needs_review", "denial_risk: fix_before_submit"]
-    assert result.state == ClaimState.AWAITING_HUMAN
 
 
 @pytest.mark.parametrize("name", ["case1.json", "case2.json", "case3.json"])

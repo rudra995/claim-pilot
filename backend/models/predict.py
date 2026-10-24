@@ -65,8 +65,9 @@ def estimate_cost(case: Case) -> CostEstimate:
     )
 
 
-def denial_risk(case: Case, top: int = TOP_REASONS) -> DenialRisk:
-    x = frame([denial_features(case)], DENIAL_FEATURES)
+def denial_risk(case: Case, top: int = TOP_REASONS, features: dict[str, object] | None = None) -> DenialRisk:
+    """`features` overrides the case's own (a live claim passes what was actually read, at its stage)."""
+    x = frame([features or denial_features(case)], DENIAL_FEATURES)
     model = _denial_model()
     proba = model.predict_proba(x)[0]
     # (classes, features + bias): each feature's push towards each outcome

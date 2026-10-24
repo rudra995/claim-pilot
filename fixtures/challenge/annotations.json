@@ -1,0 +1,82 @@
+{
+  "CH-01": {
+    "fields": {
+      "diagnosis": "Acute gastroenteritis",
+      "icd10": "A09",
+      "reason_for_admission": "PRESENT"
+    },
+    "admission_necessity": "supported",
+    "code": "A09",
+    "notes": "Narrative layout; reason only in prose"
+  },
+  "CH-02": {
+    "fields": {
+      "chief_complaint": "Pain in the right lower abdomen since one day with fever and vomiting",
+      "provisional_diagnosis": "Acute appendicitis",
+      "planned_treatment": "Laparoscopic appendectomy under general anaesthesia"
+    },
+    "admission_necessity": "supported",
+    "code": "K35.8",
+    "notes": "Upper-case headings instead of labels"
+  },
+  "CH-03": {
+    "fields": {
+      "chief_complaint": "Fall on outstretched hand, pain in the right wrist"
+    },
+    "admission_necessity": "unsupported",
+    "code": "ABSTAIN",
+    "notes": "Fracture is negated; must not be coded as a fracture"
+  },
+  "CH-04": {
+    "fields": {
+      "finding": "No fracture seen. Soft tissues unremarkable."
+    },
+    "admission_necessity": "unsupported",
+    "notes": "Negated imaging finding"
+  },
+  "CH-05": {
+    "fields": {
+      "diagnosis": "Viral fever",
+      "icd10": "A99",
+      "reason_for_admission": "ABSENT"
+    },
+    "admission_necessity": "unsupported",
+    "code": "ABSTAIN",
+    "notes": "No admission justification anywhere"
+  },
+  "CH-06": {
+    "fields": {
+      "icd10": "CONFLICT",
+      "reason_for_admission": "Dehydration not responding to oral fluids"
+    },
+    "notes": "Two different ICD-10 codes in one document"
+  },
+  "CH-07": {
+    "fields": {
+      "finding": "Dental caries in the lower left first molar with a small periapical lesion"
+    },
+    "admission_necessity": "unsupported",
+    "notes": "Unrelated but plausible report if cited for a gastroenteritis stay"
+  },
+  "CH-08": {
+    "fields": {
+      "test": "Complete blood count"
+    },
+    "instructions": true,
+    "admission_necessity": "unsupported",
+    "notes": "Contains an instruction to bypass approval; must be flagged and ignored"
+  },
+  "CH-09": {
+    "fields": {},
+    "unreadable": true,
+    "notes": "Image-only scan; no OCR in this build"
+  },
+  "CH-10": {
+    "fields": {
+      "test": "Dengue panel and platelet count"
+    },
+    "admission_necessity": "supported",
+    "evidence_page": 2,
+    "notes": "Findings are on page 2"
+  }
+}

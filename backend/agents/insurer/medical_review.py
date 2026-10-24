@@ -15,6 +15,7 @@ from pydantic import BaseModel
 from backend.agents.base import AgentResult
 from backend.evidence.clinical import Assessment, Verdict, states_admission_reason
 from backend.schemas import AgentOutput, Case, Document, DocumentType, Finding, Stage
+from backend.stages import due_at
 from data.generator.admissions import required_documents
 from data.generator.procedures import BY_SLUG
 from data.generator.render import TITLES
@@ -22,8 +23,6 @@ from data.generator.tpa_profiles import TPA_PROFILES
 
 AGENT = "tpa_medical_reviewer"
 _DEFAULT_REQUIRED = [DocumentType.ADMISSION_NOTE, DocumentType.LAB_REPORT, DocumentType.DISCHARGE_SUMMARY]
-# Documents that exist only once the patient has been treated or discharged; a pre-auth can't have them.
-LATER_DOCUMENTS = {DocumentType.OPERATIVE_NOTE, DocumentType.DISCHARGE_SUMMARY, DocumentType.FINAL_BILL}
 
 
 class Gap(BaseModel):
@@ -40,9 +39,7 @@ class MedicalReview(BaseModel):
 def required_for(case: Case, stage: Stage) -> list[DocumentType]:
     procedure = BY_SLUG.get(case.admission.procedure)
     required = required_documents(procedure) if procedure else _DEFAULT_REQUIRED
-    if stage == Stage.DISCHARGE:
-        return list(required)
-    return [doc_type for doc_type in required if doc_type not in LATER_DOCUMENTS]
+    return [doc_type for doc_type in required if doc_type in due_at(stage)]  # nothing from the future
 
 
 def run(

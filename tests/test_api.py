@@ -138,13 +138,18 @@ def test_case3_appeal_is_approved_through_the_api(client: TestClient) -> None:
     claim_id = start(client, "case3")
     wait(client, claim_id)
     decide(client, claim_id, decision="approve")
+    assert wait(client, claim_id)["state"] == ClaimState.IN_TREATMENT  # the pre-auth had nothing to cut
+    assert client.post(f"/api/claims/{claim_id}/discharge").status_code == 202
+    wait(client, claim_id)
+    decide(client, claim_id, decision="approve")
     detail = wait(client, claim_id)
     assert detail["state"] == ClaimState.AWAITING_HUMAN and detail["pending_draft"]["message"]["type"] == "APPEAL"
     assert "denial_risk: fix_before_submit" in detail["flags"]
     decide(client, claim_id, decision="approve")
     detail = wait(client, claim_id)
-    assert [m["type"] for m in detail["thread"]] == ["SUBMIT", "PARTIAL_APPROVE", "APPEAL", "APPROVE"]
-    assert detail["state"] == ClaimState.IN_TREATMENT
+    discharge = [m["type"] for m in detail["thread"] if m["stage"] == "discharge"]
+    assert discharge == ["SUBMIT", "PARTIAL_APPROVE", "APPEAL", "APPROVE"]
+    assert detail["state"] == ClaimState.FINAL_APPROVED
 
 
 # ---- The rest of the stay, and the screens' reads -------------------------------------------

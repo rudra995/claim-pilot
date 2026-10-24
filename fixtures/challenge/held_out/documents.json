@@ -1,0 +1,38 @@
+[
+  {
+    "doc_id": "HO-01",
+    "type": "admission_note",
+    "admission_id": "ADM-HO01",
+    "file_path": "fixtures/challenge/held_out/docs/HO-01.pdf"
+  },
+  {
+    "doc_id": "HO-02",
+    "type": "discharge_summary",
+    "admission_id": "ADM-HO02",
+    "file_path": "fixtures/challenge/held_out/docs/HO-02.pdf"
+  },
+  {
+    "doc_id": "HO-03",
+    "type": "admission_note",
+    "admission_id": "ADM-HO03",
+    "file_path": "fixtures/challenge/held_out/docs/HO-03.pdf"
+  },
+  {
+    "doc_id": "HO-04",
+    "type": "operative_note",
+    "admission_id": "ADM-HO04",
+    "file_path": "fixtures/challenge/held_out/docs/HO-04.pdf"
+  },
+  {
+    "doc_id": "HO-05",
+    "type": "final_bill",
+    "admission_id": "ADM-HO05",
+    "file_path": "fixtures/challenge/held_out/docs/HO-05.pdf"
+  },
+  {
+    "doc_id": "HO-06",
+    "type": "lab_report",
+    "admission_id": "ADM-HO06",
+    "file_path": "fixtures/challenge/held_out/docs/HO-06.pdf"
+  }
+]

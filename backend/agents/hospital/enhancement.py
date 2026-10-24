@@ -10,6 +10,7 @@ from pydantic import BaseModel
 from backend.agents.base import HUMAN, AgentResult
 from backend.rules.engine import assess
 from backend.schemas import AgentOutput, Case, Finding, Stage, Submit
+from backend.stages import available
 
 AGENT = "enhancement"
 SOURCE = "Rules engine, on the running bill"
@@ -57,7 +58,7 @@ def run(claim_id: str, case: Case, approved: int, last_sent: Case | None, enhanc
             "new_charges": [line.model_dump(mode="json") for line in new],
             "deductions": [d.model_dump(mode="json") for d in assessment.deductions],
         },
-        documents=[doc.doc_id for doc in case.documents],
+        documents=[doc.doc_id for doc in available(case.documents, Stage.ENHANCEMENT)],  # what exists mid-stay
         requested_amount=assessment.payable,
     )
     findings.append(

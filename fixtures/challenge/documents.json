@@ -1,0 +1,62 @@
+[
+  {
+    "doc_id": "CH-01",
+    "type": "discharge_summary",
+    "admission_id": "ADM-CH01",
+    "file_path": "fixtures/challenge/docs/CH-01.pdf"
+  },
+  {
+    "doc_id": "CH-02",
+    "type": "admission_note",
+    "admission_id": "ADM-CH02",
+    "file_path": "fixtures/challenge/docs/CH-02.pdf"
+  },
+  {
+    "doc_id": "CH-03",
+    "type": "admission_note",
+    "admission_id": "ADM-CH03",
+    "file_path": "fixtures/challenge/docs/CH-03.pdf"
+  },
+  {
+    "doc_id": "CH-04",
+    "type": "xray_report",
+    "admission_id": "ADM-CH03",
+    "file_path": "fixtures/challenge/docs/CH-04.pdf"
+  },
+  {
+    "doc_id": "CH-05",
+    "type": "discharge_summary",
+    "admission_id": "ADM-CH05",
+    "file_path": "fixtures/challenge/docs/CH-05.pdf"
+  },
+  {
+    "doc_id": "CH-06",
+    "type": "discharge_summary",
+    "admission_id": "ADM-CH06",
+    "file_path": "fixtures/challenge/docs/CH-06.pdf"
+  },
+  {
+    "doc_id": "CH-07",
+    "type": "xray_report",
+    "admission_id": "ADM-CH07",
+    "file_path": "fixtures/challenge/docs/CH-07.pdf"
+  },
+  {
+    "doc_id": "CH-08",
+    "type": "lab_report",
+    "admission_id": "ADM-CH08",
+    "file_path": "fixtures/challenge/docs/CH-08.pdf"
+  },
+  {
+    "doc_id": "CH-09",
+    "type": "admission_note",
+    "admission_id": "ADM-CH09",
+    "file_path": "fixtures/challenge/docs/CH-09.pdf"
+  },
+  {
+    "doc_id": "CH-10",
+    "type": "lab_report",
+    "admission_id": "ADM-CH10",
+    "file_path": "fixtures/challenge/docs/CH-10.pdf"
+  }
+]

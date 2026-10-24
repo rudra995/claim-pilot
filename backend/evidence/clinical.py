@@ -117,6 +117,7 @@ def check_citations(
 
 _NUMBER = r"(\d{1,3}(?:[.,]\d+)?)"
 _NEGATION = re.compile(r"\b(no|not|nil|denies|denied|without|negative for|ruled out|rules out|absence of|free of|never)\b[^.;:]*$", re.IGNORECASE)
+_AFTER_NEGATION = re.compile(r"^[^.;:]{0,25}\b(ruled out|excluded|not seen|not found|absent|unlikely)\b", re.IGNORECASE)
 _DIAGNOSIS_LABEL = re.compile(
     r"^(provisional |final |working )?(diagnosis|impression|procedure|planned treatment|treatment given|icd-?10|condition at discharge)\b",
     re.IGNORECASE,
@@ -151,7 +152,7 @@ _OBJECTIVE_WORDS = [
 _CLINICAL = [
     ("Dehydration", re.compile(r"\bdehydrat(ed|ion)\b", re.I)),
     ("Cannot keep fluids down", re.compile(r"\b(unable to (tolerate|take|keep) (oral|orally|fluids|feeds)|persistent vomiting|intractable vomiting)\b", re.I)),
-    ("Failed outpatient treatment", re.compile(r"\b(not relieved by|failed (conservative|outpatient|oral|medical) (treatment|management|therapy)|despite (oral|outpatient) (treatment|medication))\b", re.I)),
+    ("Failed outpatient treatment", re.compile(r"\b(not relieved by|not responding to (oral|outpatient|medical) (fluids|treatment|medication|therapy)|failed (conservative|outpatient|oral|medical) (treatment|management|therapy)|despite (oral|outpatient) (treatment|medication))\b", re.I)),
     ("Needs IV treatment", re.compile(r"\b(iv|intravenous) (fluids|antibiotics|therapy|medication)\b", re.I)),
     ("Needs surgery or delivery", re.compile(r"\b(need(?:s|ed|ing)?|requir(?:es|ed|ing)) (emergency |urgent )?(surgery|operation|delivery|joint replacement|admission)\b", re.I)),
     ("Severe or unstable", re.compile(r"\b(altered sensorium|sepsis|shock|respiratory distress|haemodynamically unstable|hemodynamically unstable|syncope|in active labour|in labour|severe pain|loss of mobility|limiting walking)\b", re.I)),
@@ -183,8 +184,9 @@ def segments(page: str) -> list[str]:
     return [part.strip(" .;") for part in parts if part.strip(" .;")]
 
 
-def _negated(segment: str, start: int) -> bool:
-    return bool(_NEGATION.search(segment[max(0, start - 40):start]))
+def _negated(segment: str, start: int, end: int | None = None) -> bool:
+    before = bool(_NEGATION.search(segment[max(0, start - 40):start]))
+    return before or (end is not None and bool(_AFTER_NEGATION.search(segment[end:])))
 
 
 def findings_in(segment: str) -> list[tuple[str, Literal["objective", "clinical", "against"]]]:
@@ -198,13 +200,13 @@ def findings_in(segment: str) -> list[tuple[str, Literal["objective", "clinical"
     for name, pattern, test in _VITALS + _LABS:
         for match in pattern.finditer(segment):
             values = [_num(g) for g in match.groups()]
-            if test(*values) and not _negated(segment, match.start()):
+            if test(*values) and not _negated(segment, match.start(), match.end()):
                 found.append((f"{name} ({match.group(0).split(None, 1)[-1].strip(': ')})", "objective"))
                 break
     for kind, rules in (("objective", _OBJECTIVE_WORDS), ("clinical", _CLINICAL)):
         for name, pattern in rules:
             match = pattern.search(segment)
-            if match and not _negated(segment, match.start()):
+            if match and not _negated(segment, match.start(), match.end()):
                 found.append((name, kind))  # type: ignore[arg-type]
     return found
 

@@ -79,6 +79,17 @@ def negotiate(db: Path, case: Case, max_gates: int = MAX_ROUNDS) -> str:
     return result.claim_id
 
 
+def to_discharge(db: Path, case: Case) -> str:
+    """Admit, approve the pre-auth, and send the final package: Case 3's dispute is at discharge."""
+    claim_id = negotiate(db, case)
+    assert orchestrator.claim_state(db, claim_id) == ClaimState.APPROVED
+    orchestrator.next_stage(db, claim_id)
+    orchestrator.discharge(db, claim_id, case)
+    decide(db, claim_id, approve())
+    play_round(db, claim_id, case)
+    return claim_id
+
+
 def with_xray(case: Case, tmp_path: Path) -> Case:
     """Case 2 with the fix the denial-risk agent suggested: the pre-op X-ray report attached."""
     xray = Document(
@@ -136,8 +147,10 @@ def test_case2_after_fixes_is_approved_with_cited_deductions(db: Path, tmp_path:
 
 def test_case3_is_partly_denied_appealed_and_accepted_in_round_two(db: Path) -> None:
     case = load("case3.json")
-    claim_id = negotiate(db, case)
-    submit, cut, appeal, answer = exchange.thread(db, claim_id)
+    claim_id = to_discharge(db, case)
+    decide(db, claim_id, approve())
+    play_round(db, claim_id, case)
+    submit, cut, appeal, answer = exchange.thread(db, claim_id, Stage.DISCHARGE)
     assert isinstance(cut, PartialApprove) and cut.round == 1
     assert "Medical necessity: reason for admission not documented" in by_clause(cut.deductions)
     assert isinstance(appeal, Appeal) and appeal.round == 2
@@ -147,6 +160,7 @@ def test_case3_is_partly_denied_appealed_and_accepted_in_round_two(db: Path) -> 
     assert answer.approved_amount > cut.approved_amount
     assert by_clause(answer.deductions) == {"6.1": 4_250}  # only the co-pay is left
     assert claim_row(db, claim_id)["state"] == ClaimState.APPROVED
+    assert [m.type for m in exchange.thread(db, claim_id, Stage.PREAUTH)] == [MessageType.SUBMIT, MessageType.APPROVE]
 
 
 def test_claim_forced_past_three_rounds_lands_in_the_human_queue(db: Path) -> None:
@@ -186,25 +200,21 @@ def test_insurer_answers_each_round_once(db: Path) -> None:
 
 def test_rejected_appeal_goes_back_to_the_insurers_decision(db: Path) -> None:
     case = load("case3.json")
-    result = run_admission(case, db)
-    decide(db, result.claim_id, approve())
-    result = play_round(db, result.claim_id, case)
-    assert result.state == ClaimState.AWAITING_HUMAN and pending_draft(db, result.claim_id)["message"]["type"] == "APPEAL"
-    state = decide(db, result.claim_id, Decision(decision="reject", officer=OFFICER, reason="Get a doctor's note first"))
+    claim_id = to_discharge(db, case)
+    assert pending_draft(db, claim_id)["message"]["type"] == "APPEAL"
+    state = decide(db, claim_id, Decision(decision="reject", officer=OFFICER, reason="Get a doctor's note first"))
     assert state == ClaimState.PARTIALLY_APPROVED
-    assert pending_draft(db, result.claim_id) is None
-    assert len(exchange.thread(db, result.claim_id)) == 2  # the appeal was never sent
+    assert pending_draft(db, claim_id) is None
+    assert len(exchange.thread(db, claim_id, Stage.DISCHARGE)) == 2  # the appeal was never sent
 
 
 def test_edited_appeal_text_is_what_the_insurer_gets(db: Path) -> None:
     case = load("case3.json")
-    result = run_admission(case, db)
-    decide(db, result.claim_id, approve())
-    play_round(db, result.claim_id, case)
+    claim_id = to_discharge(db, case)
     text = "Admission note ADM-0003-D1 records BP 92/60 and pulse 112: the patient was dehydrated and needed IV fluids."
-    decide(db, result.claim_id, Decision(decision="edit", officer=OFFICER, edits={"justification": text}))
-    play_round(db, result.claim_id, case)
-    appeal = next(m for m in exchange.thread(db, result.claim_id) if isinstance(m, Appeal))
+    decide(db, claim_id, Decision(decision="edit", officer=OFFICER, edits={"justification": text}))
+    play_round(db, claim_id, case)
+    appeal = next(m for m in exchange.thread(db, claim_id) if isinstance(m, Appeal))
     assert appeal.argument == text
 
 
@@ -220,7 +230,7 @@ def test_fraud_screen_denies_a_duplicate_claim(db: Path) -> None:
 
 
 def test_every_insurer_output_validates_and_has_sources(db: Path) -> None:
-    claim_id = negotiate(db, load("case3.json"))
+    claim_id = to_discharge(db, load("case3.json"))
     events = [e for e in audit.events(db, claim_id) if e["action"] == "agent_output" and e["actor"].startswith("tpa_")]
     assert sorted({e["actor"] for e in events}) == sorted(INSURER_AGENTS)
     for event in events:

@@ -1,7 +1,10 @@
 """Clinical coder: turns the diagnosis written in the documents into an ICD-10 code.
 
-The lookup is the hospital's code list (the diagnoses it treats). The diagnosis text is matched
-by shared words; a tie between two different codes, or no match at all, goes to a person.
+The lookup is the hospital's code list (the diagnoses it treats). The diagnosis text is matched by
+shared words, conservatively: negated parts ("appendicitis ruled out", "no fracture") are dropped
+first, an uncertain diagnosis ("suspected", "query", "?") is not coded, and a match must share at
+least MIN_MATCH of its words. A weak match, a tie between two codes, or no match goes to a person,
+who keeps the code entered at admission until they decide. The coder abstains rather than guesses.
 """
 
 import re
@@ -18,6 +21,9 @@ AGENT = "clinical_coder"
 # ICD-10 code -> diagnosis, from the hospital's code list.
 ICD10_LOOKUP: dict[str, str] = {p.icd10: p.diagnosis for p in PROCEDURES}
 
+MIN_MATCH = 0.6  # share of words in common (Jaccard) below which the coder abstains
+_NEGATED = re.compile(r"\b(ruled out|rule out|r/o|no evidence of|negative for|not|no|without|excluded)\b", re.IGNORECASE)
+_UNCERTAIN = re.compile(r"(\?|\b(suspected|query|possible|probable|likely|differential|vs\.?|versus)\b)", re.IGNORECASE)
 _IGNORED_WORDS = {"of", "the", "and", "with", "by", "on", "in", "right", "left", "bilateral"}
 # Where the diagnosis is written, most trusted first at pre-auth time.
 _DIAGNOSIS_FIELDS = [
@@ -37,16 +43,19 @@ class Coding(BaseModel):
 def run(claim_id: str, reading: Reading, admission: Admission) -> AgentResult:
     written, source = _written_diagnosis(reading)
     findings: list[Finding] = []
+    asserted = _asserted(written or "")
+    uncertain = bool(written) and bool(_UNCERTAIN.search(asserted))
 
-    ranked = sorted(((_overlap(written or "", name), code) for code, name in ICD10_LOOKUP.items()), reverse=True)
+    ranked = sorted(((_overlap(asserted, name), code) for code, name in ICD10_LOOKUP.items()), reverse=True)
     best_score, best_code = ranked[0]
-    tie = len(ranked) > 1 and ranked[1][0] == best_score
+    tie = len(ranked) > 1 and ranked[1][0] == best_score and best_score > 0
 
-    if written is None or best_score == 0:
+    if written is None or uncertain or best_score < MIN_MATCH:
         code, score = admission.icd10, 0.0
-        reasoning = f"No diagnosis in the lookup matches; keeping the code entered at admission ({code})"
+        why = "the diagnosis is written as uncertain" if uncertain else "no diagnosis in the lookup matches closely enough"
+        reasoning = f"Not coded: {why}; keeping the code entered at admission ({code}) until a person decides"
         findings.append(
-            Finding(issue="Diagnosis could not be coded", evidence=written or "No diagnosis written in the documents", source=source)
+            Finding(issue="Diagnosis could not be coded", evidence=f"{written or 'No diagnosis written in the documents'} ({why})", source=source)
         )
     else:
         code, score = best_code, best_score
@@ -103,6 +112,12 @@ def _written_diagnosis(reading: Reading) -> tuple[str | None, str]:
         if doc and name in doc.fields and doc.fields[name].value:
             return str(doc.fields[name].value), doc.source(doc.fields[name].page)
     return None, "Claim documents"
+
+
+def _asserted(text: str) -> str:
+    """The diagnosis with its negated parts removed: "Gastroenteritis; appendicitis ruled out" -> "Gastroenteritis"."""
+    parts = re.split(r"[;,.]|\bbut\b", text)
+    return " ".join(part for part in parts if not _NEGATED.search(part)).strip()
 
 
 def _overlap(text: str, name: str) -> float:

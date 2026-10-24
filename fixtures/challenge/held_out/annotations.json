@@ -1,0 +1,42 @@
+{
+  "HO-01": {
+    "fields": {
+      "chief_complaint": "Breathlessness and cough with fever for 4 days",
+      "provisional_diagnosis": "Community acquired pneumonia",
+      "planned_treatment": "IV antibiotics, oxygen"
+    },
+    "admission_necessity": "supported",
+    "code": "J18.9"
+  },
+  "HO-02": {
+    "fields": {
+      "diagnosis": "Dengue fever without warning signs",
+      "icd10": "A90"
+    },
+    "admission_necessity": "contradictory"
+  },
+  "HO-03": {
+    "fields": {
+      "chief_complaint": "Burning micturition for two days"
+    },
+    "code": "ABSTAIN",
+    "admission_necessity": "unsupported"
+  },
+  "HO-04": {
+    "fields": {
+      "procedure": "Laparoscopic cholecystectomy"
+    }
+  },
+  "HO-05": {
+    "fields": {
+      "total_billed": 47000
+    }
+  },
+  "HO-06": {
+    "fields": {
+      "test": "Serum electrolytes"
+    },
+    "instructions": true,
+    "admission_necessity": "unsupported"
+  }
+}

@@ -69,6 +69,7 @@ from backend.db.cases import save_case
 from backend.db.db import connect, init_db
 from backend.exchange import messages as exchange
 from backend.privacy import Masker
+from backend.stages import available
 from backend.schemas import (
     MAX_ROUNDS,
     AgentOutput,
@@ -288,7 +289,7 @@ def _step(state: _Run, name: str, run: Callable[..., AgentResult], *args: Any) -
 
 
 def _read_documents(state: _Run) -> dict[str, Any]:
-    update = _step(state, intake.AGENT, intake.run, state["case"].documents)
+    update = _step(state, intake.AGENT, intake.run, available(state["case"].documents, Stage.PREAUTH))
     if intake.AGENT in update.get("results", {}):
         _save_extractions(state["db_path"], update["results"][intake.AGENT].data)
     return update
@@ -347,7 +348,8 @@ def _draft_submit(db_path: Path | str, claim_id: str, package: preauth.PreAuthPa
 
 def _risk_check(state: _Run) -> dict[str, Any]:
     transition(state["db_path"], state["claim_id"], ClaimState.RISK_CHECK, "Pre-auth package drafted")
-    return _step(state, denial_risk.AGENT, denial_risk.run, state["case"])
+    reading = state["results"][intake.AGENT].data
+    return _step(state, denial_risk.AGENT, denial_risk.run, state["case"], reading, Stage.PREAUTH)
 
 
 def _await_human(state: _Run) -> dict[str, Any]:
@@ -526,7 +528,8 @@ def _denied(state: _Reply) -> dict[str, Any]:
 def _check_reply(state: _Reply) -> dict[str, Any]:
     kind = "Response" if isinstance(state["reply"], Query) else "Appeal"
     transition(state["db_path"], state["claim_id"], ClaimState.RISK_CHECK, f"{kind} to the insurer drafted")
-    return _step(state, denial_risk.AGENT, denial_risk.run, state["case"])
+    reading = _reading(state["db_path"], state["case"])
+    return _step(state, denial_risk.AGENT, denial_risk.run, state["case"], reading, state["reply"].stage)
 
 
 def _reply_needs_human(state: _Reply) -> dict[str, Any]:
@@ -602,7 +605,7 @@ def watch_bill(db_path: Path | str, claim_id: str, case: Case) -> RunResult:
     if result.data.submit is not None:
         _save_requested(str(db_path), claim_id, result.data.submit.requested_amount)
         draft(db_path, claim_id, result.data.submit, ClaimState.IN_TREATMENT)
-        return _risk_check_and_queue(db_path, claim_id, case, results, "Enhancement request drafted")
+        return _risk_check_and_queue(db_path, claim_id, case, results, "Enhancement request drafted", Stage.ENHANCEMENT)
     if result.wants_human:
         return _queue_for_person(db_path, claim_id, results, [], "Bill above the approval: a person decides")
     return RunResult(claim_id, claim_state(db_path, claim_id), results, [], [])
@@ -612,6 +615,11 @@ def discharge(db_path: Path | str, claim_id: str, case: Case) -> RunResult:
     """The patient is going home: draft the final package with its deduction preview."""
     _require(db_path, claim_id, ClaimState.IN_TREATMENT)
     transition(db_path, claim_id, ClaimState.DISCHARGE_DRAFT, "Patient ready for discharge")
+    masker = Masker.for_case(case)
+    read = call_agent(db_path, claim_id, intake.AGENT, intake.run, case.documents, masker=masker)  # now the later records exist
+    if read is None:
+        return _queue_for_person(db_path, claim_id, {}, [intake.AGENT], "Document reader failed twice")
+    _save_extractions(str(db_path), read.data)
     result = call_agent(
         db_path, claim_id, discharge_agent.AGENT, discharge_agent.run, case, _reading(db_path, case), masker=Masker.for_case(case)
     )
@@ -619,7 +627,7 @@ def discharge(db_path: Path | str, claim_id: str, case: Case) -> RunResult:
         return _queue_for_person(db_path, claim_id, {}, [discharge_agent.AGENT], "Discharge agent failed twice")
     _save_requested(str(db_path), claim_id, result.data.submit.requested_amount)
     draft(db_path, claim_id, result.data.submit, ClaimState.DISCHARGE_DRAFT)
-    return _risk_check_and_queue(db_path, claim_id, case, {discharge_agent.AGENT: result}, "Final package drafted")
+    return _risk_check_and_queue(db_path, claim_id, case, {intake.AGENT: read, discharge_agent.AGENT: result}, "Final package drafted", Stage.DISCHARGE)
 
 
 def redraft(db_path: Path | str, claim_id: str, case: Case) -> RunResult:
@@ -688,9 +696,13 @@ def advise_patient(db_path: Path | str, claim_id: str, case: Case) -> AgentResul
     return call_agent(db_path, claim_id, patient.AGENT, patient.run, case, masker=Masker.for_case(case))
 
 
-def _risk_check_and_queue(db_path: Path | str, claim_id: str, case: Case, results: dict[str, AgentResult], reason: str) -> RunResult:
+def _risk_check_and_queue(
+    db_path: Path | str, claim_id: str, case: Case, results: dict[str, AgentResult], reason: str, stage: Stage = Stage.PREAUTH
+) -> RunResult:
     transition(db_path, claim_id, ClaimState.RISK_CHECK, reason)
-    risk = call_agent(db_path, claim_id, denial_risk.AGENT, denial_risk.run, case, masker=Masker.for_case(case))
+    risk = call_agent(
+        db_path, claim_id, denial_risk.AGENT, denial_risk.run, case, _reading(db_path, case), stage, masker=Masker.for_case(case)
+    )
     if risk is None:
         return _queue_for_person(db_path, claim_id, results, [denial_risk.AGENT], "Denial-risk agent failed twice")
     results = {**results, denial_risk.AGENT: risk}

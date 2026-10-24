@@ -3,16 +3,22 @@
 Two views, joined: a checklist (missing documents, rules-engine cuts, coding) that cites where each
 problem is, and the denial model's score with SHAP weights saying which problems matter most. The
 checklist uses the model's own flag definitions, so the two never disagree about what a flag means.
+
+It judges the claim as it stands at its stage, from what the document reader actually read: a
+pre-auth isn't flagged for lacking a discharge summary that can't exist yet, and whether the summary
+states the reason for admission comes from the reading, never from the generator's ground truth.
 """
 
 from pydantic import BaseModel
 
 from backend.agents.base import HUMAN, AgentResult
+from backend.agents.hospital.intake import Reading
 from backend.models.features import DOC_FLAGS, RULE_FLAGS, denial_features
 from backend.models.fixes_map import FIXES
 from backend.models.predict import denial_risk
 from backend.rules.engine import assess
-from backend.schemas import AgentOutput, Case, DocumentType, Finding
+from backend.schemas import AgentOutput, Case, DocumentType, Finding, Stage
+from backend.stages import available, due_at
 from data.generator.procedures import BY_SLUG
 
 AGENT = "denial_risk"
@@ -40,11 +46,13 @@ class RiskReport(BaseModel):
         return [item.fix for item in self.items]
 
 
-def run(claim_id: str, case: Case) -> AgentResult:
-    score = denial_risk(case)
+def run(claim_id: str, case: Case, reading: Reading | None = None, stage: Stage = Stage.PREAUTH) -> AgentResult:
+    features = live_features(case, reading, stage)
+    score = denial_risk(case, features=features)
     weights = {reason.flag: reason.impact for reason in score.reasons}
-    raised = [flag for flag, value in denial_features(case).items() if flag in FIXES and value]
-    items = [_item(flag, case, weights.get(flag)) for flag in raised]
+    raised = [flag for flag, value in features.items() if flag in FIXES and value]
+    view = case.model_copy(update={"documents": available(case.documents, stage)})
+    items = [_item(flag, view, weights.get(flag)) for flag in raised]
     items.sort(key=lambda item: item.model_weight or 0, reverse=True)
     report = RiskReport(risk=score.risk, probabilities=score.probabilities, threshold=RISK_THRESHOLD, items=items)
 
@@ -62,6 +70,16 @@ def run(claim_id: str, case: Case) -> AgentResult:
         ),
         data=report,
     )
+
+
+def live_features(case: Case, reading: Reading | None, stage: Stage) -> dict[str, object]:
+    """The model's inputs for a live claim: documents due at this stage, admission reason as read."""
+    stated = None
+    if reading is not None and reading.get(DocumentType.DISCHARGE_SUMMARY) is not None:
+        stated = bool(reading.value(DocumentType.DISCHARGE_SUMMARY, "reason_for_admission"))
+    elif any(d.type == DocumentType.DISCHARGE_SUMMARY for d in available(case.documents, stage)):
+        stated = False  # a summary nobody has read yet can't be counted as stating anything
+    return denial_features(case, due=due_at(stage), reason_stated=stated)
 
 
 def _item(flag: str, case: Case, weight: float | None) -> RiskItem:

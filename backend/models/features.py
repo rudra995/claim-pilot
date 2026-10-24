@@ -60,15 +60,32 @@ def cost_features(case: Case) -> dict[str, object]:
     }
 
 
-def denial_features(case: Case) -> dict[str, object]:
+def denial_features(
+    case: Case, *, due: frozenset[DocumentType] | None = None, reason_stated: bool | None = None
+) -> dict[str, object]:
+    """The denial model's inputs for a case.
+
+    Training rows use the generator's ground truth for whether the summary states the admission
+    reason. A live claim must not: it passes `reason_stated` from what the document reader actually
+    read, and `due`, the documents that can exist at its stage, so a pre-auth isn't flagged for
+    lacking a discharge summary that hasn't been written yet.
+    """
     procedure = BY_SLUG.get(case.admission.procedure)
     required = set(
         required_documents(procedure)
         if procedure
         else [DocumentType.ADMISSION_NOTE, DocumentType.LAB_REPORT, DocumentType.DISCHARGE_SUMMARY]
     )
-    present = {doc.type for doc in case.documents}
-    summary = next((d for d in case.documents if d.type == DocumentType.DISCHARGE_SUMMARY), None)
+    if due is not None:
+        required &= due
+    present = {doc.type for doc in case.documents if due is None or doc.type in due}
+    summary = next((d for d in case.documents if d.type == DocumentType.DISCHARGE_SUMMARY and (due is None or d.type in due)), None)
+    if summary is None:
+        reason_missing = 0
+    elif reason_stated is not None:
+        reason_missing = int(not reason_stated)
+    else:
+        reason_missing = int(not summary.fields.get(ADMISSION_REASON))
 
     rule_types = {rule.rule_id: rule.type for rule in case.policy.rules}
     cut_by = {rule_types.get(d.rule_id) for d in assess(case).deductions}
@@ -81,7 +98,7 @@ def denial_features(case: Case) -> dict[str, object]:
         "emergency": int(case.admission.emergency),
         "log_billed": math.log(max(billed, 1)),
         **{flag: int(t in required and t not in present) for flag, t in DOC_FLAGS.items()},
-        "admission_reason_missing": int(summary is not None and not summary.fields.get(ADMISSION_REASON)),
+        "admission_reason_missing": reason_missing,
         **{flag: int(t in cut_by) for flag, t in RULE_FLAGS.items()},
         "coding_mismatch": int(procedure is not None and case.admission.icd10 != procedure.icd10),
     }
