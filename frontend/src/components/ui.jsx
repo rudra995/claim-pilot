@@ -367,7 +367,7 @@ export function ToastProvider({ children }) {
   return (
     <ToastContext.Provider value={push}>
       {children}
-      <div className="pointer-events-none fixed bottom-5 right-5 z-50 flex w-[340px] flex-col gap-2">
+      <div className="pointer-events-none fixed bottom-24 right-6 z-50 flex w-[340px] flex-col gap-2">
         {toasts.map((t) => (
           <div key={t.id} className="pointer-events-auto flex animate-slide-in items-start gap-3 rounded-2xl border border-line bg-white p-3.5 shadow-lift">
             <IconChip name={t.icon ?? 'check'} size="sm" tone={t.tone === 'attention' ? 'amber' : t.tone === 'info' ? 'blue' : 'green'} />

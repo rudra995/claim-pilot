@@ -3,6 +3,7 @@ import { useRef } from 'react'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { api, useLoad, useTrace } from '../api'
 import { useAuth } from '../auth'
+import Assistant from './Assistant'
 import { Avatar, Icon, useToast } from './ui'
 
 const NAV = [
@@ -46,6 +47,8 @@ export default function Layout({ children }) {
     },
   })
   const waiting = (claims.data ?? []).filter((c) => (c.state === 'AWAITING_HUMAN' || c.state === 'FINAL_APPROVED') && !c.busy).length
+  const match = pathname.match(/^\/patients\/([^/]+)$/)
+  const openClaim = match && match[1] !== 'admit' ? match[1] : null
   const title = pathname === '/' ? 'Dashboard' : TITLES.find(([prefix]) => pathname.startsWith(prefix))?.[1] ?? 'ClaimPilot'
 
   return (
@@ -53,6 +56,7 @@ export default function Layout({ children }) {
       <Sidebar waiting={waiting} />
       <div className="flex min-w-0 flex-1 flex-col">
         <TopBar title={title} waiting={waiting} live={live} />
+        <Assistant mode="officer" claimId={openClaim} patientName={openClaim ? names.current[openClaim] : null} />
         <main className="min-w-0 flex-1 overflow-y-auto">
           <div key={pathname.split('/').slice(0, 2).join('/')} className="mx-auto max-w-[1360px] animate-fade-up px-6 pb-12 pt-7 lg:px-9">{children}</div>
         </main>
@@ -115,6 +119,10 @@ function Sidebar({ waiting }) {
           <span className="relative grid h-9 w-9 place-items-center rounded-xl bg-white text-accent-600 shadow-card"><Icon name="shieldCheck" className="h-5 w-5" /></span>
           <p className="relative mt-3 text-sm font-bold text-accent-800">Human gate is on</p>
           <p className="relative mt-0.5 text-xs leading-relaxed text-accent-700/80">Nothing reaches an insurer or a patient until you approve it.</p>
+          <button onClick={() => window.dispatchEvent(new Event('open-assistant'))}
+            className="relative mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent-600 px-3 py-2 text-xs font-bold text-white shadow-glow transition hover:bg-accent-700">
+            <Icon name="bot" className="h-4 w-4" />Ask ClaimPilot
+          </button>
         </div>
         <div className="flex items-center gap-3 rounded-2xl border border-line p-2.5">
           <Avatar name={user?.display_name} size="sm" />

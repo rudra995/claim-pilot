@@ -30,6 +30,7 @@ from pydantic import BaseModel, Field, ValidationError
 from backend.agents import orchestrator
 from backend import policy_config, remediation, portal_auth
 from backend.api import portal
+from backend.api import assistant_api
 from backend.adapters import billing_import
 from backend.agents.approval import Decision, DraftChanged, decide
 from backend.agents.orchestrator import InvalidTransition, claim_state, pending_draft
@@ -113,6 +114,7 @@ def create_app(db_path: Path | str = DEFAULT_DB_PATH) -> FastAPI:
     app.add_middleware(CORSMiddleware, allow_origins=FRONTEND_ORIGINS, allow_methods=["*"], allow_headers=["*"])
     portal_auth.install(app, db_path)
     portal.install(app, db_path, runner, lambda *args: schedule(*args), _actions)
+    assistant_api.install(app, db_path, lambda claim_id=None: [_summary(db_path, row, runner) for row in _claim_rows(db_path, claim_id)])
 
     def existing(claim_id: str) -> ClaimState:
         try:

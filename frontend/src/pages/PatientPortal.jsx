@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { fileToBase64, request } from '../api'
 import { useAuth } from '../auth'
+import Assistant from '../components/Assistant'
 import { Avatar, Badge, Button, Card, CardHeader, Icon, IconChip, money, procedureName, stagger } from '../components/ui'
 
 const TYPES = ['xray_report', 'lab_report', 'prescription', 'admission_note', 'discharge_summary', 'operative_note', 'final_bill']
@@ -184,6 +185,7 @@ export default function PatientPortal() {
           </div>
         </>}
       </main>
+      <Assistant mode="patient" claimId={claim?.claim_id} />
     </div>
   )
 }
