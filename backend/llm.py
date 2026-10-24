@@ -5,19 +5,66 @@
     GEMINI_API_KEY  enables the fallback
     GEMINI_MODEL    default gemini-2.5-flash
 
-Callers never send patient names or ID numbers (design section 9).
+Every prompt is masked before it leaves (design section 9): phone, Aadhaar and PAN numbers always,
+and the patient's name and ids too while an agent runs for a claim (`for_claim`). Inside a claim,
+each call is written to the audit log with the masked prompt, so the log never holds the name.
 """
 
 import os
+from collections.abc import Iterator
+from contextlib import contextmanager
+from contextvars import ContextVar
+from dataclasses import dataclass
+from pathlib import Path
 
 import httpx
+
+from backend.db import audit
+from backend.privacy import Masker
 
 
 class LLMUnavailable(RuntimeError):
     """Neither Ollama nor Gemini answered."""
 
 
+@dataclass(frozen=True)
+class _Claim:
+    db_path: Path | str
+    claim_id: str
+    agent: str
+    masker: Masker
+
+
+_claim: ContextVar[_Claim | None] = ContextVar("llm_claim", default=None)
+
+
+@contextmanager
+def for_claim(db_path: Path | str, claim_id: str, agent: str, masker: Masker) -> Iterator[None]:
+    """LLM calls made inside this block mask with `masker` and are logged against the claim."""
+    token = _claim.set(_Claim(db_path, claim_id, agent, masker))
+    try:
+        yield
+    finally:
+        _claim.reset(token)
+
+
 def complete(prompt: str, *, system: str = "", seed: int | None = None, temperature: float = 0.3) -> str:
+    claim = _claim.get()
+    masker = claim.masker if claim else Masker()
+    masked_prompt, masked_system = masker.mask(prompt), masker.mask(system)
+    reply = None
+    try:
+        reply = _answer(masked_prompt, masked_system, seed, temperature)
+    finally:
+        if claim:
+            audit.log(
+                claim.db_path, claim.claim_id, claim.agent, "llm_call",
+                {"system": masked_system, "prompt": masked_prompt, "reply": reply},
+            )
+    return masker.restore(reply)
+
+
+def _answer(prompt: str, system: str, seed: int | None, temperature: float) -> str:
     errors = []
     try:
         return _ollama(prompt, system, seed, temperature)

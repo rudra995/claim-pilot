@@ -9,8 +9,12 @@ Admission flow:
 
     ADMITTED       document reader -> clinical coder
     PREAUTH_DRAFT  policy agent + cost estimator (in parallel) -> pre-auth agent
-    RISK_CHECK     (the denial-risk agent joins here in phase 7)
-    AWAITING_HUMAN billing officer approves, edits or rejects
+    RISK_CHECK     denial-risk agent
+    AWAITING_HUMAN billing officer approves, edits or rejects (backend/agents/approval.py)
+    SUBMITTED      only with an approval recorded since the claim last reached AWAITING_HUMAN
+
+Agents call the LLM only through backend.llm, which masks the patient's name and ids for the
+claim being worked on and logs the masked prompt (design section 9).
 """
 
 import json
@@ -23,10 +27,12 @@ from typing import Annotated, Any, Callable, TypedDict
 from langgraph.graph import END, START, StateGraph
 
 from backend.agents.base import AgentResult
-from backend.agents.hospital import coder, estimator, intake, policy, preauth
+from backend import llm
+from backend.agents.hospital import coder, denial_risk, estimator, intake, policy, preauth
 from backend.db import audit
 from backend.db.cases import save_case
 from backend.db.db import connect, init_db
+from backend.privacy import Masker
 from backend.schemas import AgentOutput, Case, ClaimState
 
 ACTOR = "orchestrator"
@@ -37,14 +43,20 @@ TRANSITIONS: dict[ClaimState, set[ClaimState]] = {
     ClaimState.ADMITTED: {ClaimState.PREAUTH_DRAFT, ClaimState.AWAITING_HUMAN},
     ClaimState.PREAUTH_DRAFT: {ClaimState.RISK_CHECK, ClaimState.AWAITING_HUMAN},
     ClaimState.RISK_CHECK: {ClaimState.AWAITING_HUMAN},
+    ClaimState.AWAITING_HUMAN: {ClaimState.SUBMITTED, ClaimState.PREAUTH_DRAFT},  # approved / rejected
 }
+APPROVING = {"approve", "edit"}  # decisions that let a claim be submitted
 
 # The order agents run in, for printing a run.
-ADMISSION_AGENTS = [intake.AGENT, coder.AGENT, policy.AGENT, estimator.AGENT, preauth.AGENT]
+ADMISSION_AGENTS = [intake.AGENT, coder.AGENT, policy.AGENT, estimator.AGENT, preauth.AGENT, denial_risk.AGENT]
 
 
 class InvalidTransition(ValueError):
     pass
+
+
+class ApprovalRequired(InvalidTransition):
+    """Nothing goes to the insurer without a person's approval (design section 9)."""
 
 
 @dataclass(frozen=True)
@@ -97,10 +109,23 @@ def transition(db_path: Path | str, claim_id: str, to: ClaimState, reason: str) 
             current = ClaimState(conn.execute("SELECT state FROM claims WHERE claim_id = ?", (claim_id,)).fetchone()["state"])
             if to not in TRANSITIONS.get(current, set()):
                 raise InvalidTransition(f"{claim_id}: {current} -> {to} is not allowed")
+            if to == ClaimState.SUBMITTED and approval(db_path, claim_id) is None:
+                raise ApprovalRequired(f"{claim_id}: no approval recorded since it reached {ClaimState.AWAITING_HUMAN}")
             conn.execute("UPDATE claims SET state = ? WHERE claim_id = ?", (to.value, claim_id))
     finally:
         conn.close()
     audit.log(db_path, claim_id, ACTOR, "transition", {"from": current, "to": to, "reason": reason})
+
+
+def approval(db_path: Path | str, claim_id: str) -> dict[str, Any] | None:
+    """The approving decision recorded since the claim last reached AWAITING_HUMAN, if any."""
+    decision = None
+    for event in audit.events(db_path, claim_id):
+        if event["action"] == "transition" and event["output"]["to"] == ClaimState.AWAITING_HUMAN:
+            decision = None  # a claim back in the queue needs a fresh decision
+        elif event["action"] == "human_decision":
+            decision = event["output"] if event["output"]["decision"] in APPROVING else None
+    return decision
 
 
 # ---- Calling agents ------------------------------------------------------------------------
@@ -115,11 +140,17 @@ class _Run(TypedDict):
     failed: Annotated[list[str], operator.add]
 
 
-def call_agent(db_path: Path | str, claim_id: str, name: str, run: Callable[..., AgentResult], *args: Any) -> AgentResult | None:
-    """Run an agent, check its output, retry once; None means it failed twice and was escalated."""
+def call_agent(
+    db_path: Path | str, claim_id: str, name: str, run: Callable[..., AgentResult], *args: Any, masker: Masker | None = None
+) -> AgentResult | None:
+    """Run an agent, check its output, retry once; None means it failed twice and was escalated.
+
+    Any LLM call the agent makes is masked with `masker` and logged against the claim.
+    """
     for attempt in range(1, MAX_ATTEMPTS + 1):
         try:
-            result = run(claim_id, *args)
+            with llm.for_claim(db_path, claim_id, name, masker or Masker()):
+                result = run(claim_id, *args)
             _check(result, name, claim_id)
         except Exception as error:  # any failure, from a bad file to invalid output, is retried then escalated
             audit.log(db_path, claim_id, name, "agent_error", {"attempt": attempt, "error": repr(error)}, inputs=args)
@@ -146,7 +177,8 @@ def _check(result: AgentResult, name: str, claim_id: str) -> None:
 
 
 def _step(state: _Run, name: str, run: Callable[..., AgentResult], *args: Any) -> dict[str, Any]:
-    result = call_agent(state["db_path"], state["claim_id"], name, run, *args)
+    masker = Masker.for_case(state["case"])
+    result = call_agent(state["db_path"], state["claim_id"], name, run, *args, masker=masker)
     if result is None:
         return {"failed": [name]}
     update: dict[str, Any] = {"results": {name: result}}
@@ -205,7 +237,7 @@ def _draft_preauth(state: _Run) -> dict[str, Any]:
 
 def _risk_check(state: _Run) -> dict[str, Any]:
     transition(state["db_path"], state["claim_id"], ClaimState.RISK_CHECK, "Pre-auth package drafted")
-    return {}
+    return _step(state, denial_risk.AGENT, denial_risk.run, state["case"])
 
 
 def _await_human(state: _Run) -> dict[str, Any]:
@@ -243,7 +275,7 @@ def _admission_graph():
     graph.add_edge("start_draft", "cost_estimator")
     graph.add_edge(["policy", "cost_estimator"], "preauth")
     graph.add_conditional_edges("preauth", _unless_failed("risk_check"), ["risk_check", "escalate"])
-    graph.add_edge("risk_check", "await_human")
+    graph.add_conditional_edges("risk_check", _unless_failed("await_human"), ["await_human", "escalate"])
     graph.add_edge("await_human", END)
     graph.add_edge("escalate", END)
     return graph.compile()

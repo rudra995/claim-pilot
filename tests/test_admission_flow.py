@@ -122,7 +122,7 @@ def test_case3_missing_reason_goes_to_a_person(db: Path) -> None:
     reader = result.results["document_reader"].output
     assert reader.next == "human_review" and reader.confidence < intake.MIN_CONFIDENCE
     assert any("reason for admission" in f.issue for f in reader.findings)
-    assert result.review_flags == ["document_reader: needs_review"]
+    assert result.review_flags == ["document_reader: needs_review", "denial_risk: fix_before_submit"]
     assert result.state == ClaimState.AWAITING_HUMAN
 
 
