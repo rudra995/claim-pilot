@@ -20,7 +20,7 @@ import os
 from collections import Counter
 from contextlib import asynccontextmanager
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 from fastapi import FastAPI, Header, HTTPException, Query, WebSocket, WebSocketDisconnect, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -28,7 +28,8 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field, ValidationError
 
 from backend.agents import orchestrator
-from backend import remediation
+from backend import policy_config, remediation
+from backend.adapters import billing_import
 from backend.agents.approval import Decision, DraftChanged, decide
 from backend.agents.orchestrator import InvalidTransition, claim_state, pending_draft
 from backend.api import store
@@ -48,6 +49,12 @@ FRONTEND_ORIGINS = ["http://localhost:5173", "http://127.0.0.1:5173"]  # Vite de
 
 class StartRequest(BaseModel):
     case_id: str
+    policy_config: str | None = None  # run the case under another policy configuration (backend/policy_config.py)
+
+
+class ImportRequest(BaseModel):
+    format: Literal["csv", "json"]
+    content: str = Field(min_length=1, max_length=2_000_000)
 
 
 class BillUpdate(BaseModel):
@@ -205,9 +212,31 @@ def create_app(db_path: Path | str = DEFAULT_DB_PATH) -> FastAPI:
         case = store.fixture_cases().get(request.case_id)
         if case is None:
             raise HTTPException(status.HTTP_404_NOT_FOUND, f"No case {request.case_id}")
+        if request.policy_config:
+            try:
+                case = policy_config.with_policy(case, request.policy_config)
+            except KeyError as error:
+                raise HTTPException(status.HTTP_404_NOT_FOUND, str(error))
         claim_id = orchestrator.open_claim(db_path, case)
         store.save(db_path, claim_id, case, "Claim opened")
         return schedule(claim_id, "admission", lambda: orchestrator.admit(db_path, claim_id, case))
+
+    @app.get("/api/policy-configs")
+    def policy_configs() -> list[dict[str, Any]]:
+        """Policy configurations a case can run under, with whether a person has checked their rules."""
+        return [policy_config.summary(c) for c in policy_config.load_all().values()]
+
+    @app.post("/api/imports")
+    def import_billing(body: ImportRequest) -> dict[str, Any]:
+        """Bring admissions in from a hospital billing export. Errors say which row and what to fix; repeats are skipped."""
+        try:
+            rows = billing_import.parse(body.content, body.format)
+        except (ValueError, KeyError) as error:
+            raise HTTPException(status.HTTP_422_UNPROCESSABLE_ENTITY, f"Could not read the file: {error}")
+        result = billing_import.import_rows(rows)
+        if result["errors"]:
+            raise HTTPException(status.HTTP_422_UNPROCESSABLE_ENTITY, result)
+        return dict(result)
 
     @app.get("/api/claims")
     def claims() -> list[dict[str, Any]]:

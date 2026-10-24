@@ -1,0 +1,29 @@
+{
+  "config_id": "demo-b-value-plan",
+  "version": 1,
+  "insurer": "Demo Insurer B",
+  "product": "Value Care Plan",
+  "note": "Synthetic contrasting wording: a fixed room cap with no proportionate deduction, a 10% co-pay, and a sub-limit on knee replacement.",
+  "rules": [
+    {
+      "rule_id": "B1-3.1", "type": "room_rent_cap", "value": {"amount": 4000, "per": "day"},
+      "clause_id": "3.1", "clause_text": "Room rent is payable up to Rs. 4,000 per day. Charges above this are borne by the insured; other charges are not reduced.",
+      "verified_by_human": true
+    },
+    {
+      "rule_id": "B1-3.6", "type": "sub_limit", "value": {"procedure": "total_knee_replacement", "amount": 175000},
+      "clause_id": "3.6", "clause_text": "Total knee replacement is payable up to Rs. 1,75,000 per knee, including implants.",
+      "verified_by_human": true
+    },
+    {
+      "rule_id": "B1-7.2", "type": "co_pay", "value": {"percent": 10},
+      "clause_id": "7.2", "clause_text": "The insured bears 10% of every admissible claim.",
+      "verified_by_human": true
+    },
+    {
+      "rule_id": "B1-ANX", "type": "non_payable", "value": {"categories": ["consumables"], "items": ["gloves", "admission kit"]},
+      "clause_id": "Annexure", "clause_text": "Consumables such as gloves and admission kits are not payable.",
+      "verified_by_human": true
+    }
+  ]
+}

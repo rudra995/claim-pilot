@@ -17,9 +17,11 @@ ACTOR = "api"
 
 
 def fixture_cases() -> dict[str, Case]:
-    """The three scripted demo cases, then the preset patients (fixtures/patients), by case_id."""
+    """The three scripted demo cases, the preset patients (fixtures/patients), then imported admissions, by case_id."""
+    from backend.adapters.billing_import import imported_cases
+
     paths = [*sorted(FIXTURES.glob("case*.json")), *sorted((FIXTURES / "patients").glob("*.json"))]
-    cases = [Case.model_validate_json(path.read_text(encoding="utf-8")) for path in paths]
+    cases = [Case.model_validate_json(path.read_text(encoding="utf-8")) for path in paths] + imported_cases()
     return {case.case_id: case for case in cases}
 
 

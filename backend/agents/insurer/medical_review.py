@@ -19,7 +19,7 @@ from backend.stages import due_at
 from data.generator.admissions import required_documents
 from data.generator.procedures import BY_SLUG
 from data.generator.render import TITLES
-from data.generator.tpa_profiles import TPA_PROFILES
+from data.generator.tpa_profiles import profile_for
 
 AGENT = "tpa_medical_reviewer"
 _DEFAULT_REQUIRED = [DocumentType.ADMISSION_NOTE, DocumentType.LAB_REPORT, DocumentType.DISCHARGE_SUMMARY]
@@ -45,7 +45,7 @@ def required_for(case: Case, stage: Stage) -> list[DocumentType]:
 def run(
     claim_id: str, case: Case, attached: list[Document], necessity: Assessment | None, stage: Stage = Stage.DISCHARGE
 ) -> AgentResult:
-    profile = TPA_PROFILES[case.admission.tpa_id]
+    profile = profile_for(case.admission.tpa_id)
     name = case.admission.procedure.replace("_", " ")
     present = {doc.type: doc for doc in attached}
     attached_ids = ", ".join(doc.doc_id for doc in attached) or "none"

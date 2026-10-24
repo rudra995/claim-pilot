@@ -16,7 +16,7 @@ from backend.agents.insurer.medical_review import Gap, MedicalReview
 from backend.rules.engine import RuleDeduction, assess, payable_up_to
 from backend.rules.engine import billed as bill_total
 from backend.schemas import MAX_ROUNDS, AgentOutput, Case, Deduction, Finding, RuleType
-from data.generator.tpa_profiles import STAY_CHARGES, TPA_PROFILES
+from data.generator.tpa_profiles import STAY_CHARGES, profile_for
 
 AGENT = "tpa_adjudicator"
 ENGINE_SOURCE = "Rules engine, with the TPA's profile applied"
@@ -73,7 +73,7 @@ def run(claim_id: str, case: Case, requested: int, review: MedicalReview, screen
 
 
 def _price(case: Case, requested: int, review: MedicalReview, final: bool) -> Ruling:
-    profile = TPA_PROFILES[case.admission.tpa_id]
+    profile = profile_for(case.admission.tpa_id)
     tpa_case = case.model_copy(update={"policy": case.policy.model_copy(update={"rules": profile.apply(case.policy.rules)})})
     deductions: list[Deduction] = []
     if review.stay_unjustified:  # pay the treatment, not the stay

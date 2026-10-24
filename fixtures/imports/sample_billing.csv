@@ -1,0 +1,9 @@
+admission_ref,patient_ref,patient_name,age,gender,city,policy_config,sum_insured,policy_start,procedure,icd10,room_category,admit_date,discharge_date,tpa,emergency,category,description,quantity,amount
+H-2041,P-881,Test Patient Kiran,61,M,Pune,demo-b-value-plan,500000,2021-06-01,total_knee_replacement,M17.1,single_ac,2026-10-02,2026-10-06,TPA-C,no,room,Single AC room,4,16000
+H-2041,P-881,Test Patient Kiran,61,M,Pune,demo-b-value-plan,500000,2021-06-01,total_knee_replacement,M17.1,single_ac,2026-10-02,2026-10-06,TPA-C,no,doctor_fees,Surgeon and anaesthetist,1,62000
+H-2041,P-881,Test Patient Kiran,61,M,Pune,demo-b-value-plan,500000,2021-06-01,total_knee_replacement,M17.1,single_ac,2026-10-02,2026-10-06,TPA-C,no,implants,Knee implant,1,95000
+H-2041,P-881,Test Patient Kiran,61,M,Pune,demo-b-value-plan,500000,2021-06-01,total_knee_replacement,M17.1,single_ac,2026-10-02,2026-10-06,TPA-C,no,pharmacy,Medicines,1,21000
+H-2041,P-881,Test Patient Kiran,61,M,Pune,demo-b-value-plan,500000,2021-06-01,total_knee_replacement,M17.1,single_ac,2026-10-02,2026-10-06,TPA-C,no,consumables,Gloves and admission kit,1,4500
+H-2042,P-882,Test Patient Meera,34,F,Mysuru,demo-a-health-secure,300000,2023-01-15,laparoscopic_appendectomy,K35.8,single_standard,2026-10-11,2026-10-13,TPA-A,yes,room,Single standard room,2,6000
+H-2042,P-882,Test Patient Meera,34,F,Mysuru,demo-a-health-secure,300000,2023-01-15,laparoscopic_appendectomy,K35.8,single_standard,2026-10-11,2026-10-13,TPA-A,yes,ot_charges,Operation theatre,1,25000
+H-2042,P-882,Test Patient Meera,34,F,Mysuru,demo-a-health-secure,300000,2023-01-15,laparoscopic_appendectomy,K35.8,single_standard,2026-10-11,2026-10-13,TPA-A,yes,doctor_fees,Surgeon fees,1,30000

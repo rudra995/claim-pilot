@@ -11,3 +11,4 @@ data/clauses/
 models/*.ubj
 *.egg-info/
 data/uploads/
+data/imports/

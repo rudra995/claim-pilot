@@ -1,0 +1,26 @@
+{
+  "config_id": "demo-a-health-secure",
+  "version": 1,
+  "insurer": "Demo Insurer A",
+  "product": "Health Secure Individual",
+  "note": "Synthetic wording modelled on common Indian indemnity policies: a 1% room cap with proportionate deduction.",
+  "rules": [
+    {
+      "rule_id": "A1-4.2", "type": "room_rent_cap", "value": {"percent_of_sum_insured": 1.0, "per": "day"},
+      "clause_id": "4.2",
+      "clause_text": "Room rent is payable up to 1% of the sum insured per day. Where the insured occupies a room above this limit, doctor fees, nursing and operation theatre charges are paid in the proportion that the eligible room rent bears to the actual room rent. Implants and medicines are not subject to this proportion.",
+      "proportionate": true, "linked_charges": ["doctor_fees", "nursing", "ot_charges"], "excluded_from_proportionate": ["implants", "pharmacy"],
+      "verified_by_human": true
+    },
+    {
+      "rule_id": "A1-ANX2", "type": "non_payable", "value": {"categories": ["consumables"], "items": ["gloves", "admission kit", "mask"]},
+      "clause_id": "Annexure II", "clause_text": "Items listed in Annexure II, including gloves, masks and admission kits, are not payable.",
+      "verified_by_human": true
+    },
+    {
+      "rule_id": "A1-5.3", "type": "waiting_period", "value": {"procedures": ["total_knee_replacement", "total_hip_replacement"], "months": 24},
+      "clause_id": "5.3", "clause_text": "Joint replacement surgery is covered only after 24 months of continuous coverage.",
+      "verified_by_human": true
+    }
+  ]
+}
