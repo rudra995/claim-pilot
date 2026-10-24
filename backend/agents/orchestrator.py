@@ -13,6 +13,18 @@ Admission flow:
     AWAITING_HUMAN billing officer approves, edits or rejects (backend/agents/approval.py)
     SUBMITTED      only with an approval recorded since the claim last reached AWAITING_HUMAN
 
+Negotiation (design section 5). Every message to the insurer is drafted first and goes out only
+after a person approves it (`send`). The insurer's answer comes back through the exchange
+(`receive`), and the hospital never talks to the insurer's agents directly:
+
+    QUERY_RAISED       query responder drafts a RESPONSE -> RISK_CHECK -> AWAITING_HUMAN
+    DENIED / PARTIALLY_APPROVED
+                       appeal agent drafts an APPEAL -> RISK_CHECK -> AWAITING_HUMAN,
+                       accepts the decision if the policy supports every deduction,
+                       or, for a whole-claim denial, hands it to a person (AWAITING_HUMAN)
+    APPROVED           done for this stage
+    after round 3      no round is left: AWAITING_HUMAN, and a person decides
+
 Agents call the LLM only through backend.llm, which masks the patient's name and ids for the
 claim being worked on and logs the masked prompt (design section 9).
 """
@@ -28,24 +40,54 @@ from langgraph.graph import END, START, StateGraph
 
 from backend.agents.base import AgentResult
 from backend import llm
-from backend.agents.hospital import coder, denial_risk, estimator, intake, policy, preauth
+from backend.agents.hospital import appeal, coder, denial_risk, estimator, intake, policy, preauth, query_responder
+from backend.agents.hospital.intake import Reading, ReadDocument
 from backend.db import audit
 from backend.db.cases import save_case
 from backend.db.db import connect, init_db
+from backend.exchange import messages as exchange
 from backend.privacy import Masker
-from backend.schemas import AgentOutput, Case, ClaimState
+from backend.schemas import (
+    MAX_ROUNDS,
+    AgentOutput,
+    Approve,
+    Case,
+    ClaimMessage,
+    ClaimState,
+    Deny,
+    Final,
+    MessageType,
+    Query,
+    Response,
+    Sender,
+    Stage,
+    Submit,
+    claim_message_adapter,
+)
 
 ACTOR = "orchestrator"
 MAX_ATTEMPTS = 2  # first try plus one retry (design section 4)
+
+_DECIDED = {ClaimState.APPROVED, ClaimState.PARTIALLY_APPROVED, ClaimState.DENIED}
 
 # Allowed moves. Later phases add the rest of the stay; any stage can hand the claim to a person.
 TRANSITIONS: dict[ClaimState, set[ClaimState]] = {
     ClaimState.ADMITTED: {ClaimState.PREAUTH_DRAFT, ClaimState.AWAITING_HUMAN},
     ClaimState.PREAUTH_DRAFT: {ClaimState.RISK_CHECK, ClaimState.AWAITING_HUMAN},
     ClaimState.RISK_CHECK: {ClaimState.AWAITING_HUMAN},
-    ClaimState.AWAITING_HUMAN: {ClaimState.SUBMITTED, ClaimState.PREAUTH_DRAFT},  # approved / rejected
+    # approved; rejected back to where the draft was made; or the insurer's decision accepted
+    ClaimState.AWAITING_HUMAN: {ClaimState.SUBMITTED, ClaimState.PREAUTH_DRAFT, ClaimState.QUERY_RAISED, *_DECIDED},
+    ClaimState.SUBMITTED: {ClaimState.QUERY_RAISED, *_DECIDED},
+    ClaimState.QUERY_RAISED: {ClaimState.RISK_CHECK, ClaimState.AWAITING_HUMAN},
+    ClaimState.PARTIALLY_APPROVED: {ClaimState.RISK_CHECK, ClaimState.AWAITING_HUMAN},
+    ClaimState.DENIED: {ClaimState.RISK_CHECK, ClaimState.AWAITING_HUMAN},
 }
 APPROVING = {"approve", "edit"}  # decisions that let a claim be submitted
+DECISION_STATE = {
+    MessageType.APPROVE: ClaimState.APPROVED,
+    MessageType.PARTIAL_APPROVE: ClaimState.PARTIALLY_APPROVED,
+    MessageType.DENY: ClaimState.DENIED,
+}
 
 # The order agents run in, for printing a run.
 ADMISSION_AGENTS = [intake.AGENT, coder.AGENT, policy.AGENT, estimator.AGENT, preauth.AGENT, denial_risk.AGENT]
@@ -126,6 +168,24 @@ def approval(db_path: Path | str, claim_id: str) -> dict[str, Any] | None:
         elif event["action"] == "human_decision":
             decision = event["output"] if event["output"]["decision"] in APPROVING else None
     return decision
+
+
+def draft(db_path: Path | str, claim_id: str, message: ClaimMessage, from_state: ClaimState) -> None:
+    """Hold a message for the insurer until a person approves it; `from_state` is where a rejection returns it."""
+    audit.log(db_path, claim_id, ACTOR, "draft_message", {"from_state": from_state, "message": message.model_dump(mode="json")})
+
+
+def pending_draft(db_path: Path | str, claim_id: str) -> dict[str, Any] | None:
+    """The drafted message waiting to be sent, if any: {"from_state", "message"}."""
+    pending = None
+    for event in audit.events(db_path, claim_id):
+        if event["action"] == "draft_message":
+            pending = event["output"]
+        elif event["action"] == "message_sent" and event["actor"] == Sender.HOSPITAL:
+            pending = None
+        elif event["action"] == "human_decision" and event["output"]["decision"] not in APPROVING:
+            pending = None  # rejected, or the insurer's decision accepted: the draft is dropped
+    return pending
 
 
 # ---- Calling agents ------------------------------------------------------------------------
@@ -231,7 +291,17 @@ def _draft_preauth(state: _Run) -> dict[str, Any]:
         state["review_flags"],
     )
     if preauth.AGENT in update.get("results", {}):
-        _save_requested(state["db_path"], state["claim_id"], update["results"][preauth.AGENT].data.requested_amount)
+        package = update["results"][preauth.AGENT].data
+        _save_requested(state["db_path"], state["claim_id"], package.requested_amount)
+        submit = Submit(
+            claim_id=state["claim_id"],
+            stage=Stage.PREAUTH,
+            round=1,
+            package=package.model_dump(mode="json"),
+            documents=package.documents,
+            requested_amount=package.requested_amount,
+        )
+        draft(state["db_path"], state["claim_id"], submit, ClaimState.PREAUTH_DRAFT)
     return update
 
 
@@ -294,6 +364,185 @@ def run_admission(case: Case, db_path: Path | str) -> RunResult:
         review_flags=final["review_flags"],
         failed=final["failed"],
     )
+
+
+# ---- Negotiation ---------------------------------------------------------------------------
+
+
+def send(db_path: Path | str, claim_id: str, case: Case) -> ClaimMessage:
+    """Post the approved draft to the exchange, with the officer's edits applied.
+
+    A pre-auth SUBMIT carries the claim file (the case) for the insurer to review.
+    """
+    if (state := claim_state(db_path, claim_id)) != ClaimState.SUBMITTED:
+        raise InvalidTransition(f"{claim_id} is {state}; only an approved (SUBMITTED) claim is sent")
+    pending = pending_draft(db_path, claim_id)
+    if pending is None:
+        raise ValueError(f"{claim_id}: nothing drafted to send")
+    edits = (approval(db_path, claim_id) or {}).get("edits") or {}
+    message = claim_message_adapter.validate_python(pending["message"])
+    if isinstance(message, Submit):
+        package = {**message.package, **({"justification": edits["justification"]} if edits.get("justification") else {})}
+        message = message.model_copy(update={
+            "package": {"preauth": package, "case": case.model_dump(mode="json")},
+            "requested_amount": edits.get("requested_amount") or message.requested_amount,
+        })
+    elif edits.get("justification"):
+        message = message.model_copy(update={"answer" if isinstance(message, Response) else "argument": edits["justification"]})
+    exchange.post(db_path, message)
+    return message
+
+
+class _Reply(TypedDict):
+    db_path: str
+    claim_id: str
+    case: Case
+    reply: ClaimMessage
+    results: Annotated[dict[str, AgentResult], lambda a, b: {**a, **b}]
+    review_flags: Annotated[list[str], operator.add]
+    failed: Annotated[list[str], operator.add]
+
+
+def receive(db_path: Path | str, claim_id: str, case: Case) -> RunResult:
+    """Act on the insurer's answer: record its decision, then draft a response or appeal if one is needed."""
+    reply = exchange.latest(db_path, claim_id)
+    if reply is None or reply.sender != Sender.INSURER:
+        raise exchange.ProtocolError(f"{claim_id}: no answer from the insurer yet")
+    if (state := claim_state(db_path, claim_id)) != ClaimState.SUBMITTED:
+        raise InvalidTransition(f"{claim_id} is {state}, not waiting for the insurer")
+    final = _reply_graph().invoke(
+        {"db_path": str(db_path), "claim_id": claim_id, "case": case, "reply": reply, "results": {}, "review_flags": [], "failed": []}
+    )
+    return RunResult(
+        claim_id=claim_id,
+        state=claim_state(db_path, claim_id),
+        results=final["results"],
+        review_flags=final["review_flags"],
+        failed=final["failed"],
+    )
+
+
+def _record_decision(state: _Reply) -> dict[str, Any]:
+    reply, db_path, claim_id = state["reply"], state["db_path"], state["claim_id"]
+    if isinstance(reply, Query):
+        transition(db_path, claim_id, ClaimState.QUERY_RAISED, f"Insurer query, round {reply.round}: {reply.missing}")
+        return {}
+    decision = reply.decision if isinstance(reply, Final) else reply.type
+    approved = 0 if isinstance(reply, Deny) else reply.approved_amount
+    _save_approved(db_path, claim_id, approved)
+    transition(db_path, claim_id, DECISION_STATE[decision], f"Insurer {reply.type}, round {reply.round}: ₹{approved:,} approved")
+    return {}
+
+
+def _after_decision(state: _Reply) -> str:
+    reply = state["reply"]
+    if isinstance(reply, Approve) or (isinstance(reply, Final) and reply.decision == MessageType.APPROVE):
+        return END
+    if isinstance(reply, Final) or reply.round >= MAX_ROUNDS:
+        return "round_limit"
+    return "query_responder" if isinstance(reply, Query) else "appeal"
+
+
+def _answer_query(state: _Reply) -> dict[str, Any]:
+    reply = state["reply"]
+    update = _step(state, query_responder.AGENT, query_responder.run, reply, _reading(state["db_path"], state["case"]), reply.round + 1)
+    if query_responder.AGENT in update.get("results", {}):
+        draft(state["db_path"], state["claim_id"], update["results"][query_responder.AGENT].data, ClaimState.QUERY_RAISED)
+    return update
+
+
+def _appeal(state: _Reply) -> dict[str, Any]:
+    reply, db_path, claim_id = state["reply"], state["db_path"], state["claim_id"]
+    reading, requested = _reading(db_path, state["case"]), _requested(db_path, claim_id)
+    update = _step(state, appeal.AGENT, appeal.run, reply, state["case"], reading, requested, reply.round + 1)
+    if appeal.AGENT in update.get("results", {}) and (letter := update["results"][appeal.AGENT].data.appeal):
+        draft(db_path, claim_id, letter, claim_state(db_path, claim_id))
+    return update
+
+
+def _after_appeal(state: _Reply) -> str:
+    if state["failed"]:
+        return "escalate"
+    result = state["results"][appeal.AGENT]
+    if result.data.appeal:
+        return "risk_check"
+    return "denied" if result.wants_human else END  # END: nothing to appeal, decision accepted
+
+
+def _denied(state: _Reply) -> dict[str, Any]:
+    transition(state["db_path"], state["claim_id"], ClaimState.AWAITING_HUMAN, "Claim denied: a person decides whether to appeal")
+    return {}
+
+
+def _check_reply(state: _Reply) -> dict[str, Any]:
+    kind = "Response" if isinstance(state["reply"], Query) else "Appeal"
+    transition(state["db_path"], state["claim_id"], ClaimState.RISK_CHECK, f"{kind} to the insurer drafted")
+    return _step(state, denial_risk.AGENT, denial_risk.run, state["case"])
+
+
+def _reply_needs_human(state: _Reply) -> dict[str, Any]:
+    transition(state["db_path"], state["claim_id"], ClaimState.AWAITING_HUMAN, "Reply to the insurer needs approval")
+    return {}
+
+
+def _round_limit(state: _Reply) -> dict[str, Any]:
+    reason = f"{MAX_ROUNDS} rounds used without full approval: a person decides"
+    transition(state["db_path"], state["claim_id"], ClaimState.AWAITING_HUMAN, reason)
+    return {"review_flags": [reason]}
+
+
+@cache
+def _reply_graph():
+    graph = StateGraph(_Reply)
+    graph.add_node("record_decision", _record_decision)
+    graph.add_node("query_responder", _answer_query)
+    graph.add_node("appeal", _appeal)
+    graph.add_node("risk_check", _check_reply)
+    graph.add_node("await_human", _reply_needs_human)
+    graph.add_node("round_limit", _round_limit)
+    graph.add_node("denied", _denied)
+    graph.add_node("escalate", _escalate)
+
+    graph.add_edge(START, "record_decision")
+    graph.add_conditional_edges("record_decision", _after_decision, [END, "round_limit", "query_responder", "appeal"])
+    graph.add_conditional_edges("query_responder", _unless_failed("risk_check"), ["risk_check", "escalate"])
+    graph.add_conditional_edges("appeal", _after_appeal, ["risk_check", "denied", "escalate", END])
+    graph.add_conditional_edges("risk_check", _unless_failed("await_human"), ["await_human", "escalate"])
+    graph.add_edge("await_human", END)
+    graph.add_edge("round_limit", END)
+    graph.add_edge("denied", END)
+    graph.add_edge("escalate", END)
+    return graph.compile()
+
+
+def _reading(db_path: Path | str, case: Case) -> Reading:
+    """What the document reader extracted at admission, from the documents table."""
+    conn = connect(db_path)
+    try:
+        rows = conn.execute(
+            "SELECT extracted_json FROM documents WHERE admission_id = ? AND extracted_json IS NOT NULL ORDER BY doc_id",
+            (case.admission.admission_id,),
+        ).fetchall()
+    finally:
+        conn.close()
+    return Reading(documents=[ReadDocument.model_validate_json(row["extracted_json"]) for row in rows])
+
+
+def _requested(db_path: Path | str, claim_id: str) -> int:
+    conn = connect(db_path)
+    try:
+        return conn.execute("SELECT requested FROM claims WHERE claim_id = ?", (claim_id,)).fetchone()["requested"]
+    finally:
+        conn.close()
+
+
+def _save_approved(db_path: Path | str, claim_id: str, amount: int) -> None:
+    conn = connect(db_path)
+    try:
+        with conn:
+            conn.execute("UPDATE claims SET approved = ? WHERE claim_id = ?", (amount, claim_id))
+    finally:
+        conn.close()
 
 
 def _save_extractions(db_path: str, reading: intake.Reading) -> None:
