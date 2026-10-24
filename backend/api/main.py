@@ -14,18 +14,22 @@ The API changes a claim only through the orchestrator and the approval gate, lik
 """
 
 import asyncio
+import base64
+import binascii
 import os
 from collections import Counter
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any
 
-from fastapi import FastAPI, HTTPException, Query, WebSocket, WebSocketDisconnect, status
+from fastapi import FastAPI, Header, HTTPException, Query, WebSocket, WebSocketDisconnect, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field, ValidationError
 
 from backend.agents import orchestrator
-from backend.agents.approval import Decision, decide
+from backend import remediation
+from backend.agents.approval import Decision, DraftChanged, decide
 from backend.agents.orchestrator import InvalidTransition, claim_state, pending_draft
 from backend.api import store
 from backend.api.runner import Busy, Runner
@@ -33,7 +37,7 @@ from backend.db import audit
 from backend.db.db import DEFAULT_DB_PATH, connect, init_db
 from backend.exchange import messages as exchange
 from backend.negotiation import play_round
-from backend.schemas import BillLine, ClaimMessage, ClaimState, Query as InsurerQuery, Sender
+from backend.schemas import BillLine, ClaimMessage, ClaimState, DocumentType, Query as InsurerQuery, Sender
 
 POLL_SECONDS = 0.25  # how often the trace checks the audit log for new steps
 PING_EVERY = 8  # idle polls between keep-alive pings
@@ -51,6 +55,35 @@ class BillUpdate(BaseModel):
 class PaymentAdvice(BaseModel):
     paid: int = Field(ge=0)
     reference: str = Field(min_length=1)
+
+
+class Upload(BaseModel):
+    type: DocumentType
+    filename: str = Field(min_length=1, max_length=200)
+    content_base64: str = Field(min_length=8, max_length=7_200_000)  # about 5 MB once decoded
+    officer: str = Field(min_length=1, max_length=80)
+
+
+class Correction(BaseModel):
+    doc_id: str
+    field: str
+    value: str = Field(min_length=1, max_length=500)
+    officer: str = Field(min_length=1, max_length=80)
+    reason: str = Field(min_length=3, max_length=500)
+
+
+class RecheckRequest(BaseModel):
+    reason: str = Field(default="Evidence changed", min_length=1, max_length=300)
+
+
+# Folders a document file may be served from; anything else is refused.
+SERVABLE = [Path("fixtures"), Path("data/documents")]
+
+
+def officer_tokens() -> dict[str, str]:
+    """CLAIMPILOT_OFFICER_TOKENS="Asha Rao=token1,Vikram Shah=token2": token -> name. Empty: demo mode."""
+    pairs = [item.split("=", 1) for item in os.environ.get("CLAIMPILOT_OFFICER_TOKENS", "").split(",") if "=" in item]
+    return {token.strip(): name.strip() for name, token in pairs if token.strip()}
 
 
 def create_app(db_path: Path | str = DEFAULT_DB_PATH) -> FastAPI:
@@ -79,6 +112,15 @@ def create_app(db_path: Path | str = DEFAULT_DB_PATH) -> FastAPI:
         except Busy as error:
             raise HTTPException(status.HTTP_409_CONFLICT, str(error))
         return {"claim_id": claim_id, "state": claim_state(db_path, claim_id), "job": label}
+
+    def officer(claimed: str, token: str | None) -> tuple[str, str]:
+        """(name, identity). With tokens configured the token decides who is acting; otherwise the name is self-declared."""
+        tokens = officer_tokens()
+        if not tokens:
+            return claimed, "self-declared"
+        if token not in tokens:
+            raise HTTPException(status.HTTP_401_UNAUTHORIZED, "An officer token is required (X-Officer-Token)")
+        return tokens[token], "token"
 
     def not_busy(claim_id: str) -> None:
         if runner.busy(claim_id):
@@ -153,6 +195,13 @@ def create_app(db_path: Path | str = DEFAULT_DB_PATH) -> FastAPI:
             "agents": _latest_outputs(events),
             "thread": [_message(m) for m in exchange.thread(db_path, claim_id)],
             "timeline": [_event({**e, "claim_id": claim_id}) for e in events],
+            "drafts": orchestrator.drafts(db_path, claim_id),
+            "attachments": remediation.attachments(db_path, claim_id),
+            "corrections": remediation.corrections(db_path, claim_id),
+            "tasks": remediation.tasks(_latest_outputs(events)),
+            "last_recheck": next((e["output"] | {"at": e["created_at"]} for e in reversed(events) if e["action"] == "recheck"), None),
+            "evidence": _evidence(_latest_outputs(events)),
+            "totals": _totals(case, exchange.thread(db_path, claim_id)),
         }
 
     @app.get("/api/claims/{claim_id}/thread")
@@ -183,12 +232,22 @@ def create_app(db_path: Path | str = DEFAULT_DB_PATH) -> FastAPI:
     # ---- Human gate --------------------------------------------------------------------------
 
     @app.post("/api/claims/{claim_id}/decision")
-    def decision(claim_id: str, body: Decision) -> dict[str, Any]:
-        """Approve, edit, reject or accept. An approved message is then sent and the insurer answers."""
+    def decision(claim_id: str, body: Decision, x_officer_token: str | None = Header(default=None)) -> dict[str, Any]:
+        """Approve, edit, reject or accept. An approved message is then sent and the insurer answers.
+
+        Send the `draft_hash` you reviewed: if the draft has changed since, the decision is refused.
+        A repeat of a decision already recorded (a double click, a retry) changes nothing.
+        """
         existing(claim_id)
+        name, identity = officer(body.officer, x_officer_token)
+        body = body.model_copy(update={"officer": name, "identity": identity})
+        if repeat := _repeat(db_path, claim_id, body):
+            return {"claim_id": claim_id, "state": claim_state(db_path, claim_id), "job": None, "duplicate": True, "decided": repeat}
         not_busy(claim_id)
         try:
             state = decide(db_path, claim_id, body)
+        except DraftChanged as error:
+            raise HTTPException(status.HTTP_409_CONFLICT, str(error))
         except ValueError as error:  # not waiting, nothing to send, nothing to accept
             raise HTTPException(status.HTTP_409_CONFLICT, str(error))
         if state == ClaimState.SUBMITTED:
@@ -196,6 +255,60 @@ def create_app(db_path: Path | str = DEFAULT_DB_PATH) -> FastAPI:
         if body.decision == "accept":
             move_on(claim_id)
         return {"claim_id": claim_id, "state": claim_state(db_path, claim_id), "job": None}
+
+    # ---- Fix and recheck -------------------------------------------------------------------
+
+    @app.post("/api/claims/{claim_id}/documents", status_code=status.HTTP_201_CREATED)
+    def attach_document(claim_id: str, body: Upload, x_officer_token: str | None = Header(default=None)) -> dict[str, Any]:
+        """Attach a synthetic PDF (base64). Then call /recheck to rerun the checks on it."""
+        state = existing(claim_id)
+        if state in (ClaimState.SETTLED, ClaimState.CLOSED):
+            raise HTTPException(status.HTTP_409_CONFLICT, f"The claim is {state}; documents can't be added now")
+        not_busy(claim_id)
+        name, _ = officer(body.officer, x_officer_token)
+        try:
+            content = base64.b64decode(body.content_base64, validate=True)
+        except (binascii.Error, ValueError):
+            raise HTTPException(status.HTTP_422_UNPROCESSABLE_ENTITY, "content_base64 is not valid base64")
+        case = store.load(db_path, claim_id)
+        try:
+            case, doc, duplicate = remediation.attach(db_path, claim_id, case, body.type, body.filename, content, name)
+        except remediation.UploadRejected as error:
+            raise HTTPException(status.HTTP_422_UNPROCESSABLE_ENTITY, str(error))
+        if not duplicate:
+            store.save(db_path, claim_id, case, f"{doc.doc_id} attached by {name}")
+        return {"document": doc.model_dump(mode="json", exclude={"fields"}), "duplicate": duplicate, "recheck": "recheck" in _actions(db_path, claim_id)}
+
+    @app.post("/api/claims/{claim_id}/corrections", status_code=status.HTTP_201_CREATED)
+    def record_correction(claim_id: str, body: Correction, x_officer_token: str | None = Header(default=None)) -> dict[str, Any]:
+        existing(claim_id)
+        name, _ = officer(body.officer, x_officer_token)
+        try:
+            return remediation.correct(db_path, claim_id, store.load(db_path, claim_id), body.doc_id, body.field, body.value, name, body.reason)
+        except remediation.UploadRejected as error:
+            raise HTTPException(status.HTTP_422_UNPROCESSABLE_ENTITY, str(error))
+
+    @app.post("/api/claims/{claim_id}/recheck", status_code=status.HTTP_202_ACCEPTED)
+    def recheck(claim_id: str, body: RecheckRequest | None = None) -> dict[str, Any]:
+        """Re-read the documents, rerun the checks that depend on them, and draft a new version for approval."""
+        existing(claim_id)
+        if "recheck" not in _actions(db_path, claim_id):
+            raise HTTPException(status.HTTP_409_CONFLICT, "Nothing to recheck: no draft is waiting for a person")
+        reason = (body or RecheckRequest()).reason
+        return schedule(claim_id, "recheck", lambda: orchestrator.recheck(db_path, claim_id, store.load(db_path, claim_id), reason))
+
+    @app.get("/api/claims/{claim_id}/documents/{doc_id}/file")
+    def document_file(claim_id: str, doc_id: str) -> FileResponse:
+        """A claim document's PDF, for following a source to its page (add #page=N in the browser)."""
+        existing(claim_id)
+        doc = next((d for d in store.load(db_path, claim_id).documents if d.doc_id == doc_id), None)
+        if doc is None or doc.file_path is None:
+            raise HTTPException(status.HTTP_404_NOT_FOUND, f"No document {doc_id} in {claim_id}")
+        path = Path(doc.file_path).resolve()
+        roots = [root.resolve() for root in [*SERVABLE, remediation.uploads_dir()]]
+        if not path.exists() or not any(path.is_relative_to(root) for root in roots) or path.suffix.lower() != ".pdf":
+            raise HTTPException(status.HTTP_404_NOT_FOUND, f"{doc_id}'s file is not available")
+        return FileResponse(path, media_type="application/pdf", filename=f"{doc_id}.pdf", content_disposition_type="inline")
 
     # ---- Rest of the stay ------------------------------------------------------------------
 
@@ -339,22 +452,60 @@ def _flags(events: list[dict[str, Any]]) -> list[str]:
 def _actions(db_path: Path | str, claim_id: str) -> list[str]:
     state = claim_state(db_path, claim_id)
     actions: list[str] = []
+    pending = pending_draft(db_path, claim_id)
     if state == ClaimState.AWAITING_HUMAN:
-        if pending_draft(db_path, claim_id) is not None:
+        if pending is not None:
             actions += ["approve", "edit"]
         actions.append("reject")
         last = exchange.latest(db_path, claim_id)
         if last is not None and last.sender == Sender.INSURER and not isinstance(last, InsurerQuery):
             actions.append("accept")
+        if pending is not None and ClaimState(pending["from_state"]) in orchestrator.RECHECKABLE:
+            actions.append("recheck")
     elif state == ClaimState.IN_TREATMENT:
         actions += ["bill", "discharge"]
     elif state == ClaimState.FINAL_APPROVED:
         actions.append("payment")
     elif state == ClaimState.PREAUTH_DRAFT:
-        actions.append("redraft")
+        actions += ["redraft", "recheck"]
+    if state not in (ClaimState.SETTLED, ClaimState.CLOSED):
+        actions.append("attach")
     if state != ClaimState.CLOSED:
         actions.append("patient_note")
     return actions
+
+
+def _repeat(db_path: Path | str, claim_id: str, body: Decision) -> dict[str, Any] | None:
+    """The recorded decision this request repeats, if it is a retry of the last one on the same draft."""
+    if claim_state(db_path, claim_id) == ClaimState.AWAITING_HUMAN or not body.draft_hash:
+        return None
+    last = next((e["output"] for e in reversed(audit.events(db_path, claim_id)) if e["action"] == "human_decision"), None)
+    if last and last.get("draft_hash") == body.draft_hash and last["decision"] == body.decision:
+        return last
+    return None
+
+
+def _evidence(latest: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
+    """Structured evidence behind the latest checks: each passage with its document, page and what it shows."""
+    out = []
+    for actor, key in (("appeal", "evidence"), ("tpa_medical_reviewer", "necessity")):
+        assessment = (latest.get(actor) or {}).get("data", {}).get(key)
+        if assessment:
+            out.append({
+                "by": actor, "assertion": assessment["assertion"], "verdict": assessment["verdict"], "reason": assessment["reason"],
+                "passages": assessment["passages"], "problems": assessment["problems"],
+            })
+    return out
+
+
+def _totals(case, thread: list[ClaimMessage]) -> dict[str, Any]:
+    """Rupee totals the screens show, worked out by the rules engine's helpers rather than in the browser."""
+    from backend.rules.engine import billed, total
+
+    return {
+        "billed": billed(case.bill_lines) if case else None,
+        "deducted_by_message": [total(d.amount for d in getattr(m, "deductions", [])) for m in thread],
+    }
 
 
 def _message(message: ClaimMessage) -> dict[str, Any]:

@@ -33,8 +33,8 @@ AGENT = "document_reader"
 MIN_CONFIDENCE = 0.8  # below this a person checks the field (design section 4)
 TEXT_LAYER_CONFIDENCE = 0.95
 NOT_FOUND_CONFIDENCE = 0.5
-TIER = {"labelled": 0.95, "alternate_label": 0.85, "heading": 0.85, "narrative": 0.6, "unreadable": 0.0, "conflict": 0.0}
-Basis = Literal["labelled", "alternate_label", "heading", "narrative", "unreadable", "conflict"]
+TIER = {"corrected": 1.0, "labelled": 0.95, "alternate_label": 0.85, "heading": 0.85, "narrative": 0.6, "unreadable": 0.0, "conflict": 0.0}
+Basis = Literal["corrected", "labelled", "alternate_label", "heading", "narrative", "unreadable", "conflict"]
 
 # Fields the later agents rely on, per document type.
 EXPECTED: dict[DocumentType, list[str]] = {
@@ -114,8 +114,24 @@ class Reading(BaseModel):
         return field.value if field else None
 
 
-def run(claim_id: str, documents: list[Document]) -> AgentResult:
-    read = [read_document(doc) for doc in documents]
+def with_corrections(reading: Reading, corrections: list[dict]) -> Reading:
+    """The reading with each person's recorded correction applied on top; the document itself is untouched."""
+    docs = {doc.doc_id: doc.model_copy(deep=True) for doc in reading.documents}
+    for fix in corrections:
+        doc = docs.get(fix["doc_id"])
+        if doc is None:
+            continue
+        page = doc.fields[fix["field"]].page if fix["field"] in doc.fields else 1
+        doc.fields[fix["field"]] = ReadField(
+            value=fix["value"], page=page, confidence=TIER["corrected"], basis="corrected",
+            text=f"Corrected by {fix['officer']}: {fix['reason']}"[:200],
+        )
+        doc.not_found = [name for name in doc.not_found if name != fix["field"]]
+    return Reading(documents=list(docs.values()))
+
+
+def run(claim_id: str, documents: list[Document], corrections: list[dict] | None = None) -> AgentResult:
+    read = with_corrections(Reading(documents=[read_document(doc) for doc in documents]), corrections or []).documents
     findings: list[Finding] = []
     for doc in read:
         if doc.fields:

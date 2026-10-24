@@ -1,6 +1,6 @@
 // The patient file's building blocks: progress, the journey, the one thing to do now, and the insurer thread.
 import { useState } from 'react'
-import { api } from '../api'
+import { api, documentUrl, fileToBase64 } from '../api'
 import { journey, situation } from '../story'
 import {
   Avatar, Badge, Button, Card, ErrorNote, Icon, Spinner, agentName, label, money, pct, riskTone, riskWord, stagger, timeOf, useOfficer, useToast,
@@ -149,7 +149,7 @@ function Decide({ claim, onDone, send = 'Send', hold = 'Hold back', accept, edit
     setBusy(decision.decision)
     setError(null)
     try {
-      await api.decide(claim.claim_id, { officer, ...decision })
+      await api.decide(claim.claim_id, { officer, draft_hash: claim.pending_draft?.hash ?? null, ...decision })
       toast(note)
       setMode(null)
       onDone?.()
@@ -211,7 +211,90 @@ function Decide({ claim, onDone, send = 'Send', hold = 'Hold back', accept, edit
         <Button variant="ghost" size="lg" onClick={() => setMode('hold')}>{hold}</Button>
       </div>
       <p className="flex items-center gap-1.5 text-xs text-ink-muted"><Icon name="shield" className="h-3.5 w-3.5" />Signed as {officer}. Nothing reaches the insurer without you.</p>
+      {claim.pending_draft && <p className="text-xs text-ink-faint">Approving draft v{claim.pending_draft.version} · {claim.pending_draft.hash?.slice(0, 8)}. If it changes, you&apos;ll be asked again.</p>}
       <ErrorNote error={error} />
+    </div>
+  )
+}
+
+const DOC_TYPES = ['admission_note', 'lab_report', 'xray_report', 'prescription', 'operative_note', 'discharge_summary', 'final_bill']
+
+// Open findings with what to do about each, a way to attach a record, and the result of the last recheck.
+function FixAndRecheck({ claim, onDone }) {
+  const [officer] = useOfficer()
+  const toast = useToast()
+  const tasks = claim.tasks ?? []
+  const [docType, setDocType] = useState(tasks.find((t) => t.doc_type)?.doc_type ?? 'lab_report')
+  const [file, setFile] = useState(null)
+  const [busy, setBusy] = useState(null)
+  const [error, setError] = useState(null)
+  const canRecheck = claim.actions?.includes('recheck')
+  if (!tasks.length && !claim.last_recheck && !canRecheck) return null
+
+  const attachAndRecheck = async () => {
+    setBusy('attach')
+    setError(null)
+    try {
+      const content = await fileToBase64(file)
+      const result = await api.attach(claim.claim_id, { type: docType, filename: file.name, content_base64: content, officer })
+      if (result.duplicate) toast({ title: 'Already attached', body: `${result.document.doc_id} is the same file`, icon: 'file' })
+      if (canRecheck) await api.recheck(claim.claim_id, `${result.document.doc_id} attached`)
+      toast({ title: 'Rechecking', body: 'The agents are re-reading the file and drafting a new version for you', icon: 'sparkle' })
+      setFile(null)
+      onDone?.()
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setBusy(null)
+    }
+  }
+  const last = claim.last_recheck
+  return (
+    <div className="mb-5 space-y-3 rounded-lg border border-line p-3">
+      {tasks.length > 0 && (
+        <div>
+          <p className="text-[13px] font-medium text-ink-soft">To fix before sending</p>
+          <ul className="mt-1.5 space-y-1">
+            {tasks.map((t, i) => <li key={i} className="text-[13px] text-ink-muted"><span className="font-medium text-ink">{t.issue}.</span> {t.fix}</li>)}
+          </ul>
+        </div>
+      )}
+      {last && (
+        <p className="text-[13px] text-ink-muted">
+          Last recheck: draft v{last.draft_after} replaced v{last.draft_before}.
+          {last.resolved?.length > 0 && <span className="text-accent-700"> Resolved: {last.resolved.join(', ')}.</span>}
+          {last.remaining?.length > 0 && <span> Still open: {last.remaining.join(', ')}.</span>}
+          {last.new?.length > 0 && <span className="text-rose-700"> New: {last.new.join(', ')}.</span>}
+        </p>
+      )}
+      {claim.actions?.includes('attach') && (
+        <div className="flex flex-wrap items-center gap-2">
+          <select value={docType} onChange={(e) => setDocType(e.target.value)} className="input w-auto">
+            {DOC_TYPES.map((t) => <option key={t} value={t}>{label(t)}</option>)}
+          </select>
+          <input type="file" accept="application/pdf" onChange={(e) => setFile(e.target.files?.[0] ?? null)} className="text-[13px]" />
+          <Button icon="file" loading={busy === 'attach'} disabled={!file} onClick={attachAndRecheck}>{canRecheck ? 'Attach and recheck' : 'Attach'}</Button>
+        </div>
+      )}
+      <ErrorNote error={error} />
+    </div>
+  )
+}
+
+// The exact passages behind an evidence verdict, each linked to its document page.
+function EvidenceList({ claim, evidence }) {
+  if (!evidence) return null
+  return (
+    <div className="mb-4 rounded-lg bg-zinc-50 p-3">
+      <p className="text-[13px] font-medium text-ink-soft">Evidence check: {evidence.verdict}</p>
+      <p className="mt-0.5 text-[13px] text-ink-muted">{evidence.reason}</p>
+      <ul className="mt-2 space-y-1">
+        {evidence.passages.filter((p) => p.kind !== 'against').slice(0, 6).map((p, i) => (
+          <li key={i} className="text-[13px] text-ink-soft">
+            <a className="font-medium underline decoration-line underline-offset-2" href={documentUrl(claim.claim_id, p.doc_id, p.page)} target="_blank" rel="noreferrer">{p.doc_id} p.{p.page}</a>: “{p.text}” <span className="text-ink-faint">({p.finding})</span>
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
@@ -240,6 +323,7 @@ function ReviewPreauth({ claim, onDone }) {
         <Fact label="Patient pays" value={money(policy?.patient_share)} />
       </div>
       <RiskNotes risk={risk} />
+      <FixAndRecheck claim={claim} onDone={onDone} />
       <Decide claim={claim} onDone={onDone} send="Send to insurer" editAmount />
     </>
   )
@@ -267,7 +351,7 @@ function RiskNotes({ risk }) {
 function ReviewAppeal({ claim, s, onDone }) {
   const appeal = claim.agents?.appeal?.data
   const cut = s.lastInsurer
-  const cutTotal = (cut?.deductions ?? []).reduce((sum, d) => sum + d.amount, 0)
+  const cutTotal = claim.totals?.deducted_by_message?.[(claim.thread ?? []).indexOf(cut)]
   return (
     <>
       <Title sub={`${claim.insurer} approved ${money(cut?.approved_amount)} and cut ${money(cutTotal)}. The appeal writer checked each cut against the policy.`}>
@@ -281,11 +365,12 @@ function ReviewAppeal({ claim, s, onDone }) {
                 <p className="text-sm font-medium">{c.clause}</p>
                 <p className="mt-0.5 text-[13px] text-ink-muted">The insurer cut {money(c.insurer_cut)}; the policy allows {money(c.policy_cut)}.</p>
               </div>
-              <Badge tone="good">Recover {money(c.insurer_cut - c.policy_cut)}</Badge>
+              <Badge tone="good">Recover {money(c.disputed)}</Badge>
             </div>
           ))}
         </div>
       )}
+      <EvidenceList claim={claim} evidence={appeal?.evidence} />
       <details className="group mb-5 rounded-lg bg-zinc-50">
         <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-3 text-sm font-medium">
           Read the appeal <Icon name="chevronDown" className="h-4 w-4 text-ink-muted transition-transform group-open:rotate-180" />
@@ -311,6 +396,7 @@ function ReviewReply({ claim, s, onDone }) {
         <p className="mb-5 flex items-center gap-2 text-sm text-accent-700"><Icon name="check" className="h-4 w-4" />Found in the file and attached: {s.draft.documents.join(', ')}</p>
       )}
       <blockquote className="mb-5 border-l-2 border-line pl-3 text-[13px] text-ink-soft">{s.draft.answer}</blockquote>
+      <FixAndRecheck claim={claim} onDone={onDone} />
       <Decide claim={claim} onDone={onDone} send="Send reply" />
     </>
   )
@@ -339,6 +425,7 @@ function ReviewDischarge({ claim, s, onDone }) {
         <Fact label="Final claim" value={money(s.draft.requested_amount)} />
         <Fact label="Approved so far" value={money(claim.approved)} />
       </div>
+      <FixAndRecheck claim={claim} onDone={onDone} />
       <Decide claim={claim} onDone={onDone} send="Send final claim" editAmount />
     </>
   )
@@ -354,6 +441,8 @@ function DecideDenial({ claim, s, onDone }) {
         {claim.insurer} {m?.decision === 'PARTIAL_APPROVE' || m?.type === 'PARTIAL_APPROVE' ? 'cut the claim' : 'denied the claim'}
       </Title>
       {reason && <div className="mb-5 rounded-lg border border-rose-200/70 bg-rose-50/40 p-3 text-sm text-rose-900">{reason}</div>}
+      <EvidenceList claim={claim} evidence={claim.agents?.appeal?.data?.held_back?.length ? claim.agents.appeal.data.evidence : null} />
+      <FixAndRecheck claim={claim} onDone={onDone} />
       <p className="mb-4 text-sm text-ink-muted">Accept it and the patient pays what isn&apos;t covered, or hold it back to rework the claim.</p>
       <Decide claim={claim} onDone={onDone} accept="Accept decision" />
     </>
@@ -408,7 +497,7 @@ function Treatment({ claim, onDone }) {
       setBusy(null)
     }
   }
-  const billed = claim.case.bill_lines.reduce((s, l) => s + l.amount, 0)
+  const billed = claim.totals?.billed
   const addLine = () => api.addBill(claim.claim_id, [{
     line_id: `${claim.admission_id}-X${Date.now() % 1000000}`, category, description, quantity: 1, amount: Number(amount),
   }])

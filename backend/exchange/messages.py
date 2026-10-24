@@ -21,6 +21,7 @@ from backend.schemas import (
     ClaimMessage,
     ClaimState,
     Deny,
+    Document,
     Final,
     PartialApprove,
     Query,
@@ -62,6 +63,19 @@ def post(db_path: Path | str, message: ClaimMessage) -> int:
         {"msg_id": msg_id, "type": message.type, "stage": message.stage, "round": message.round},
     )
     return msg_id
+
+
+def attach(db_path: Path | str, claim_id: str, documents: list[Document]) -> None:
+    """Send document files with a message: the exchange's attachment channel. Each is recorded once."""
+    sent = {d["doc_id"] for d in attachments(db_path, claim_id)}
+    for doc in documents:
+        if doc.doc_id not in sent:
+            audit.log(db_path, claim_id, Sender.HOSPITAL.value, "exchange_attachment", doc.model_dump(mode="json", exclude={"fields"}))
+
+
+def attachments(db_path: Path | str, claim_id: str) -> list[dict]:
+    """Documents sent on the exchange for a claim (id, type, file), oldest first."""
+    return [e["output"] for e in audit.events(db_path, claim_id) if e["action"] == "exchange_attachment"]
 
 
 def thread(db_path: Path | str, claim_id: str, stage: Stage | None = None) -> list[ClaimMessage]:

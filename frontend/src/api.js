@@ -28,7 +28,21 @@ export const api = {
   pay: (id, paid, reference) => request('POST', `/api/claims/${id}/payment`, { paid, reference }),
   patientNote: (id) => request('POST', `/api/claims/${id}/patient-note`),
   dashboard: () => request('GET', '/api/dashboard'),
+  attach: (id, body) => request('POST', `/api/claims/${id}/documents`, body),
+  recheck: (id, reason) => request('POST', `/api/claims/${id}/recheck`, { reason }),
+  correct: (id, body) => request('POST', `/api/claims/${id}/corrections`, body),
 }
+
+// Where a cited document can be opened, at the cited page.
+export const documentUrl = (claimId, docId, page) => `/api/claims/${claimId}/documents/${docId}/file${page ? `#page=${page}` : ''}`
+
+// A browser File as base64, for the attach endpoint.
+export const fileToBase64 = (file) => new Promise((resolve, reject) => {
+  const reader = new FileReader()
+  reader.onload = () => resolve(String(reader.result).split(',')[1] ?? '')
+  reader.onerror = () => reject(new Error('Could not read the file'))
+  reader.readAsDataURL(file)
+})
 
 // Streams audit events from /ws/trace as they are written. `claimId` narrows it to one claim;
 // `after` is the last event already shown (-1 = only new ones). Reconnects if the socket drops.

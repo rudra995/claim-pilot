@@ -10,3 +10,4 @@ data/clauses/
 .DS_Store
 models/*.ubj
 *.egg-info/
+data/uploads/

@@ -138,7 +138,7 @@ function InsurerTab({ claim }) {
 
 function BillTab({ claim }) {
   const lines = claim.case.bill_lines
-  const total = lines.reduce((s, l) => s + l.amount, 0)
+  const total = claim.totals?.billed  // from the API's rules-engine helpers
   const assessment = claim.agents?.policy?.data?.assessment
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">

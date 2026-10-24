@@ -183,6 +183,22 @@ HELD_OUT_ANNOTATIONS = {
 }
 
 
+# The record the billing officer attaches in the Case 2 demo: the pre-op X-ray report that was missing.
+REMEDIATION = ("ADM-0002-xray-report", [
+    "Bengaluru Imaging Centre", "", "RADIOLOGY REPORT", "",
+    "Patient: Ramesh Iyer (synthetic)      Ref: PAT-0002",
+    "Study: X-ray right knee, standing AP and lateral, pre-operative",
+    "Findings: Severe medial joint space loss with osteophytes and subchondral sclerosis.",
+    "Impression: End-stage osteoarthritis of the right knee, Kellgren-Lawrence grade 4.",
+    "", NOTICE,
+])
+
+
+def _save(pdf: fitz.Document, path: Path) -> None:
+    pdf.set_metadata({})  # no dates or ids, so a rebuild gives the same bytes
+    pdf.save(path, garbage=3, deflate=True, no_new_id=True)
+
+
 def _page(pdf: fitz.Document, lines: list[str], doc_index: int) -> None:
     page = pdf.new_page(width=595, height=842)
     font = ["helv", "tiro", "cour"][doc_index % 3]  # a different typeface per document
@@ -202,7 +218,7 @@ def _write(folder: Path, documents: list, offset: int) -> list[dict]:
         for lines in pages:
             _page(pdf, lines, index)
         path = folder / "docs" / f"{doc_id}.pdf"
-        pdf.save(path, garbage=3, deflate=True)
+        _save(pdf, path)
         inputs.append({"doc_id": doc_id, "type": doc_type, "admission_id": admission_id, "file_path": path.as_posix()})
     return inputs
 
@@ -220,7 +236,7 @@ def build() -> None:
         for lines in pages:
             _page(pdf, lines, index)
         path = OUT / "docs" / f"{doc_id}.pdf"
-        pdf.save(path, garbage=3, deflate=True)
+        _save(pdf, path)
         inputs.append({"doc_id": doc_id, "type": doc_type, "admission_id": admission_id, "file_path": path.as_posix()})
 
     doc_id, doc_type, admission_id, lines = SCAN
@@ -231,8 +247,15 @@ def build() -> None:
     page = scan.new_page(width=595, height=842)
     page.insert_image(page.rect, pixmap=pixmap)  # image only: no text layer
     path = OUT / "docs" / f"{doc_id}.pdf"
-    scan.save(path, garbage=3, deflate=True)
+    _save(scan, path)
     inputs.append({"doc_id": doc_id, "type": doc_type, "admission_id": admission_id, "file_path": path.as_posix()})
+
+    name, lines = REMEDIATION
+    remediation = Path("fixtures/remediation")
+    remediation.mkdir(parents=True, exist_ok=True)
+    pdf = fitz.open()
+    _page(pdf, lines, 4)
+    _save(pdf, remediation / f"{name}.pdf")
 
     (OUT / "documents.json").write_text(json.dumps(sorted(inputs, key=lambda d: d["doc_id"]), indent=2) + "\n", encoding="utf-8")
     (OUT / "annotations.json").write_text(json.dumps(ANNOTATIONS, indent=2) + "\n", encoding="utf-8")

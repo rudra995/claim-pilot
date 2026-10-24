@@ -59,6 +59,9 @@ def review(db_path: Path | str, claim_id: str) -> ClaimMessage:
     stage = exchange.thread(db_path, claim_id, last.stage)
     submit = next(m for m in stage if isinstance(m, Submit))
     case = Case.model_validate(submit.package["case"])
+    known = {doc.doc_id for doc in case.documents}
+    extra = [Document.model_validate(d) for d in exchange.attachments(db_path, claim_id) if d["doc_id"] not in known]
+    case = case.model_copy(update={"documents": [*case.documents, *extra]})  # records sent later, with a response
 
     sent_ids = {doc_id for m in stage if isinstance(m, (Submit, Response)) for doc_id in m.documents}
     cited_ids = [doc_id for m in stage if isinstance(m, (Appeal, Response)) for doc_id in _cited(m)]

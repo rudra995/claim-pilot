@@ -6,6 +6,13 @@ to the insurer's decision. Accept takes the insurer's latest decision as it stan
 person closes a negotiation that used all three rounds.
 Each decision is written to the append-only audit log first, and the orchestrator will not move a
 claim to SUBMITTED without one, so there is no path to the insurer that skips a person.
+
+An approval is bound to the exact draft the person read: it records the draft's content hash, and
+a caller that names the hash it reviewed (`draft_hash`) is refused if the draft has changed since.
+A draft rebuilt after new evidence is a new version and needs its own approval.
+
+`identity` says how the officer's name was established: "self-declared" in the demo (no login), or
+"token" when the API maps a configured access token to a name. The demo has no real authentication.
 """
 
 from pathlib import Path
@@ -35,6 +42,8 @@ class Decision(BaseModel):
     officer: NonEmptyStr  # who decided
     reason: NonEmptyStr | None = None  # required to reject
     edits: Edits | None = None  # required to edit
+    draft_hash: str | None = None  # the draft version the officer reviewed; refused if it has changed
+    identity: Literal["self-declared", "token"] = "self-declared"
 
     @model_validator(mode="after")
     def _complete(self) -> "Decision":
@@ -45,6 +54,10 @@ class Decision(BaseModel):
         return self
 
 
+class DraftChanged(ValueError):
+    """The officer reviewed a different version of the draft than the one now pending."""
+
+
 def decide(db_path: Path | str, claim_id: str, decision: Decision) -> ClaimState:
     """Record the officer's decision and move the claim on. Returns the claim's new state."""
     state = claim_state(db_path, claim_id)
@@ -53,11 +66,16 @@ def decide(db_path: Path | str, claim_id: str, decision: Decision) -> ClaimState
     pending = pending_draft(db_path, claim_id)
     if decision.decision in ("approve", "edit") and pending is None:
         raise ValueError(f"{claim_id}: nothing drafted to send; reject it or accept the insurer's decision")
+    if decision.draft_hash and pending is not None and decision.draft_hash != pending["hash"]:
+        raise DraftChanged(f"{claim_id}: the draft changed to v{pending['version']} since it was reviewed; review it again")
     accepted = _insurer_decision(db_path, claim_id) if decision.decision == "accept" else None
     if decision.decision == "accept" and accepted is None:
         raise ValueError(f"{claim_id}: the insurer hasn't decided anything to accept")
 
-    audit.log(db_path, claim_id, f"human:{decision.officer}", "human_decision", decision.model_dump(mode="json"))
+    record = decision.model_dump(mode="json")
+    if pending is not None:  # bind the decision to the exact draft it was made on
+        record |= {"draft_hash": pending["hash"], "draft_version": pending["version"]}
+    audit.log(db_path, claim_id, f"human:{decision.officer}", "human_decision", record)
     if decision.edits and decision.edits.requested_amount is not None:
         _save_requested(db_path, claim_id, decision.edits.requested_amount)
 

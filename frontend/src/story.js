@@ -1,5 +1,5 @@
 // Turns a claim's audit trail and insurer thread into plain language: what happened, and what to do now.
-import { agentName, money } from './components/ui'
+import { agentName, label, money } from './components/ui'
 
 const insurerOf = (claim) => claim.insurer ?? 'the insurer'
 
@@ -54,7 +54,8 @@ export function nextStep(claim) {
 
 // ---- What happened ----------------------------------------------------------------------------
 
-const deducted = (m) => (m.deductions ?? []).reduce((sum, d) => sum + d.amount, 0)
+// Rupee totals come from the API (the rules engine's helpers), never added up in the browser.
+const deducted = (m, claim) => claim.totals?.deducted_by_message?.[(claim.thread ?? []).indexOf(m)]
 
 function insurerStep(m, claim) {
   const who = insurerOf(claim)
@@ -62,7 +63,7 @@ function insurerStep(m, claim) {
   if (m.type === 'APPROVE') return { icon: 'check', tone: 'good', title: `${who} approved ${money(m.approved_amount)}`, detail: round }
   if (m.type === 'PARTIAL_APPROVE') {
     const top = [...m.deductions].sort((a, b) => b.amount - a.amount)[0]
-    return { icon: 'alert', tone: 'attention', title: `${who} approved ${money(m.approved_amount)} and cut ${money(deducted(m))}`, detail: `${round} · biggest cut: ${top.item.split(':')[0]} (${money(top.amount)})` }
+    return { icon: 'alert', tone: 'attention', title: `${who} approved ${money(m.approved_amount)} and cut ${money(deducted(m, claim))}`, detail: `${round} · biggest cut: ${top.item.split(':')[0]} (${money(top.amount)})` }
   }
   if (m.type === 'QUERY') return { icon: 'chat', tone: 'info', title: `${who} asked for more information`, detail: `${round} · ${m.missing.replace('Please send: ', '')}` }
   if (m.type === 'DENY') return { icon: 'x', tone: 'bad', title: `${who} denied the claim`, detail: `${round} · ${m.reason}` }
@@ -94,8 +95,9 @@ export function journey(claim) {
         const items = data.items?.length ?? 0
         add({ icon: 'shield', tone: items ? 'attention' : 'good', title: items ? `Risk check found ${items} issue${items > 1 ? 's' : ''}` : 'Risk check passed', detail: items ? data.items.map((i) => i.issue).join(' · ') : 'Nothing likely to be cut' })
       } else if (e.actor === 'appeal') {
-        if (data.appeal) add({ icon: 'sparkle', tone: 'neutral', title: 'Appeal written', detail: `Contests ${money(data.contested.reduce((s, c) => s + c.insurer_cut - c.policy_cut, 0))} the policy doesn't support` })
+        if (data.appeal) add({ icon: 'sparkle', tone: 'neutral', title: 'Appeal written', detail: `Contests ${money(data.disputed_total)}, with the evidence quoted` })
         else if (o.decision === 'accept_decision') add({ icon: 'check', tone: 'neutral', title: 'Cuts checked against the policy', detail: 'Every deduction is allowed — nothing to appeal' })
+        else if (data.held_back?.length && data.evidence) add({ icon: 'alert', tone: 'attention', title: 'Cut not appealed: evidence too weak', detail: `Records ${data.evidence.verdict}: ${data.evidence.reason}` })
         else add({ icon: 'alert', tone: 'attention', title: 'Denial needs your judgement', detail: 'The agents won’t appeal a whole-claim denial on their own' })
       } else if (e.actor === 'query_responder') {
         add({ icon: 'sparkle', tone: o.decision === 'document_missing' ? 'attention' : 'neutral', title: 'Reply to the query drafted', detail: o.decision === 'document_missing' ? 'A requested document isn’t in the file' : 'Requested documents attached' })
@@ -112,7 +114,9 @@ export function journey(claim) {
     } else if (e.action === 'message_sent' && e.actor === 'hospital') {
       const m = hospitalMessages[hospitalIndex++]
       if (m) add({ icon: 'send', tone: 'neutral', title: `${m.stage === 'preauth' ? 'Pre-auth' : m.stage === 'enhancement' ? 'Enhancement' : 'Final claim'} ${SENT[m.type]} sent to ${insurerOf(claim)}`, detail: m.requested_amount ? `Asked for ${money(m.requested_amount)}` : `Round ${m.round}` })
-    } else if (e.action === 'payment_advice') add({ icon: 'rupee', tone: 'good', title: `Payment of ${money(out.paid)} received`, detail: out.reference })
+    } else if (e.action === 'document_attached') add({ icon: 'file', tone: 'neutral', title: `${agentName(e.actor)} attached ${label(out.type)}`, detail: `${out.doc_id} · ${out.pages} page${out.pages > 1 ? 's' : ''}` })
+    else if (e.action === 'recheck') add({ icon: 'shield', tone: out.remaining?.length || out.new?.length ? 'attention' : 'good', title: `Rechecked: draft v${out.draft_after ?? '?'} replaces v${out.draft_before ?? '?'}`, detail: [out.resolved?.length && `Resolved: ${out.resolved.join(', ')}`, out.remaining?.length && `Still open: ${out.remaining.join(', ')}`].filter(Boolean).join(' · ') || out.reason })
+    else if (e.action === 'payment_advice') add({ icon: 'rupee', tone: 'good', title: `Payment of ${money(out.paid)} received`, detail: out.reference })
     else if (e.action === 'transition' && out.to === 'IN_TREATMENT') add({ icon: 'heart', tone: 'good', title: 'Treatment under way', detail: out.reason })
     else if (e.action === 'transition' && out.to === 'CLOSED') add({ icon: 'check', tone: 'good', title: 'Claim closed', detail: out.reason })
     else if (e.action === 'run_error' || e.action === 'escalate') add({ icon: 'alert', tone: 'bad', title: 'Something needs a person', detail: out.reason ?? out.error })

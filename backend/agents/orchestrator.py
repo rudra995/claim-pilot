@@ -38,6 +38,7 @@ Agents call the LLM only through backend.llm, which masks the patient's name and
 claim being worked on and logs the masked prompt (design section 9).
 """
 
+import hashlib
 import json
 import operator
 from dataclasses import dataclass
@@ -69,6 +70,7 @@ from backend.db.cases import save_case
 from backend.db.db import connect, init_db
 from backend.exchange import messages as exchange
 from backend.privacy import Masker
+from backend.remediation import corrections
 from backend.stages import available
 from backend.schemas import (
     MAX_ROUNDS,
@@ -198,32 +200,77 @@ def transition(db_path: Path | str, claim_id: str, to: ClaimState, reason: str) 
 
 
 def approval(db_path: Path | str, claim_id: str) -> dict[str, Any] | None:
-    """The approving decision recorded since the claim last reached AWAITING_HUMAN, if any."""
+    """The approving decision recorded since the claim last reached AWAITING_HUMAN, if any.
+
+    An approval counts only for the exact draft it was given on: it carries the draft's content hash,
+    and if the pending draft has changed since, the approval no longer applies.
+    """
     decision = None
     for event in audit.events(db_path, claim_id):
         if event["action"] == "transition" and event["output"]["to"] == ClaimState.AWAITING_HUMAN:
             decision = None  # a claim back in the queue needs a fresh decision
         elif event["action"] == "human_decision":
             decision = event["output"] if event["output"]["decision"] in APPROVING else None
+    if decision is not None and decision.get("draft_hash"):
+        pending = pending_draft(db_path, claim_id)
+        if pending is None or pending["hash"] != decision["draft_hash"]:
+            return None
     return decision
 
 
+def draft_hash(message: dict[str, Any]) -> str:
+    """A short fingerprint of a drafted message's exact content."""
+    return hashlib.sha256(json.dumps(message, sort_keys=True, separators=(",", ":")).encode()).hexdigest()[:16]
+
+
 def draft(db_path: Path | str, claim_id: str, message: ClaimMessage, from_state: ClaimState) -> None:
-    """Hold a message for the insurer until a person approves it; `from_state` is where a rejection returns it."""
-    audit.log(db_path, claim_id, ACTOR, "draft_message", {"from_state": from_state, "message": message.model_dump(mode="json")})
+    """Hold a message for the insurer until a person approves it; `from_state` is where a rejection returns it.
+
+    Each draft gets the next version number and a hash of its content, so an approval can name the
+    exact version a person read. Earlier drafts stay in the audit log; a new one supersedes them.
+    """
+    body = message.model_dump(mode="json")
+    version = 1 + sum(e["action"] == "draft_message" for e in audit.events(db_path, claim_id))
+    audit.log(db_path, claim_id, ACTOR, "draft_message", {"from_state": from_state, "message": body, "version": version, "hash": draft_hash(body)})
 
 
 def pending_draft(db_path: Path | str, claim_id: str) -> dict[str, Any] | None:
-    """The drafted message waiting to be sent, if any: {"from_state", "message"}."""
+    """The drafted message waiting to be sent, if any: {"from_state", "message", "version", "hash"}."""
     pending = None
+    version = 0
     for event in audit.events(db_path, claim_id):
         if event["action"] == "draft_message":
-            pending = event["output"]
+            version += 1
+            pending = {"version": version, "hash": draft_hash(event["output"]["message"]), **event["output"]}
         elif event["action"] == "message_sent" and event["actor"] == Sender.HOSPITAL:
             pending = None
         elif event["action"] == "human_decision" and event["output"]["decision"] not in APPROVING:
             pending = None  # rejected, or the insurer's decision accepted: the draft is dropped
     return pending
+
+
+def drafts(db_path: Path | str, claim_id: str) -> list[dict[str, Any]]:
+    """Every draft on the claim, oldest first, with what became of it: pending, superseded, rejected or sent."""
+    out: list[dict[str, Any]] = []
+    for event in audit.events(db_path, claim_id):
+        if event["action"] == "draft_message":
+            if out and out[-1]["status"] == "pending":
+                out[-1]["status"] = "superseded"
+            body = event["output"]["message"]
+            out.append({
+                "version": len(out) + 1, "hash": draft_hash(body), "type": body["type"], "stage": body["stage"],
+                "round": body["round"], "created_at": event["created_at"], "status": "pending", "approved_by": None,
+            })
+        elif out and out[-1]["status"] == "pending":
+            if event["action"] == "human_decision":
+                decision = event["output"]
+                if decision["decision"] in APPROVING:
+                    out[-1]["approved_by"] = decision["officer"]
+                else:
+                    out[-1]["status"] = "rejected" if decision["decision"] == "reject" else "dropped"
+            elif event["action"] == "message_sent" and event["actor"] == Sender.HOSPITAL:
+                out[-1]["status"] = "sent"
+    return out
 
 
 # ---- Calling agents ------------------------------------------------------------------------
@@ -426,7 +473,10 @@ def send(db_path: Path | str, claim_id: str, case: Case) -> ClaimMessage:
     pending = pending_draft(db_path, claim_id)
     if pending is None:
         raise ValueError(f"{claim_id}: nothing drafted to send")
-    edits = (approval(db_path, claim_id) or {}).get("edits") or {}
+    approved = approval(db_path, claim_id)
+    if approved is None:
+        raise ApprovalRequired(f"{claim_id}: the approval doesn't match draft v{pending['version']}; it needs a fresh decision")
+    edits = approved.get("edits") or {}
     message = claim_message_adapter.validate_python(pending["message"])
     if isinstance(message, Submit):
         package = {**message.package, **({"justification": edits["justification"]} if edits.get("justification") else {})}
@@ -436,6 +486,8 @@ def send(db_path: Path | str, claim_id: str, case: Case) -> ClaimMessage:
         })
     elif edits.get("justification"):
         message = message.model_copy(update={"answer" if isinstance(message, Response) else "argument": edits["justification"]})
+    if isinstance(message, (Submit, Response)):  # the files go with the message, including ones attached since
+        exchange.attach(db_path, claim_id, [doc for doc in case.documents if doc.doc_id in message.documents])
     exchange.post(db_path, message)
     return message
 
@@ -633,9 +685,12 @@ def discharge(db_path: Path | str, claim_id: str, case: Case) -> RunResult:
 def redraft(db_path: Path | str, claim_id: str, case: Case) -> RunResult:
     """A pre-auth a person sent back: code, price and draft it again from the case as it now stands."""
     _require(db_path, claim_id, ClaimState.PREAUTH_DRAFT)
+    return _redraft(db_path, claim_id, case, _reading(db_path, case))
+
+
+def _redraft(db_path: Path | str, claim_id: str, case: Case, reading: Reading, results: dict[str, AgentResult] | None = None) -> RunResult:
     masker = Masker.for_case(case)
-    reading = _reading(db_path, case)
-    results: dict[str, AgentResult] = {}
+    results = dict(results or {})
     for name, run, args in [
         (coder.AGENT, coder.run, (reading, case.admission)),
         (policy.AGENT, policy.run, (case,)),
@@ -653,6 +708,83 @@ def redraft(db_path: Path | str, claim_id: str, case: Case) -> RunResult:
         return _queue_for_person(db_path, claim_id, results, [preauth.AGENT], "Pre-auth agent failed twice")
     _draft_submit(db_path, claim_id, package.data)
     return _risk_check_and_queue(db_path, claim_id, case, {**results, preauth.AGENT: package}, "Pre-auth redrafted")
+
+
+# ---- Fix and recheck -----------------------------------------------------------------------
+
+RECHECKABLE = {ClaimState.PREAUTH_DRAFT, ClaimState.QUERY_RAISED, ClaimState.DISCHARGE_DRAFT}
+
+
+def open_issues(db_path: Path | str, claim_id: str) -> list[str]:
+    """What the latest checks say still needs fixing: risk items, unread or conflicting fields, held-back appeals."""
+    latest: dict[str, dict[str, Any]] = {}
+    for event in audit.events(db_path, claim_id):
+        if event["action"] == "agent_output":
+            latest[event["actor"]] = event["output"]
+    issues = []
+    if risk := latest.get(denial_risk.AGENT):
+        issues += [item["issue"] for item in risk["data"]["items"]]
+    if reader := latest.get(intake.AGENT):
+        problems = ("Not found", "Conflicting", "Scanned", "Instruction", "Check:", "Low confidence", "Blank field")
+        issues += [f"{f['issue']} ({f['source']})" for f in reader["output"]["findings"] if f["issue"].startswith(problems)]
+    return list(dict.fromkeys(issues))
+
+
+def recheck(db_path: Path | str, claim_id: str, case: Case, reason: str) -> RunResult:
+    """New evidence or a correction: re-read the documents, rerun what depends on them, and draft a new version.
+
+    The old draft is superseded, not edited, and any approval given on it no longer counts: the new
+    version goes back to a person. What changed is written to the audit log as `recheck`.
+    """
+    state = claim_state(db_path, claim_id)
+    pending = pending_draft(db_path, claim_id)
+    if state == ClaimState.AWAITING_HUMAN and pending and ClaimState(pending["from_state"]) in RECHECKABLE:
+        back = ClaimState(pending["from_state"])
+        transition(db_path, claim_id, back, f"Rechecking: {reason}")
+    elif state == ClaimState.PREAUTH_DRAFT:
+        back = state
+    else:
+        raise InvalidTransition(f"{claim_id} is {state}; only a draft waiting for a person, or a sent-back pre-auth, can be rechecked")
+    before = open_issues(db_path, claim_id)
+    version = pending["version"] if pending else None
+
+    last = exchange.latest(db_path, claim_id)
+    stage = {ClaimState.PREAUTH_DRAFT: Stage.PREAUTH, ClaimState.DISCHARGE_DRAFT: Stage.DISCHARGE}.get(back, last.stage if last else Stage.PREAUTH)
+    masker = Masker.for_case(case)
+    read = call_agent(db_path, claim_id, intake.AGENT, intake.run, available(case.documents, stage), corrections(db_path, claim_id), masker=masker)
+    if read is None:
+        return _queue_for_person(db_path, claim_id, {}, [intake.AGENT], "Document reader failed twice")
+    _save_extractions(str(db_path), read.data)
+    results = {intake.AGENT: read}
+
+    if back == ClaimState.PREAUTH_DRAFT:
+        result = _redraft(db_path, claim_id, case, read.data, results)
+    elif back == ClaimState.QUERY_RAISED:
+        query = next(m for m in reversed(exchange.thread(db_path, claim_id)) if isinstance(m, Query))
+        answer = call_agent(db_path, claim_id, query_responder.AGENT, query_responder.run, query, _reading(db_path, case), query.round + 1, masker=masker)
+        if answer is None:
+            return _queue_for_person(db_path, claim_id, results, [query_responder.AGENT], "Query responder failed twice")
+        draft(db_path, claim_id, answer.data, ClaimState.QUERY_RAISED)
+        result = _risk_check_and_queue(db_path, claim_id, case, {**results, query_responder.AGENT: answer}, "Response redrafted", query.stage)
+    else:
+        final = call_agent(db_path, claim_id, discharge_agent.AGENT, discharge_agent.run, case, _reading(db_path, case), masker=masker)
+        if final is None:
+            return _queue_for_person(db_path, claim_id, results, [discharge_agent.AGENT], "Discharge agent failed twice")
+        _save_requested(str(db_path), claim_id, final.data.submit.requested_amount)
+        draft(db_path, claim_id, final.data.submit, ClaimState.DISCHARGE_DRAFT)
+        result = _risk_check_and_queue(db_path, claim_id, case, {**results, discharge_agent.AGENT: final}, "Final package redrafted", Stage.DISCHARGE)
+
+    after = open_issues(db_path, claim_id)
+    now = pending_draft(db_path, claim_id)
+    audit.log(db_path, claim_id, ACTOR, "recheck", {
+        "reason": reason,
+        "resolved": [issue for issue in before if issue not in after],
+        "remaining": [issue for issue in after if issue in before],
+        "new": [issue for issue in after if issue not in before],
+        "draft_before": version,
+        "draft_after": now["version"] if now else None,
+    })
+    return result
 
 
 def settle(db_path: Path | str, claim_id: str, paid: int, reference: str) -> None:
