@@ -88,12 +88,12 @@ export const STATUS = {
 // ---- Badges and status -------------------------------------------------------------------------
 
 const TONES = {
-  neutral: 'bg-zinc-100 text-zinc-700',
-  muted: 'bg-zinc-100 text-zinc-500',
-  attention: 'bg-amber-100/70 text-amber-800',
-  info: 'bg-sky-100/70 text-sky-800',
-  good: 'bg-accent-50 text-accent-700',
-  bad: 'bg-rose-100/70 text-rose-700',
+  neutral: 'bg-[#eef1ef] text-ink-soft',
+  muted: 'bg-[#eef1ef] text-ink-muted',
+  attention: 'bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-200/70',
+  info: 'bg-sky-50 text-sky-700 ring-1 ring-inset ring-sky-200/70',
+  good: 'bg-accent-50 text-accent-700 ring-1 ring-inset ring-accent-200/70',
+  bad: 'bg-rose-50 text-rose-700 ring-1 ring-inset ring-rose-200/70',
 }
 const DOTS = {
   neutral: 'bg-zinc-400', muted: 'bg-zinc-300', attention: 'bg-amber-500', info: 'bg-sky-500', good: 'bg-accent-500', bad: 'bg-rose-500',
@@ -101,7 +101,7 @@ const DOTS = {
 
 export function Badge({ tone = 'neutral', dot, pulse, children, className = '' }) {
   return (
-    <span className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-md px-2 py-0.5 text-xs font-medium ${TONES[tone]} ${className}`}>
+    <span className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-semibold ${TONES[tone]} ${className}`}>
       {dot && <span className={`h-1.5 w-1.5 rounded-full ${DOTS[tone]} ${pulse ? 'animate-breathe' : ''}`} />}
       {children}
     </span>
@@ -120,45 +120,90 @@ export const riskWord = (risk) => (risk >= 0.5 ? 'High' : risk >= 0.2 ? 'Medium'
 // ---- Layout pieces ---------------------------------------------------------------------------
 
 export function Card({ children, className = '', ...props }) {
-  return <section className={`rounded-xl border border-line bg-white shadow-card ${className}`} {...props}>{children}</section>
+  return <section className={`rounded-xl border border-line/80 bg-white shadow-card ${className}`} {...props}>{children}</section>
 }
 
-export function CardHeader({ title, subtitle, action }) {
+export function CardHeader({ title, subtitle, action, icon }) {
   return (
-    <header className="flex items-start justify-between gap-4 px-5 pb-3 pt-4">
-      <div>
-        <h2 className="text-[15px] font-semibold tracking-tight">{title}</h2>
-        {subtitle && <p className="mt-0.5 text-[13px] text-ink-muted">{subtitle}</p>}
+    <header className="flex items-start justify-between gap-4 px-6 pb-3 pt-5">
+      <div className="flex items-start gap-3">
+        {icon && <IconChip name={icon} />}
+        <div>
+          <h2 className="text-[15px] font-bold tracking-tight">{title}</h2>
+          {subtitle && <p className="mt-0.5 text-[13px] text-ink-muted">{subtitle}</p>}
+        </div>
       </div>
       {action}
     </header>
   )
 }
 
-export function PageHeader({ title, subtitle, action }) {
+export function PageHeader({ title, subtitle, action, eyebrow }) {
   return (
-    <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+    <div className="mb-7 flex flex-wrap items-end justify-between gap-4">
       <div>
-        <h1 className="text-[22px] font-semibold tracking-tight">{title}</h1>
-        {subtitle && <p className="mt-1 text-sm text-ink-muted">{subtitle}</p>}
+        {eyebrow && <p className="mb-1 text-[13px] font-medium text-accent-600">{eyebrow}</p>}
+        <h1 className="text-[28px] font-bold tracking-tight">{title}</h1>
+        {subtitle && <p className="mt-1.5 text-sm text-ink-muted">{subtitle}</p>}
       </div>
-      {action}
+      {action && <div className="flex flex-wrap items-center gap-2">{action}</div>}
+    </div>
+  )
+}
+
+// A tinted square holding an icon, as on the KPI tiles.
+const CHIPS = {
+  green: 'bg-accent-50 text-accent-600', blue: 'bg-sky-50 text-sky-600', amber: 'bg-amber-50 text-amber-600',
+  violet: 'bg-violet-50 text-violet-600', rose: 'bg-rose-50 text-rose-600', ink: 'bg-[#eef1ef] text-ink-soft',
+}
+export function IconChip({ name, tone = 'green', size = 'md' }) {
+  const sizes = { sm: 'h-8 w-8 rounded-[10px] [&>svg]:h-4 [&>svg]:w-4', md: 'h-10 w-10 rounded-xl [&>svg]:h-5 [&>svg]:w-5', lg: 'h-12 w-12 rounded-2xl [&>svg]:h-6 [&>svg]:w-6' }
+  return <span className={`grid shrink-0 place-items-center ${CHIPS[tone]} ${sizes[size]}`}><Icon name={name} /></span>
+}
+
+// A headline number: icon chip, label, value, and a small context pill.
+export function KpiTile({ icon, tone = 'green', label: name, value, pill, pillTone = 'good', hint, className = '' }) {
+  return (
+    <div className={`group rounded-xl border border-line/80 bg-white p-5 shadow-card transition duration-200 hover:-translate-y-0.5 hover:shadow-lift ${className}`}>
+      <div className="flex items-start justify-between gap-3">
+        <IconChip name={icon} tone={tone} />
+        {pill && <Badge tone={pillTone}>{pill}</Badge>}
+      </div>
+      <p className="mt-4 text-[13px] font-medium text-ink-muted">{name}</p>
+      <div className="mt-1 text-[26px] font-bold leading-tight tracking-tight tabular">{value}</div>
+      {hint && <p className="mt-1 text-xs text-ink-faint">{hint}</p>}
+    </div>
+  )
+}
+
+// Pill tabs, like a segmented control.
+export function Tabs({ tabs, value, onChange, className = '' }) {
+  return (
+    <div className={`inline-flex flex-wrap gap-1 rounded-full bg-white p-1 shadow-card ring-1 ring-line/80 ${className}`} role="tablist">
+      {tabs.map(([key, name, count]) => (
+        <button key={key} role="tab" aria-selected={value === key} onClick={() => onChange(key)}
+          className={`inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-[13px] font-semibold transition ${value === key ? 'bg-accent-600 text-white shadow-glow' : 'text-ink-muted hover:bg-canvas hover:text-ink'}`}>
+          {name}
+          {count > 0 && <span className={`rounded-full px-1.5 text-[11px] tabular ${value === key ? 'bg-white/20' : 'bg-canvas text-ink-soft'}`}>{count}</span>}
+        </button>
+      ))}
     </div>
   )
 }
 
 export function Button({ variant = 'secondary', size = 'md', icon, iconRight, loading, className = '', children, disabled, ...props }) {
   const styles = {
-    primary: 'bg-ink text-white hover:bg-zinc-800 disabled:bg-zinc-300',
-    accent: 'bg-accent-600 text-white hover:bg-accent-700 disabled:bg-accent-100',
-    secondary: 'border border-line bg-white text-ink shadow-card hover:bg-zinc-50 disabled:text-ink-faint',
-    ghost: 'text-ink-soft hover:bg-zinc-100',
+    primary: 'bg-accent-600 text-white shadow-glow hover:bg-accent-700 disabled:bg-accent-200 disabled:shadow-none',
+    accent: 'bg-accent-600 text-white shadow-glow hover:bg-accent-700 disabled:bg-accent-200 disabled:shadow-none',
+    dark: 'bg-ink text-white hover:bg-ink-soft disabled:bg-ink-faint',
+    secondary: 'border border-line bg-white text-ink shadow-card hover:border-accent-200 hover:bg-accent-50/40 disabled:text-ink-faint',
+    ghost: 'text-ink-soft hover:bg-[#eef1ef]',
     danger: 'border border-line bg-white text-rose-700 shadow-card hover:bg-rose-50 disabled:text-rose-300',
   }
-  const sizes = { sm: 'h-8 px-3 text-[13px]', md: 'h-9 px-3.5 text-sm', lg: 'h-11 px-5 text-[15px]' }
+  const sizes = { sm: 'h-8 px-3.5 text-[13px]', md: 'h-10 px-4 text-sm', lg: 'h-11 px-5 text-[15px]' }
   return (
     <button disabled={disabled || loading}
-      className={`inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-150 active:scale-[0.98] disabled:cursor-not-allowed ${styles[variant]} ${sizes[size]} ${className}`} {...props}>
+      className={`inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-150 active:scale-[0.97] disabled:cursor-not-allowed ${styles[variant]} ${sizes[size]} ${className}`} {...props}>
       {loading ? <Spinner className="h-3.5 w-3.5" /> : icon && <Icon name={icon} className="h-4 w-4" />}
       {children}
       {iconRight && <Icon name={iconRight} className="h-4 w-4 opacity-60" />}
@@ -168,7 +213,7 @@ export function Button({ variant = 'secondary', size = 'md', icon, iconRight, lo
 
 export function Avatar({ name, size = 'md', className = '' }) {
   const initials = (name ?? '?').split(/[\s-]+/).filter(Boolean).map((part) => part[0]).slice(0, 2).join('').toUpperCase()
-  const palette = ['bg-[#e8e4dc] text-[#5c5244]', 'bg-[#dde7e4] text-[#2f5a51]', 'bg-[#e4e1ea] text-[#4b4463]', 'bg-[#ece2dc] text-[#6b4a3a]', 'bg-[#dfe5ec] text-[#3c4f63]']
+  const palette = ['bg-accent-100 text-accent-700', 'bg-sky-100 text-sky-700', 'bg-amber-100 text-amber-700', 'bg-violet-100 text-violet-700', 'bg-rose-100 text-rose-700', 'bg-teal-100 text-teal-700']
   const colour = palette[[...(name ?? '')].reduce((sum, c) => sum + c.charCodeAt(0), 0) % palette.length]
   const sizes = { xs: 'h-6 w-6 text-[10px]', sm: 'h-8 w-8 text-[11px]', md: 'h-10 w-10 text-xs', lg: 'h-14 w-14 text-base' }
   return <span className={`grid shrink-0 place-items-center rounded-full font-semibold ${colour} ${sizes[size]} ${className}`}>{initials}</span>
@@ -176,8 +221,8 @@ export function Avatar({ name, size = 'md', className = '' }) {
 
 export function EmptyState({ icon = 'inbox', title, children, action }) {
   return (
-    <div className="flex animate-fade-up flex-col items-center justify-center rounded-xl border border-dashed border-zinc-300 bg-white/60 px-6 py-16 text-center">
-      <span className="grid h-11 w-11 place-items-center rounded-full bg-zinc-100 text-ink-muted"><Icon name={icon} className="h-5 w-5" /></span>
+    <div className="flex animate-fade-up flex-col items-center justify-center rounded-xl border border-dashed border-[#cfd6d2] bg-white/70 px-6 py-16 text-center">
+      <IconChip name={icon} size="lg" />
       <p className="mt-4 text-[15px] font-medium">{title}</p>
       {children && <div className="mt-1 max-w-sm text-sm text-ink-muted">{children}</div>}
       {action && <div className="mt-5">{action}</div>}
@@ -264,6 +309,18 @@ const PATHS = {
   logo: 'M8 12.5l3 3 6-7',
   user: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4.5 20a7.5 7.5 0 0 1 15 0',
   inbox: 'M3 13h5l1.5 2.5h5L16 13h5M5.5 5h13L21 13v5.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5V13z',
+  bell: 'M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15zM10 20.5a2 2 0 0 0 4 0',
+  calendar: 'M4.5 6.5h15a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1v-12a1 1 0 0 1 1-1zM3.5 10.5h17M8 3.5v5M16 3.5v5',
+  settings: 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z',
+  logout: 'M15 4h3.5A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5H15M10 16l4-4-4-4M14 12H4',
+  help: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM9.5 9.5a2.5 2.5 0 1 1 3.4 2.3c-.6.3-.9.8-.9 1.4v.3M12 16.5h.01',
+  chart: 'M4 20V10M10 20V4M16 20v-7M22 20H2',
+  grid: 'M4 4h6.5v6.5H4zM13.5 4H20v6.5h-6.5zM4 13.5h6.5V20H4zM13.5 13.5H20V20h-6.5z',
+  upload: 'M12 15.5V4M7.5 8.5 12 4l4.5 4.5M4.5 15v3.5A1.5 1.5 0 0 0 6 20h12a1.5 1.5 0 0 0 1.5-1.5V15',
+  bot: 'M12 4v3M7 7.5h10a3 3 0 0 1 3 3V16a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3v-5.5a3 3 0 0 1 3-3zM9.5 12.5v1M14.5 12.5v1M2 12.5v2.5M22 12.5v2.5',
+  trending: 'M3 17l6-6 4 4 8-8M15 7h6v6',
+  minus: 'M5 12h14',
+  shieldCheck: 'M12 3 5 6v5.5c0 4.6 3 8.3 7 9.5 4-1.2 7-4.9 7-9.5V6zM9 12l2 2 4-4',
 }
 
 export function Icon({ name, className = 'h-5 w-5' }) {
@@ -312,10 +369,8 @@ export function ToastProvider({ children }) {
       {children}
       <div className="pointer-events-none fixed bottom-5 right-5 z-50 flex w-[340px] flex-col gap-2">
         {toasts.map((t) => (
-          <div key={t.id} className="pointer-events-auto flex animate-slide-in items-start gap-3 rounded-xl border border-line bg-white p-3.5 shadow-lift">
-            <span className={`mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full ${t.tone === 'attention' ? 'bg-amber-100 text-amber-700' : t.tone === 'info' ? 'bg-sky-100 text-sky-700' : 'bg-accent-50 text-accent-700'}`}>
-              <Icon name={t.icon ?? 'check'} className="h-3.5 w-3.5" />
-            </span>
+          <div key={t.id} className="pointer-events-auto flex animate-slide-in items-start gap-3 rounded-2xl border border-line bg-white p-3.5 shadow-lift">
+            <IconChip name={t.icon ?? 'check'} size="sm" tone={t.tone === 'attention' ? 'amber' : t.tone === 'info' ? 'blue' : 'green'} />
             <div className="min-w-0 flex-1">
               <p className="text-sm font-medium">{t.title}</p>
               {t.body && <p className="mt-0.5 text-[13px] text-ink-muted">{t.body}</p>}

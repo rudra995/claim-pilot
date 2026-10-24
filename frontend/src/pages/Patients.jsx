@@ -1,9 +1,9 @@
 // Patients: everyone admitted, where their claim is, and what happens next.
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { api, useLoad, useTrace } from '../api'
 import { nextStep } from '../story'
-import { Avatar, Button, Card, EmptyState, Icon, PageHeader, Skeleton, Status, ago, money, procedureName, stagger } from '../components/ui'
+import { Avatar, Button, Card, EmptyState, Icon, PageHeader, Skeleton, Status, Tabs, ago, money, procedureName, stagger } from '../components/ui'
 
 const FILTERS = [
   ['All', () => true],
@@ -18,7 +18,8 @@ export default function Patients() {
   useTrace({ onEvent: claims.refresh })
   const navigate = useNavigate()
   const [filter, setFilter] = useState('All')
-  const [query, setQuery] = useState('')
+  const [params] = useSearchParams()
+  const [query, setQuery] = useState(params.get('q') ?? '')
   const all = claims.data ?? []
   const q = query.trim().toLowerCase()
   const shown = all
@@ -31,20 +32,10 @@ export default function Patients() {
       <PageHeader title="Patients" subtitle="Everyone admitted, and where their insurance claim stands"
         action={<Link to="/patients/admit"><Button variant="primary" icon="plus">Admit patient</Button></Link>} />
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <div className="inline-flex rounded-lg bg-zinc-200/60 p-1">
-          {FILTERS.map(([name, test]) => {
-            const count = all.filter(test).length
-            return (
-              <button key={name} onClick={() => setFilter(name)}
-                className={`rounded-md px-3 py-1.5 text-[13px] font-medium transition ${filter === name ? 'bg-white text-ink shadow-card' : 'text-ink-muted hover:text-ink'}`}>
-                {name}{name !== 'All' && count > 0 && <span className="ml-1.5 text-ink-faint tabular">{count}</span>}
-              </button>
-            )
-          })}
-        </div>
+        <Tabs value={filter} onChange={setFilter} tabs={FILTERS.map(([name, test]) => [name, name, name === 'All' ? 0 : all.filter(test).length])} />
         <div className="relative w-64">
           <Icon name="search" className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-faint" />
-          <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search patients" className="input pl-9" />
+          <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search patients" className="input rounded-full pl-9" />
         </div>
       </div>
 
@@ -54,7 +45,7 @@ export default function Patients() {
         </EmptyState>
       ) : (
         <Card className="overflow-hidden">
-          <div className="grid grid-cols-[minmax(0,2.2fr)_minmax(0,1.6fr)_minmax(0,1.2fr)_120px_120px] gap-4 border-b border-line bg-zinc-50/70 px-5 py-2.5 text-xs font-medium text-ink-muted">
+          <div className="grid grid-cols-[minmax(0,2.2fr)_minmax(0,1.6fr)_minmax(0,1.2fr)_120px_120px] gap-4 border-b border-line bg-canvas/70 px-6 py-3 text-[11px] font-bold uppercase tracking-[0.08em] text-ink-faint">
             <span>Patient</span><span>Next step</span><span>Insurer</span><span className="text-right">Approved</span><span className="text-right">Status</span>
           </div>
           {!claims.data && <div className="space-y-4 p-5">{[0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-9" />)}</div>}
@@ -62,7 +53,7 @@ export default function Patients() {
           <ul className="divide-y divide-line">
             {shown.map((c, i) => (
               <li key={c.claim_id} onClick={() => navigate(`/patients/${c.claim_id}`)} style={stagger(i)}
-                className="grid animate-fade-up cursor-pointer grid-cols-[minmax(0,2.2fr)_minmax(0,1.6fr)_minmax(0,1.2fr)_120px_120px] items-center gap-4 px-5 py-3.5 transition hover:bg-zinc-50">
+                className="grid animate-fade-up cursor-pointer grid-cols-[minmax(0,2.2fr)_minmax(0,1.6fr)_minmax(0,1.2fr)_120px_120px] items-center gap-4 px-6 py-3.5 transition hover:bg-accent-50/40">
                 <div className="flex min-w-0 items-center gap-3">
                   <Avatar name={c.patient} size="sm" />
                   <div className="min-w-0">

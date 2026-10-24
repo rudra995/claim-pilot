@@ -62,7 +62,7 @@ export default function Admit() {
               const active = picked === c.case_id
               return (
                 <button key={c.case_id} onClick={() => setPicked(c.case_id)} style={stagger(i, 25)}
-                  className={`group animate-fade-up rounded-xl border bg-white p-4 text-left transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lift ${active ? 'border-ink shadow-lift ring-1 ring-ink' : 'border-line shadow-card'}`}>
+                  className={`group animate-fade-up rounded-xl border bg-white p-4 text-left transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lift ${active ? 'border-accent-500 shadow-lift ring-2 ring-accent-200' : 'border-line shadow-card'}`}>
                   <div className="flex items-start gap-3">
                     <Avatar name={c.patient} />
                     <div className="min-w-0 flex-1">
@@ -72,7 +72,7 @@ export default function Admit() {
                       </div>
                       <p className="text-[13px] text-ink-muted">{c.age} · {GENDER[c.gender]} · {c.city}</p>
                     </div>
-                    <span className={`grid h-5 w-5 place-items-center rounded-full border transition ${active ? 'border-ink bg-ink text-white' : 'border-zinc-300 text-transparent'}`}><Icon name="check" className="h-3 w-3" /></span>
+                    <span className={`grid h-5 w-5 place-items-center rounded-full border transition ${active ? 'border-accent-600 bg-accent-600 text-white' : 'border-[#cfd6d2] text-transparent'}`}><Icon name="check" className="h-3 w-3" /></span>
                   </div>
                   <p className="mt-3 truncate text-sm">{procedureName(c.procedure)}</p>
                   <div className="mt-1 flex items-center justify-between text-[13px] text-ink-muted">
@@ -88,7 +88,7 @@ export default function Admit() {
         <div className="lg:sticky lg:top-8 lg:self-start">
           {selected ? (
             <Card key={selected.case_id} className="animate-scale-in overflow-hidden">
-              <div className="border-b border-line bg-zinc-50/70 p-5">
+              <div className="border-b border-line bg-canvas/70 p-5">
                 <div className="flex items-center gap-3">
                   <Avatar name={selected.patient} size="lg" />
                   <div>
@@ -110,7 +110,7 @@ export default function Admit() {
                 <p className="mb-3 text-[13px] font-medium text-ink-soft">What happens next</p>
                 <ol className="mb-5 space-y-2 text-[13px] text-ink-muted">
                   {['Agents read the documents and code the diagnosis', 'They check the policy and draft the pre-auth', 'You review it before anything is sent'].map((step, i) => (
-                    <li key={step} className="flex gap-2.5"><span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-zinc-100 text-[11px] font-medium text-ink-soft">{i + 1}</span>{step}</li>
+                    <li key={step} className="flex gap-2.5"><span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[#eef1ef] text-[11px] font-medium text-ink-soft">{i + 1}</span>{step}</li>
                   ))}
                 </ol>
                 <Button variant="primary" size="lg" className="w-full" loading={starting} onClick={admit} iconRight="arrowRight">Admit and start claim</Button>
@@ -118,7 +118,7 @@ export default function Admit() {
               </div>
             </Card>
           ) : (
-            <div className="grid h-64 place-items-center rounded-xl border border-dashed border-zinc-300 text-center text-sm text-ink-muted">
+            <div className="grid h-64 place-items-center rounded-xl border border-dashed border-[#cfd6d2] text-center text-sm text-ink-muted">
               <div><Icon name="users" className="mx-auto mb-2 h-6 w-6 text-ink-faint" />Select a patient to see their admission</div>
             </div>
           )}

@@ -31,7 +31,7 @@ export default function Insurer() {
               {sent.map((c, i) => (
                 <li key={c.claim_id} className="animate-fade-up" style={stagger(i)}>
                   <button onClick={() => navigate(`/insurer/${c.claim_id}`)}
-                    className={`flex w-full items-center gap-3 px-4 py-3 text-left transition ${c.claim_id === selectedId ? 'bg-zinc-100/80' : 'hover:bg-zinc-50'}`}>
+                    className={`flex w-full items-center gap-3 px-4 py-3 text-left transition ${c.claim_id === selectedId ? 'bg-accent-50/60' : 'hover:bg-canvas'}`}>
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-medium">{c.claim_id}</p>
                       <p className="truncate text-xs text-ink-muted">{c.tpa_id} · {procedureName(c.procedure)}</p>

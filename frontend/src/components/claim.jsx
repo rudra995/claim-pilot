@@ -23,28 +23,37 @@ export function stageIndex(claim) {
 export function StageProgress({ claim }) {
   const current = stageIndex(claim)
   return (
-    <div className="grid grid-cols-5 gap-2">
+    <ol className="flex items-center">
       {STAGES.map((stage, i) => {
         const done = i < current
         const active = i === current
         return (
-          <div key={stage}>
-            <div className="h-1 overflow-hidden rounded-full bg-zinc-200/70">
-              <div className={`h-full rounded-full transition-all duration-700 ease-out ${done ? 'w-full bg-ink' : active ? 'w-1/2 bg-accent-500' : 'w-0'}`} />
+          <li key={stage} className="flex flex-1 items-center last:flex-none">
+            <div className="flex items-center gap-2.5">
+              <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-xs font-bold transition-all duration-500 ${
+                done ? 'bg-accent-600 text-white shadow-glow' : active ? 'bg-white text-accent-700 ring-2 ring-accent-500 animate-ring' : 'bg-white text-ink-faint ring-1 ring-line'
+              }`}>
+                {done ? <Icon name="check" className="h-4 w-4" /> : i + 1}
+              </span>
+              <span className={`whitespace-nowrap text-[13px] font-semibold ${active ? 'text-accent-700' : done ? 'text-ink-soft' : 'text-ink-faint'}`}>{stage}</span>
             </div>
-            <p className={`mt-2 text-xs font-medium ${active ? 'text-ink' : done ? 'text-ink-soft' : 'text-ink-faint'}`}>{stage}</p>
-          </div>
+            {i < STAGES.length - 1 && (
+              <span className="mx-3 h-1 flex-1 overflow-hidden rounded-full bg-line">
+                <span className={`block h-full origin-left rounded-full bg-accent-500 transition-transform duration-700 ${done ? 'scale-x-100' : 'scale-x-0'}`} />
+              </span>
+            )}
+          </li>
         )
       })}
-    </div>
+    </ol>
   )
 }
 
 // ---- The journey: what happened, in plain words ---------------------------------------------------
 
 const STEP_TONES = {
-  neutral: 'bg-zinc-100 text-ink-soft', good: 'bg-accent-50 text-accent-700', attention: 'bg-amber-100/70 text-amber-700',
-  bad: 'bg-rose-100/70 text-rose-700', info: 'bg-sky-100/70 text-sky-700', you: 'bg-ink text-white',
+  neutral: 'bg-[#eef1ef] text-ink-soft', good: 'bg-accent-50 text-accent-700', attention: 'bg-amber-100/70 text-amber-700',
+  bad: 'bg-rose-100/70 text-rose-700', info: 'bg-sky-100/70 text-sky-700', you: 'bg-accent-600 text-white shadow-glow',
 }
 
 export function Journey({ claim }) {
@@ -285,7 +294,7 @@ function FixAndRecheck({ claim, onDone }) {
 function EvidenceList({ claim, evidence }) {
   if (!evidence) return null
   return (
-    <div className="mb-4 rounded-lg bg-zinc-50 p-3">
+    <div className="mb-4 rounded-lg bg-canvas p-3">
       <p className="text-[13px] font-medium text-ink-soft">Evidence check: {evidence.verdict}</p>
       <p className="mt-0.5 text-[13px] text-ink-muted">{evidence.reason}</p>
       <ul className="mt-2 space-y-1">
@@ -317,7 +326,7 @@ function ReviewPreauth({ claim, onDone }) {
       <Title sub={`The agents read the file, checked ${claim.insurer}'s policy and priced the stay. Review the request, then send it.`}>
         Send the pre-auth to {claim.insurer}?
       </Title>
-      <div className="mb-5 grid grid-cols-3 gap-4 rounded-lg bg-zinc-50 p-4">
+      <div className="mb-5 grid grid-cols-3 gap-4 rounded-lg bg-canvas p-4">
         <Fact label="Asking for" value={money(draft.requested_amount)} />
         <Fact label="Policy should pay" value={money(policy?.payable)} />
         <Fact label="Patient pays" value={money(policy?.patient_share)} />
@@ -371,7 +380,7 @@ function ReviewAppeal({ claim, s, onDone }) {
         </div>
       )}
       <EvidenceList claim={claim} evidence={appeal?.evidence} />
-      <details className="group mb-5 rounded-lg bg-zinc-50">
+      <details className="group mb-5 rounded-lg bg-canvas">
         <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-3 text-sm font-medium">
           Read the appeal <Icon name="chevronDown" className="h-4 w-4 text-ink-muted transition-transform group-open:rotate-180" />
         </summary>
@@ -408,7 +417,7 @@ function ReviewEnhancement({ claim, s, onDone }) {
       <Title sub={`The running bill has grown past what ${claim.insurer} approved. Ask them to raise the approval so the patient isn't left with the difference.`}>
         Ask for more funds?
       </Title>
-      <div className="mb-5 grid grid-cols-2 gap-4 rounded-lg bg-zinc-50 p-4">
+      <div className="mb-5 grid grid-cols-2 gap-4 rounded-lg bg-canvas p-4">
         <Fact label="Approved so far" value={money(claim.approved)} />
         <Fact label="Ask to raise it to" value={money(s.draft.requested_amount)} />
       </div>
@@ -421,7 +430,7 @@ function ReviewDischarge({ claim, s, onDone }) {
   return (
     <>
       <Title sub="The discharge writer put together the final bill, discharge summary and expected deductions. Send it for final approval.">Send the final claim?</Title>
-      <div className="mb-5 grid grid-cols-2 gap-4 rounded-lg bg-zinc-50 p-4">
+      <div className="mb-5 grid grid-cols-2 gap-4 rounded-lg bg-canvas p-4">
         <Fact label="Final claim" value={money(s.draft.requested_amount)} />
         <Fact label="Approved so far" value={money(claim.approved)} />
       </div>
@@ -508,7 +517,7 @@ function Treatment({ claim, onDone }) {
   return (
     <>
       <Title sub={`Charges go on the running bill. If it outgrows the approval, the bill watcher drafts a request for more.`}>{claim.patient} is in treatment</Title>
-      <div className="mb-5 grid grid-cols-2 gap-4 rounded-lg bg-zinc-50 p-4">
+      <div className="mb-5 grid grid-cols-2 gap-4 rounded-lg bg-canvas p-4">
         <Fact label="Approved" value={money(claim.approved)} tone="good" />
         <Fact label="Bill so far" value={money(billed)} />
       </div>
@@ -649,7 +658,7 @@ function Bubble({ message: m, claim, mine }) {
   return (
     <div className={`flex gap-3 ${mine ? 'flex-row-reverse' : ''}`}>
       <Avatar name={insurer ? claim.tpa_id : 'Hospital Billing'} size="sm" />
-      <div className={`max-w-[80%] rounded-2xl px-4 py-3 ${mine ? 'rounded-tr-md bg-ink text-white' : 'rounded-tl-md border border-line bg-white'}`}>
+      <div className={`max-w-[80%] rounded-2xl px-4 py-3 ${mine ? 'rounded-tr-md bg-accent-700 text-white' : 'rounded-tl-md border border-line bg-white'}`}>
         <div className="flex flex-wrap items-center gap-2">
           <span className={`text-[13px] font-semibold ${mine ? 'text-white' : ''}`}>{insurer ? claim.insurer : 'Hospital billing'}</span>
           {mine ? <span className="rounded bg-white/15 px-1.5 py-0.5 text-[11px] font-medium">{KIND[m.type]}</span> : <Badge tone={KIND_TONE[m.type] ?? 'neutral'}>{KIND[m.type]}</Badge>}
@@ -675,7 +684,7 @@ function MessageBody({ m, dark }) {
       {(m.documents?.length > 0 || m.cited_documents?.length > 0) && (
         <p className={`flex flex-wrap gap-1 ${sub}`}>
           {[...(m.documents ?? []), ...(m.cited_documents ?? [])].map((d) => (
-            <span key={d} className={`inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] ${dark ? 'bg-white/10' : 'bg-zinc-100'}`}><Icon name="file" className="h-3 w-3" />{d}</span>
+            <span key={d} className={`inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] ${dark ? 'bg-white/10' : 'bg-[#eef1ef]'}`}><Icon name="file" className="h-3 w-3" />{d}</span>
           ))}
         </p>
       )}
@@ -715,7 +724,7 @@ export function AgentLog({ events }) {
           return (
             <li key={e.event_id} className="animate-fade-in" style={stagger(i, 10)}>
               <button disabled={!agent} onClick={() => setOpen(open === e.event_id ? null : e.event_id)}
-                className="flex w-full items-center gap-3 px-5 py-3 text-left enabled:hover:bg-zinc-50">
+                className="flex w-full items-center gap-3 px-5 py-3 text-left enabled:hover:bg-canvas">
                 <span className="w-12 shrink-0 text-xs text-ink-faint tabular">{timeOf(e.created_at)}</span>
                 <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${agent ? (insurer ? 'bg-sky-500' : 'bg-accent-500') : e.action === 'human_decision' ? 'bg-amber-500' : 'bg-zinc-300'}`} />
                 <span className="min-w-0 flex-1 truncate text-[13px]">
@@ -725,7 +734,7 @@ export function AgentLog({ events }) {
                 {agent && <Icon name="chevronDown" className={`h-4 w-4 shrink-0 text-ink-faint transition-transform ${open === e.event_id ? 'rotate-180' : ''}`} />}
               </button>
               {agent && open === e.event_id && (
-                <ul className="animate-fade-in space-y-2 bg-zinc-50/70 px-5 pb-4 pl-[5.5rem] pt-2">
+                <ul className="animate-fade-in space-y-2 bg-canvas/70 px-5 pb-4 pl-[5.5rem] pt-2">
                   {agent.findings.map((f, j) => (
                     <li key={j} className="text-[13px] leading-relaxed">
                       <span className="font-medium">{f.issue}</span><span className="text-ink-muted"> — {f.evidence}</span>

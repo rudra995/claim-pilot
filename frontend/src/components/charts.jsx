@@ -1,23 +1,23 @@
-// Small, quiet charts for the dashboard, drawn with plain HTML and SVG.
-// Marks carry colour; text stays in ink colours. Every chart has a hover/focus tooltip and a table view.
+// Dashboard charts, drawn with plain HTML and SVG: rounded pill columns, hatched quieter series,
+// one solid highlight. Marks carry colour; text stays in ink colours. Every chart has a hover/focus
+// tooltip and a table view, and every rupee figure comes from the API (rules engine), never summed here.
 import { useState } from 'react'
 import { Card, CardHeader } from './ui'
 
-// Colours, checked with the dataviz palette validator against the white card surface.
-export const SERIES = '#2f7d6d' // one series: the brand accent (4.9:1 on white)
-export const MUTED = '#c3c2b7' // the de-emphasised part in an emphasis chart
-export const MODE_COLORS = { basic: '#2a78d6', rules: '#eb6834', claimpilot: '#1baf7a' } // categorical slots 1-3
+export const SERIES = '#22845f' // brand green
+export const MUTED = '#cfd8d3' // the de-emphasised part in an emphasis chart
+export const MODE_COLORS = { basic: '#3b8fd9', rules: '#e9894a', claimpilot: '#22845f' }
 // Insurer answers carry status meaning; each always shows with its label (legend, tooltip, table).
 export const ANSWER_KEYS = [
-  { key: 'APPROVE', label: 'Approved', color: '#0ca30c' },
-  { key: 'PARTIAL_APPROVE', label: 'Part-approved', color: '#fab219' },
-  { key: 'QUERY', label: 'Query', color: '#2a78d6' },
-  { key: 'DENY', label: 'Denied', color: '#d03b3b' },
+  { key: 'APPROVE', label: 'Approved', color: '#22845f' },
+  { key: 'PARTIAL_APPROVE', label: 'Part-approved', color: '#efb23f' },
+  { key: 'QUERY', label: 'Query', color: '#3b8fd9' },
+  { key: 'DENY', label: 'Denied', color: '#e0585a' },
 ]
 
 // ---- Frame: a card with a chart/table switch and one tooltip ---------------------------------
 
-export function ChartCard({ title, subtitle, table, className = '', footer, children }) {
+export function ChartCard({ title, subtitle, table, className = '', footer, icon, action, children }) {
   const [view, setView] = useState('chart')
   const [tip, setTip] = useState(null)
   const show = (event, content) => {
@@ -28,21 +28,21 @@ export function ChartCard({ title, subtitle, table, className = '', footer, chil
   const hide = () => setTip(null)
   return (
     <Card className={className}>
-      <CardHeader title={title} subtitle={subtitle} action={table && (
-        <div className="flex rounded-md border border-line p-0.5 text-xs" role="tablist" aria-label={`${title}: view`}>
+      <CardHeader title={title} subtitle={subtitle} icon={icon} action={action ?? (table && (
+        <div className="flex rounded-full bg-canvas p-1 text-xs font-semibold" role="tablist" aria-label={`${title}: view`}>
           {['chart', 'table'].map((v) => (
             <button key={v} role="tab" aria-selected={view === v} onClick={() => setView(v)}
-              className={`rounded px-2 py-0.5 capitalize transition ${view === v ? 'bg-zinc-100 font-medium text-ink' : 'text-ink-muted hover:text-ink'}`}>{v}</button>
+              className={`rounded-full px-3 py-1 capitalize transition ${view === v ? 'bg-accent-600 text-white shadow-glow' : 'text-ink-muted hover:text-ink'}`}>{v}</button>
           ))}
         </div>
-      )} />
-      <div data-chart className="relative px-5 pb-5">
+      ))} />
+      <div data-chart className="relative px-6 pb-6">
         {view === 'table' && table ? <DataTable {...table} /> : children({ show, hide })}
         {tip && view === 'chart' && (
-          <div className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-full whitespace-nowrap rounded-md bg-ink px-2.5 py-1.5 text-xs text-white shadow-pop"
-            style={{ left: tip.x, top: tip.y - 6 }}>{tip.content}</div>
+          <div className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-full animate-fade-in whitespace-nowrap rounded-full bg-ink px-3 py-1.5 text-xs font-semibold text-white shadow-pop"
+            style={{ left: tip.x, top: tip.y - 8 }}>{tip.content}</div>
         )}
-        {footer && <div className="mt-4 text-xs text-ink-faint">{footer}</div>}
+        {footer && <div className="mt-4 text-xs leading-relaxed text-ink-faint">{footer}</div>}
       </div>
     </Card>
   )
@@ -50,16 +50,18 @@ export function ChartCard({ title, subtitle, table, className = '', footer, chil
 
 function DataTable({ columns, rows }) {
   return (
-    <table className="w-full text-[13px]">
-      <thead><tr className="border-b border-line text-left text-ink-muted">{columns.map((c, i) => <th key={c} className={`py-1.5 font-medium ${i ? 'text-right' : ''}`}>{c}</th>)}</tr></thead>
-      <tbody>
-        {rows.map((row, r) => (
-          <tr key={r} className="border-b border-line/60 last:border-0">
-            {row.map((cell, i) => <td key={i} className={`py-1.5 ${i ? 'text-right tabular' : 'text-ink-soft'}`}>{cell}</td>)}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className="overflow-hidden rounded-2xl border border-line">
+      <table className="w-full text-[13px]">
+        <thead><tr className="bg-canvas text-left text-ink-muted">{columns.map((c, i) => <th key={c} className={`px-3 py-2 font-semibold ${i ? 'text-right' : ''}`}>{c}</th>)}</tr></thead>
+        <tbody>
+          {rows.map((row, r) => (
+            <tr key={r} className="border-t border-line">
+              {row.map((cell, i) => <td key={i} className={`px-3 py-2 ${i ? 'text-right tabular' : 'text-ink-soft'}`}>{cell}</td>)}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   )
 }
 
@@ -74,18 +76,98 @@ const hover = (show, hide, content) => ({
 export function BarList({ data, format = (v) => v, color = SERIES, show, hide, labelWidth = 'w-28 sm:w-36' }) {
   const max = Math.max(1, ...data.map((d) => d.value))
   return (
-    <ul className="space-y-2.5">
-      {data.map((d) => (
+    <ul className="space-y-3">
+      {data.map((d, i) => (
         <li key={d.label} className="flex items-center gap-3 text-[13px]">
-          <span className={`${labelWidth} shrink-0 truncate text-ink-soft`} title={d.label}>{d.label}</span>
-          <div className="flex min-w-0 flex-1 items-center gap-2">
-            <div {...hover(show, hide, `${d.label}: ${format(d.value)}`)} className="h-3.5 rounded-r-[4px] outline-none transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-accent-500"
-              style={{ width: `${(d.value / max) * 100}%`, minWidth: d.value ? 3 : 0, background: color }} />
-            <span className="shrink-0 tabular text-ink-muted">{format(d.value)}</span>
+          <span className={`${labelWidth} shrink-0 truncate font-medium text-ink-soft`} title={d.label}>{d.label}</span>
+          <div className="relative h-3 min-w-0 flex-1 rounded-full bg-canvas">
+            <div {...hover(show, hide, `${d.label}: ${format(d.value)}`)}
+              className={`stripes h-full origin-left animate-grow-x rounded-full outline-none transition-opacity hover:opacity-85 focus-visible:ring-2 focus-visible:ring-accent-500 ${i ? '' : 'shadow-glow'}`}
+              style={{ width: `${(d.value / max) * 100}%`, minWidth: d.value ? 8 : 0, background: color, animationDelay: `${i * 60}ms` }} />
           </div>
+          <span className="w-16 shrink-0 text-right font-semibold tabular text-ink">{format(d.value)}</span>
         </li>
       ))}
     </ul>
+  )
+}
+
+// ---- Pill columns: values over ordered categories, the biggest one solid with a bubble ----------
+
+export function PillColumns({ data, show, hide, format = (v) => v, height = 190, color = SERIES }) {
+  const max = Math.max(1, ...data.map((d) => d.value))
+  const top = data.reduce((best, d, i) => (d.value > (data[best]?.value ?? -1) ? i : best), 0)
+  const ticks = [1, 0.75, 0.5, 0.25, 0]
+  return (
+    <div className="flex gap-3">
+      <div className="flex shrink-0 flex-col justify-between pb-6 text-right text-[11px] tabular text-ink-faint" style={{ height }}>
+        {ticks.map((t) => <span key={t}>{format(Math.round(max * t))}</span>)}
+      </div>
+      <div className="relative min-w-0 flex-1">
+        <div className="pointer-events-none absolute inset-x-0 top-0 flex flex-col justify-between" style={{ height: height - 24 }}>
+          {ticks.map((t) => <span key={t} className="border-t border-dashed border-line" />)}
+        </div>
+        <div className="relative flex items-end justify-around gap-2" style={{ height: height - 24 }}>
+          {data.map((d, i) => {
+            const solid = i === top && d.value > 0
+            const h = Math.max(d.value ? 14 : 6, (d.value / max) * (height - 40))
+            return (
+              <div key={d.label} className="relative flex h-full w-full max-w-[46px] flex-col items-center justify-end">
+                {solid && <span className="mb-1.5 animate-fade-in rounded-full bg-accent-600 px-2 py-0.5 text-[11px] font-bold text-white shadow-glow">{format(d.value)}</span>}
+                <div {...hover(show, hide, `${d.label}: ${format(d.value)}`)}
+                  className={`w-full origin-bottom animate-grow rounded-full outline-none transition hover:brightness-95 focus-visible:ring-2 focus-visible:ring-accent-500 ${solid ? '' : 'stripes-ink'}`}
+                  style={{ height: h, background: solid ? color : d.value ? '#a6d8c0' : '#e6ebe8', animationDelay: `${i * 70}ms` }} />
+              </div>
+            )
+          })}
+        </div>
+        <div className="mt-2 flex justify-around gap-2">
+          {data.map((d) => <span key={d.label} className="line-clamp-2 w-full max-w-[72px] text-center text-[11px] font-semibold leading-tight text-ink-muted" title={d.label}>{d.label}</span>)}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ---- Donut: a whole split into a few labelled parts, total in the middle ------------------------
+
+export function Donut({ parts, show, hide, format = (v) => v, center, caption, size = 168 }) {
+  const sum = parts.reduce((s, p) => s + p.value, 0) // shares for drawing only; totals come from the API
+  const r = 42
+  const c = 2 * Math.PI * r
+  let offset = 0
+  return (
+    <div className="flex flex-wrap items-center gap-6">
+      <div className="relative shrink-0" style={{ width: size, height: size }}>
+        <svg viewBox="0 0 100 100" className="h-full w-full -rotate-90">
+          <circle cx="50" cy="50" r={r} fill="none" stroke="#eef1ef" strokeWidth="11" />
+          {sum > 0 && parts.filter((p) => p.value).map((p) => {
+            const len = (p.value / sum) * c
+            const seg = (
+              <circle key={p.label} cx="50" cy="50" r={r} fill="none" stroke={p.color} strokeWidth="11" strokeLinecap="round"
+                strokeDasharray={`${Math.max(0, len - 3)} ${c}`} strokeDashoffset={-offset} {...hover(show, hide, `${p.label}: ${format(p.value)}`)}
+                className="cursor-default outline-none transition-opacity hover:opacity-80" />
+            )
+            offset += len
+            return seg
+          })}
+        </svg>
+        <div className="absolute inset-0 grid place-items-center text-center">
+          <div>
+            <p className="text-lg font-bold tracking-tight tabular">{center}</p>
+            {caption && <p className="text-[11px] font-medium text-ink-muted">{caption}</p>}
+          </div>
+        </div>
+      </div>
+      <ul className="min-w-[160px] flex-1 space-y-2.5">
+        {parts.map((p) => (
+          <li key={p.label} className="flex items-center justify-between gap-3 text-[13px]">
+            <span className="flex items-center gap-2 text-ink-soft"><span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: p.color }} />{p.label}</span>
+            <span className="font-bold tabular">{format(p.value)}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }
 
@@ -93,8 +175,8 @@ export function BarList({ data, format = (v) => v, color = SERIES, show, hide, l
 
 export function Legend({ keys }) {
   return (
-    <div className="mb-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink-muted">
-      {keys.map((k) => <span key={k.key} className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-sm" style={{ background: k.color }} />{k.label}</span>)}
+    <div className="mb-4 flex flex-wrap gap-x-4 gap-y-1.5 text-xs font-medium text-ink-muted">
+      {keys.map((k) => <span key={k.key} className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full" style={{ background: k.color }} />{k.label}</span>)}
     </div>
   )
 }
@@ -103,19 +185,19 @@ export function StackedBars({ rows, keys, show, hide, unit = '' }) {
   return (
     <>
       <Legend keys={keys} />
-      <ul className="space-y-3">
-        {rows.map((row) => {
+      <ul className="space-y-3.5">
+        {rows.map((row, r) => {
           const sum = keys.reduce((s, k) => s + (row[k.key] ?? 0), 0) // counts of answers, not rupees
           return (
             <li key={row.label} className="flex items-center gap-3 text-[13px]">
-              <span className="w-24 shrink-0 text-ink-soft">{row.label}</span>
-              <div className="flex h-3.5 min-w-0 flex-1 gap-[2px] overflow-hidden rounded-[4px]">
+              <span className="w-24 shrink-0 font-medium text-ink-soft">{row.label}</span>
+              <div className="flex h-3.5 min-w-0 flex-1 origin-left animate-grow-x gap-1 overflow-hidden rounded-full" style={{ animationDelay: `${r * 60}ms` }}>
                 {keys.filter((k) => row[k.key]).map((k) => (
-                  <div key={k.key} {...hover(show, hide, `${row.label} · ${k.label}: ${row[k.key]}${unit}`)} className="h-full outline-none transition-opacity hover:opacity-80 focus-visible:opacity-70"
+                  <div key={k.key} {...hover(show, hide, `${row.label} · ${k.label}: ${row[k.key]}${unit}`)} className="h-full rounded-full outline-none transition-opacity hover:opacity-80 focus-visible:opacity-70"
                     style={{ width: `${(row[k.key] / sum) * 100}%`, background: k.color }} />
                 ))}
               </div>
-              <span className="w-8 shrink-0 text-right tabular text-ink-muted">{sum}</span>
+              <span className="w-8 shrink-0 text-right font-semibold tabular text-ink">{sum}</span>
             </li>
           )
         })}
@@ -126,23 +208,8 @@ export function StackedBars({ rows, keys, show, hide, unit = '' }) {
 
 // ---- Columns: an ordered distribution (e.g. risk bands) --------------------------------------
 
-export function Columns({ data, show, hide, color = SERIES, height = 120 }) {
-  const max = Math.max(1, ...data.map((d) => d.value))
-  return (
-    <div>
-      <div className="relative flex items-end gap-3 border-b border-[#c3c2b7]" style={{ height }}>
-        {[0.5, 1].map((f) => <div key={f} className="pointer-events-none absolute inset-x-0 border-t border-[#e1e0d9]" style={{ bottom: f * (height - 18) }} />)}
-        {data.map((d) => (
-          <div key={d.label} className="relative flex flex-1 flex-col items-center justify-end" style={{ height: '100%' }}>
-            {d.value > 0 && <span className="mb-1 text-xs tabular text-ink-muted">{d.value}</span>}
-            <div {...hover(show, hide, `${d.label}: ${d.value} claim${d.value === 1 ? '' : 's'}`)} className="w-full max-w-[24px] rounded-t-[4px] outline-none transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-accent-500"
-              style={{ height: `${(d.value / max) * (height - 18)}px`, minHeight: d.value ? 3 : 0, background: color }} />
-          </div>
-        ))}
-      </div>
-      <div className="mt-1.5 flex gap-3">{data.map((d) => <span key={d.label} className="flex-1 text-center text-[11px] text-ink-muted">{d.label}</span>)}</div>
-    </div>
-  )
+export function Columns({ data, show, hide, color = SERIES, height = 150 }) {
+  return <PillColumns data={data} show={show} hide={hide} color={color} height={height} format={(v) => String(v)} />
 }
 
 // ---- Emphasis bar: one part of a whole is the point ------------------------------------------
@@ -151,16 +218,16 @@ export function SplitBar({ parts, show, hide, format }) {
   const sum = parts.reduce((s, p) => s + p.value, 0) || 1 // shares for drawing only; totals come from the API
   return (
     <div>
-      <div className="flex h-4 gap-[2px] overflow-hidden rounded-[4px] bg-zinc-100">
-        {parts.filter((p) => p.value).map((p) => (
-          <div key={p.label} {...hover(show, hide, `${p.label}: ${format(p.value)}`)} className="h-full outline-none" style={{ width: `${(p.value / sum) * 100}%`, background: p.color }} />
+      <div className="flex h-4 origin-left animate-grow-x gap-1 overflow-hidden rounded-full bg-canvas">
+        {parts.filter((p) => p.value).map((p, i) => (
+          <div key={p.label} {...hover(show, hide, `${p.label}: ${format(p.value)}`)} className={`h-full rounded-full outline-none ${i ? '' : 'stripes-ink'}`} style={{ width: `${(p.value / sum) * 100}%`, background: p.color }} />
         ))}
       </div>
-      <div className="mt-3 space-y-1.5">
+      <div className="mt-4 space-y-2">
         {parts.map((p) => (
           <div key={p.label} className="flex items-center justify-between gap-3 text-[13px]">
-            <span className="flex items-center gap-2 text-ink-soft"><span className="h-2.5 w-2.5 shrink-0 rounded-sm" style={{ background: p.color }} />{p.label}</span>
-            <span className="tabular font-medium">{format(p.value)}</span>
+            <span className="flex items-center gap-2 text-ink-soft"><span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: p.color }} />{p.label}</span>
+            <span className="tabular font-bold">{format(p.value)}</span>
           </div>
         ))}
       </div>
@@ -174,17 +241,17 @@ export function ModeBars({ metric, modes, show, hide, format }) {
   // a share is drawn against 100%, so a two-point gap looks like two points
   const max = metric.unit === 'share' ? 1 : Math.max(1, ...modes.map((m) => metric.values[m] ?? 0))
   return (
-    <div>
-      <p className="mb-2 text-[13px] font-medium text-ink-soft">{metric.label}<span className="font-normal text-ink-faint"> · {metric.better} is better{metric.of ? ` · of ${metric.of}` : ''}</span></p>
-      <ul className="space-y-1.5">
+    <div className="rounded-2xl bg-canvas/70 p-4">
+      <p className="mb-3 text-[13px] font-bold text-ink-soft">{metric.label}<span className="font-medium text-ink-faint"> · {metric.better} is better{metric.of ? ` · of ${metric.of}` : ''}</span></p>
+      <ul className="space-y-2">
         {modes.map((m) => (
           <li key={m} className="flex items-center gap-3 text-[13px]">
-            <span className="w-20 shrink-0 text-ink-muted">{m}</span>
-            <div className="flex min-w-0 flex-1 items-center gap-2">
-              <div {...hover(show, hide, `${m}: ${format(metric.values[m])}`)} className="h-3 rounded-r-[4px] outline-none"
-                style={{ width: `${((metric.values[m] ?? 0) / max) * 100}%`, minWidth: metric.values[m] ? 3 : 0, background: MODE_COLORS[m] }} />
-              <span className="shrink-0 tabular text-ink-muted">{format(metric.values[m])}</span>
+            <span className="w-20 shrink-0 font-medium text-ink-muted">{m}</span>
+            <div className="h-2.5 min-w-0 flex-1 rounded-full bg-white">
+              <div {...hover(show, hide, `${m}: ${format(metric.values[m])}`)} className="h-full origin-left animate-grow-x rounded-full outline-none"
+                style={{ width: `${((metric.values[m] ?? 0) / max) * 100}%`, minWidth: metric.values[m] ? 6 : 0, background: MODE_COLORS[m] }} />
             </div>
+            <span className="w-14 shrink-0 text-right font-semibold tabular text-ink">{format(metric.values[m])}</span>
           </li>
         ))}
       </ul>

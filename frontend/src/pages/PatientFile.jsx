@@ -5,7 +5,7 @@ import { api, useLoad, useTrace } from '../api'
 import { ActionCard, AgentLog, Deductions, Journey, RiskSummary, StageProgress, Thread } from '../components/claim'
 import PatientDesk from '../components/PatientDesk'
 import {
-  Avatar, Badge, Card, CardHeader, EmptyState, ErrorNote, Icon, Skeleton, Status, label, money, procedureName, roomName, stagger,
+  Avatar, Badge, Card, CardHeader, EmptyState, ErrorNote, Icon, IconChip, Skeleton, Status, Tabs, label, money, procedureName, roomName, stagger,
 } from '../components/ui'
 
 const TABS = [
@@ -50,36 +50,33 @@ export default function PatientFile() {
 
   return (
     <>
-      <Link to="/patients" className="mb-4 inline-flex items-center gap-1.5 text-[13px] text-ink-muted hover:text-ink"><Icon name="arrowLeft" className="h-4 w-4" />Patients</Link>
-      <header className="mb-6 flex flex-wrap items-start gap-4">
-        <Avatar name={c.patient} size="lg" />
-        <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-center gap-2.5">
-            <h1 className="text-[22px] font-semibold tracking-tight">{c.patient}</h1>
-            <Status state={c.state} busy={c.busy} />
+      <Link to="/patients" className="mb-4 inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-[13px] font-semibold text-ink-muted transition hover:bg-white hover:text-ink"><Icon name="arrowLeft" className="h-4 w-4" />Patients</Link>
+      <Card className="mb-6 overflow-hidden">
+        <div className="flex flex-wrap items-center gap-5 p-6">
+          <Avatar name={c.patient} size="lg" className="ring-4 ring-accent-50" />
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-2.5">
+              <h1 className="text-[24px] font-bold tracking-tight">{c.patient}</h1>
+              <Status state={c.state} busy={c.busy} />
+            </div>
+            <div className="mt-2.5 flex flex-wrap gap-2 text-[13px] font-medium text-ink-soft">
+              <Chip icon="stethoscope">{procedureName(c.procedure)}</Chip>
+              <Chip icon="user">{c.age} years</Chip>
+              <Chip icon="bed">{roomName(c.room_category)}</Chip>
+              <Chip icon="building">{c.insurer} · {c.tpa_id}</Chip>
+              <Chip icon="file">{c.claim_id}</Chip>
+            </div>
           </div>
-          <p className="mt-1 text-sm text-ink-muted">
-            {procedureName(c.procedure)} · {c.age} years · {roomName(c.room_category)} · {c.insurer} ({c.tpa_id})
-          </p>
+          <div className="flex gap-3">
+            <Money label="Requested" value={c.requested} icon="send" tone="blue" />
+            <Money label="Approved" value={c.approved} icon="check" tone="green" />
+          </div>
         </div>
-        <div className="flex gap-8 text-right">
-          <div><p className="text-xs text-ink-muted">Requested</p><p className="mt-0.5 text-lg font-semibold tabular">{money(c.requested)}</p></div>
-          <div><p className="text-xs text-ink-muted">Approved</p><p className="mt-0.5 text-lg font-semibold text-accent-700 tabular">{money(c.approved)}</p></div>
-        </div>
-      </header>
+        <div className="border-t border-line bg-canvas/50 px-6 py-5"><StageProgress claim={c} /></div>
+      </Card>
 
-      <div className="mb-6"><StageProgress claim={c} /></div>
-
-      <nav className="mb-6 flex gap-6 border-b border-line">
-        {TABS.map(([key, name]) => (
-          <button key={key} onClick={() => setParams(key === 'overview' ? {} : { tab: key }, { replace: true })}
-            className={`relative -mb-px pb-3 text-sm transition-colors ${tab === key ? 'font-medium text-ink' : 'text-ink-muted hover:text-ink'}`}>
-            {name}
-            {key === 'insurer' && c.thread.length > 0 && <span className="ml-1.5 text-ink-faint tabular">{c.thread.length}</span>}
-            {tab === key && <span className="absolute inset-x-0 bottom-0 h-0.5 animate-fade-in rounded-full bg-ink" />}
-          </button>
-        ))}
-      </nav>
+      <Tabs className="mb-6" value={tab} onChange={(key) => setParams(key === 'overview' ? {} : { tab: key }, { replace: true })}
+        tabs={TABS.map(([key, name]) => [key, name, key === 'insurer' ? c.thread.length : 0])} />
 
       <div key={tab} className="animate-fade-up">
         {tab === 'portal' && <PatientDesk claimId={claimId} onDone={claim.reload} />}
@@ -95,6 +92,19 @@ export default function PatientFile() {
         )}
       </div>
     </>
+  )
+}
+
+const Chip = ({ icon, children }) => (
+  <span className="inline-flex items-center gap-1.5 rounded-full bg-canvas px-3 py-1"><Icon name={icon} className="h-3.5 w-3.5 text-accent-600" />{children}</span>
+)
+
+function Money({ label: name, value, icon, tone }) {
+  return (
+    <div className="min-w-[150px] rounded-2xl border border-line bg-white p-3.5">
+      <div className="flex items-center gap-2"><IconChip name={icon} tone={tone} size="sm" /><p className="text-xs font-semibold text-ink-muted">{name}</p></div>
+      <p className={`mt-2 text-xl font-bold tabular ${tone === 'green' ? 'text-accent-700' : ''}`}>{money(value)}</p>
+    </div>
   )
 }
 
@@ -156,7 +166,7 @@ function BillTab({ claim }) {
               </li>
             ))}
           </ul>
-          <div className="flex justify-between border-t border-line bg-zinc-50/70 px-5 py-3 text-sm font-semibold"><span>Total</span><span className="tabular">{money(total)}</span></div>
+          <div className="flex justify-between border-t border-line bg-canvas/70 px-5 py-3 text-sm font-semibold"><span>Total</span><span className="tabular">{money(total)}</span></div>
         </Card>
         {assessment?.deductions?.length > 0 && (
           <Card>
@@ -171,7 +181,7 @@ function BillTab({ claim }) {
           <ul className="space-y-1 px-3 pb-3">
             {claim.case.documents.map((d) => (
               <li key={d.doc_id} className="flex items-center gap-3 rounded-lg px-2 py-2">
-                <span className="grid h-8 w-8 place-items-center rounded-md bg-zinc-100 text-ink-muted"><Icon name="file" className="h-4 w-4" /></span>
+                <span className="grid h-8 w-8 place-items-center rounded-md bg-[#eef1ef] text-ink-muted"><Icon name="file" className="h-4 w-4" /></span>
                 <div><p className="text-sm">{label(d.type)}</p><p className="text-xs text-ink-faint">{d.doc_id}</p></div>
               </li>
             ))}
@@ -209,7 +219,7 @@ function EstimateTab({ claimId }) {
             {note.data.output.next === 'human_review' && <p className="mt-3 text-[13px] text-amber-700">A member of staff should talk this through before it&apos;s shared.</p>}
           </div>
           {current && (
-            <div className="rounded-xl bg-zinc-50 p-5 text-right">
+            <div className="rounded-xl bg-canvas p-5 text-right">
               <p className="text-[13px] text-ink-muted">Patient pays about</p>
               <p className="mt-1 text-3xl font-semibold tracking-tight tabular">{money(current.patient_pays)}</p>
               <p className="mt-1 text-[13px] text-ink-muted">Insurer pays {money(current.insurer_pays)}</p>
