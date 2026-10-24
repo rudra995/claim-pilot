@@ -8,6 +8,7 @@ proportionate cuts, sub-limits, co-pay, and last the sum-insured ceiling.
 """
 
 import math
+from collections.abc import Iterable
 from datetime import date
 from decimal import Decimal
 from fractions import Fraction
@@ -116,6 +117,43 @@ def what_if_room(case: Case, rate: int) -> Assessment:
         for line in case.bill_lines
     ]
     return assess(case.model_copy(update={"bill_lines": lines}))
+
+
+# ---- Money helpers ---------------------------------------------------------------------------
+# Every rupee sum or difference outside the assessment itself goes through these, so agents, the API
+# and the benchmark never do their own arithmetic on amounts (refinement of phase 1).
+
+
+def total(amounts: Iterable[int]) -> int:
+    """The sum of whole-rupee amounts."""
+    return sum(int(amount) for amount in amounts)
+
+
+def billed(lines: Iterable[BillLine]) -> int:
+    return total(line.amount for line in lines)
+
+
+def by_clause(cuts: Iterable[tuple[str, int]]) -> dict[str, int]:
+    """(clause, amount) pairs added up per clause, in first-seen order."""
+    totals: dict[str, int] = {}
+    for clause, amount in cuts:
+        totals[clause] = totals.get(clause, 0) + int(amount)
+    return totals
+
+
+def excess(amount: int, allowed: int) -> int:
+    """How far `amount` is above `allowed` (0 if it isn't)."""
+    return max(0, int(amount) - int(allowed))
+
+
+def payable_up_to(assessment: "Assessment", requested: int) -> int:
+    """What the insurer should pay: the policy's payable, never more than was asked for."""
+    return min(assessment.payable, int(requested))
+
+
+def share(part: int, whole: int) -> float | None:
+    """part / whole as a fraction, for rates; None when there is nothing to divide by."""
+    return round(part / whole, 4) if whole else None
 
 
 class _Bill:

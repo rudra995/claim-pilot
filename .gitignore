@@ -9,3 +9,4 @@ data/chroma/
 data/clauses/
 .DS_Store
 models/*.ubj
+*.egg-info/

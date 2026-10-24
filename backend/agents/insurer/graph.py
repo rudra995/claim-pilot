@@ -17,6 +17,7 @@ from backend.agents.base import AgentResult
 from backend.agents.insurer import adjudicator, fraud, medical_review, query_writer
 from backend.agents.insurer.adjudicator import Ruling
 from backend.db import audit
+from backend.evidence.clinical import Assessment, assess_admission_necessity, check_citations
 from backend.exchange import messages as exchange
 from backend.schemas import (
     AgentOutput,
@@ -26,28 +27,26 @@ from backend.schemas import (
     ClaimMessage,
     Deny,
     Document,
-    DocumentType,
     Final,
     MessageType,
     PartialApprove,
     Query,
     Response,
     Sender,
+    Stage,
     Submit,
 )
-
-# Records the hospital can point to as showing why admission was needed.
-CLINICAL_RECORDS = {DocumentType.ADMISSION_NOTE, DocumentType.LAB_REPORT, DocumentType.XRAY_REPORT}
 
 
 class _Review(TypedDict):
     db_path: str
     claim_id: str
     case: Case
+    stage: Stage
     requested: int
     round: int
     attached: list[Document]
-    necessity_argued: bool
+    necessity: Assessment | None
     approved_claims: list[str]
     results: Annotated[dict[str, AgentResult], lambda a, b: {**a, **b}]
 
@@ -62,15 +61,16 @@ def review(db_path: Path | str, claim_id: str) -> ClaimMessage:
     case = Case.model_validate(submit.package["case"])
 
     sent_ids = {doc_id for m in stage if isinstance(m, (Submit, Response)) for doc_id in m.documents}
-    cited_ids = {doc_id for m in stage if isinstance(m, (Appeal, Response)) for doc_id in _cited(m)}
+    cited_ids = [doc_id for m in stage if isinstance(m, (Appeal, Response)) for doc_id in _cited(m)]
     final = _graph().invoke({
         "db_path": str(db_path),
         "claim_id": claim_id,
         "case": case,
+        "stage": last.stage,
         "requested": submit.requested_amount,
         "round": last.round,
         "attached": [doc for doc in case.documents if doc.doc_id in sent_ids],
-        "necessity_argued": any(doc.doc_id in cited_ids and doc.type in CLINICAL_RECORDS for doc in case.documents),
+        "necessity": _check_cited(case, cited_ids, sent_ids),
         "approved_claims": _approved_elsewhere(db_path, claim_id, case.admission.admission_id),
         "results": {},
     })
@@ -78,6 +78,14 @@ def review(db_path: Path | str, claim_id: str) -> ClaimMessage:
     reply = _reply(claim_id, last, results[adjudicator.AGENT].data, results.get(query_writer.AGENT))
     exchange.post(db_path, reply)
     return reply
+
+
+def _check_cited(case: Case, cited: list[str], sent: set[str]) -> Assessment | None:
+    """Check the records the hospital cited: real, this admission's, sent to us, and saying what is claimed."""
+    if not cited:
+        return None
+    valid, problems = check_citations(cited, case.documents, case.admission.admission_id, sent)
+    return assess_admission_necessity(valid, problems=problems)
 
 
 def _cited(message: Appeal | Response) -> list[str]:
@@ -123,7 +131,7 @@ def _step(state: _Review, name: str, run: Callable[..., AgentResult], *args: Any
 
 
 def _medical_review(state: _Review) -> dict[str, Any]:
-    return _step(state, medical_review.AGENT, medical_review.run, state["case"], state["attached"], state["necessity_argued"])
+    return _step(state, medical_review.AGENT, medical_review.run, state["case"], state["attached"], state["necessity"], state["stage"])
 
 
 def _fraud_screen(state: _Review) -> dict[str, Any]:

@@ -515,7 +515,11 @@ def _after_appeal(state: _Reply) -> str:
 
 
 def _denied(state: _Reply) -> dict[str, Any]:
-    transition(state["db_path"], state["claim_id"], ClaimState.AWAITING_HUMAN, "Claim denied: a person decides whether to appeal")
+    if isinstance(state["reply"], Deny):
+        reason = "Claim denied: a person decides whether to appeal"
+    else:
+        reason = "Cut not appealed: the records don't support an appeal, so a person decides"
+    transition(state["db_path"], state["claim_id"], ClaimState.AWAITING_HUMAN, reason)
     return {}
 
 
