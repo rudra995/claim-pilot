@@ -28,6 +28,7 @@ export const api = {
   pay: (id, paid, reference) => request('POST', `/api/claims/${id}/payment`, { paid, reference }),
   patientNote: (id) => request('POST', `/api/claims/${id}/patient-note`),
   dashboard: () => request('GET', '/api/dashboard'),
+  analytics: () => request('GET', '/api/analytics'),
   attach: (id, body) => request('POST', `/api/claims/${id}/documents`, body),
   recheck: (id, reason) => request('POST', `/api/claims/${id}/recheck`, { reason }),
   correct: (id, body) => request('POST', `/api/claims/${id}/corrections`, body),

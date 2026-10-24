@@ -14,7 +14,7 @@ from backend.exchange import messages as exchange
 from backend.models import train_cost, train_denial
 from backend.negotiation import play_round
 from backend.remediation import UploadRejected, attach, attachments, correct
-from backend.schemas import Case, ClaimState, DocumentType, MessageType, PartialApprove, Query, Response
+from backend.schemas import Appeal, Approve, Case, ClaimState, DocumentType, MessageType, PartialApprove, Query, Response
 
 OFFICER = "Billing Officer"
 XRAY = Path("fixtures/remediation/ADM-0002-xray-report.pdf")
@@ -68,6 +68,7 @@ def test_missing_xray_attach_recheck_approve_submit(db: Path) -> None:
     change = [e["output"] for e in audit.events(db, claim_id) if e["action"] == "recheck"][-1]
     assert "Missing xray report" in change["resolved"] and change["draft_before"] == first["version"]
     assert "Room over cap" in change["remaining"]  # still true: the room is still over the cap
+    assert change["new"] == []  # a report's findings and impression are not a conflict
 
     with pytest.raises(DraftChanged):
         decide(db, claim_id, approve(first))  # an approval of the old version is refused
@@ -177,3 +178,57 @@ def test_an_instruction_inside_a_document_changes_nothing(db: Path) -> None:
     assert reader.next == "human_review"
     assert any(f.issue == "Instruction found in a document" for f in reader.findings)
     assert approval(db, claim_id) is None
+
+
+def _note(path: Path, lines: list[str]) -> bytes:
+    import fitz
+
+    pdf = fitz.open()
+    page = pdf.new_page()
+    for i, line in enumerate(lines):
+        page.insert_text((50, 60 + 16 * i), line, fontsize=10)
+    pdf.save(path)
+    return path.read_bytes()
+
+
+def test_a_held_back_appeal_can_be_rechecked_with_new_evidence(db: Path, tmp_path: Path) -> None:
+    """Case 4: the records didn't support an appeal. A doctor's note with real findings is attached, then rechecked."""
+    decide_ = decide
+    case = Case.model_validate_json(Path("fixtures/demo/case4.json").read_text(encoding="utf-8"))
+    claim_id = run_admission(case, db).claim_id
+    decide_(db, claim_id, approve(pending_draft(db, claim_id)))
+    play_round(db, claim_id, case)
+    orchestrator.next_stage(db, claim_id)
+    orchestrator.discharge(db, claim_id, case)
+    decide_(db, claim_id, approve(pending_draft(db, claim_id)))
+    play_round(db, claim_id, case)
+    assert pending_draft(db, claim_id) is None  # held back: nothing to argue with
+    with pytest.raises(ValueError, match="nothing drafted to hold back"):
+        decide_(db, claim_id, Decision(decision="reject", officer=OFFICER, reason="rework"))
+
+    content = _note(tmp_path / "note.pdf", [
+        "Admission note addendum (synthetic)",
+        "Vitals: BP 88/58, pulse 116",
+        "Unable to tolerate oral fluids; IV fluids started on admission.",
+    ])
+    case, doc, _ = attach(db, claim_id, case, DocumentType.ADMISSION_NOTE, "note.pdf", content, OFFICER)
+    recheck(db, claim_id, case, "Doctor's note attached")
+    letter = pending_draft(db, claim_id)
+    assert letter["message"]["type"] == "APPEAL" and doc.doc_id in letter["message"]["cited_documents"]
+    decide_(db, claim_id, approve(letter))
+    play_round(db, claim_id, case)
+    assert isinstance(exchange.latest(db, claim_id), Approve)  # the insurer read the new note, sent with the appeal
+
+
+def test_rechecking_a_held_back_appeal_without_new_evidence_changes_nothing(db: Path) -> None:
+    case = Case.model_validate_json(Path("fixtures/demo/case4.json").read_text(encoding="utf-8"))
+    claim_id = run_admission(case, db).claim_id
+    decide(db, claim_id, approve())
+    play_round(db, claim_id, case)
+    orchestrator.next_stage(db, claim_id)
+    orchestrator.discharge(db, claim_id, case)
+    decide(db, claim_id, approve())
+    play_round(db, claim_id, case)
+    result = recheck(db, claim_id, case, "Looked again")
+    assert result.state == ClaimState.AWAITING_HUMAN and pending_draft(db, claim_id) is None
+    assert not any(isinstance(m, Appeal) for m in exchange.thread(db, claim_id))

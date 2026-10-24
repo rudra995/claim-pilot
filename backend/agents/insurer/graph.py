@@ -64,6 +64,7 @@ def review(db_path: Path | str, claim_id: str) -> ClaimMessage:
     case = case.model_copy(update={"documents": [*case.documents, *extra]})  # records sent later, with a response
 
     sent_ids = {doc_id for m in stage if isinstance(m, (Submit, Response)) for doc_id in m.documents}
+    sent_ids |= {d["doc_id"] for d in exchange.attachments(db_path, claim_id)}  # records sent with a response or appeal
     cited_ids = [doc_id for m in stage if isinstance(m, (Appeal, Response)) for doc_id in _cited(m)]
     final = _graph().invoke({
         "db_path": str(db_path),

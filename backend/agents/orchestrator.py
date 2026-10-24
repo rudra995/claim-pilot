@@ -83,6 +83,7 @@ from backend.schemas import (
     Deny,
     Final,
     MessageType,
+    PartialApprove,
     Query,
     Response,
     Sender,
@@ -489,8 +490,9 @@ def send(db_path: Path | str, claim_id: str, case: Case) -> ClaimMessage:
         })
     elif edits.get("justification"):
         message = message.model_copy(update={"answer" if isinstance(message, Response) else "argument": edits["justification"]})
-    if isinstance(message, (Submit, Response)):  # the files go with the message, including ones attached since
-        exchange.attach(db_path, claim_id, [doc for doc in case.documents if doc.doc_id in message.documents])
+    if isinstance(message, (Submit, Response, Appeal)):  # the files go with the message, including ones attached since
+        sent = message.cited_documents if isinstance(message, Appeal) else message.documents
+        exchange.attach(db_path, claim_id, [doc for doc in case.documents if doc.doc_id in sent])
     exchange.post(db_path, message)
     return message
 
@@ -751,6 +753,12 @@ def open_issues(db_path: Path | str, claim_id: str) -> list[str]:
     return list(dict.fromkeys(issues))
 
 
+def appeal_recheckable(db_path: Path | str, claim_id: str) -> bool:
+    """The insurer cut the claim, a round is left, and the agents didn't appeal: new evidence could change that."""
+    last = exchange.latest(db_path, claim_id)
+    return isinstance(last, PartialApprove) and last.round < MAX_ROUNDS
+
+
 def recheck(db_path: Path | str, claim_id: str, case: Case, reason: str) -> RunResult:
     """New evidence or a correction: re-read the documents, rerun what depends on them, and draft a new version.
 
@@ -764,8 +772,11 @@ def recheck(db_path: Path | str, claim_id: str, case: Case, reason: str) -> RunR
         transition(db_path, claim_id, back, f"Rechecking: {reason}")
     elif state == ClaimState.PREAUTH_DRAFT:
         back = state
+    elif state == ClaimState.AWAITING_HUMAN and pending is None and appeal_recheckable(db_path, claim_id):
+        back = ClaimState.PARTIALLY_APPROVED  # a cut the agents held back from appealing: look at the evidence again
+        transition(db_path, claim_id, back, f"Rechecking the evidence for an appeal: {reason}")
     else:
-        raise InvalidTransition(f"{claim_id} is {state}; only a draft waiting for a person, or a sent-back pre-auth, can be rechecked")
+        raise InvalidTransition(f"{claim_id} is {state}; only a draft waiting for a person, a sent-back pre-auth, or a cut not yet appealed can be rechecked")
     before = open_issues(db_path, claim_id)
     version = pending["version"] if pending else None
 
@@ -787,6 +798,14 @@ def recheck(db_path: Path | str, claim_id: str, case: Case, reason: str) -> RunR
             return _queue_for_person(db_path, claim_id, results, [query_responder.AGENT], "Query responder failed twice")
         draft(db_path, claim_id, answer.data, ClaimState.QUERY_RAISED)
         result = _risk_check_and_queue(db_path, claim_id, case, {**results, query_responder.AGENT: answer}, "Response redrafted", query.stage)
+    elif back == ClaimState.PARTIALLY_APPROVED:
+        cut = exchange.latest(db_path, claim_id)
+        argued = call_agent(db_path, claim_id, appeal.AGENT, appeal.run, cut, case, _reading(db_path, case), _requested(db_path, claim_id), cut.round + 1, masker=masker)
+        if argued is not None and argued.data.appeal is not None:
+            draft(db_path, claim_id, argued.data.appeal, ClaimState.PARTIALLY_APPROVED)
+            result = _risk_check_and_queue(db_path, claim_id, case, {**results, appeal.AGENT: argued}, "Appeal drafted on the new evidence", cut.stage)
+        else:
+            result = _queue_for_person(db_path, claim_id, results, [] if argued else [appeal.AGENT], "Still no evidence that supports an appeal: a person decides")
     else:
         final = call_agent(db_path, claim_id, discharge_agent.AGENT, discharge_agent.run, case, _reading(db_path, case), masker=masker)
         if final is None:

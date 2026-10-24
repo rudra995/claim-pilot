@@ -24,7 +24,7 @@ from backend.agents.orchestrator import DECISION_STATE, claim_state, pending_dra
 from backend.db import audit
 from backend.db.db import connect
 from backend.exchange import messages as exchange
-from backend.schemas import ClaimState, Final, Query, Sender
+from backend.schemas import ClaimState, Final, Query, Sender, Stage
 from backend.schemas.agent_output import NonEmptyStr
 
 
@@ -68,6 +68,8 @@ def decide(db_path: Path | str, claim_id: str, decision: Decision) -> ClaimState
         raise ValueError(f"{claim_id}: nothing drafted to send; reject it or accept the insurer's decision")
     if decision.draft_hash and pending is not None and decision.draft_hash != pending["hash"]:
         raise DraftChanged(f"{claim_id}: the draft changed to v{pending['version']} since it was reviewed; review it again")
+    if decision.decision == "reject" and pending is None and _past_preauth(db_path, claim_id):
+        raise ValueError(f"{claim_id}: nothing drafted to hold back; accept the insurer's decision, or attach evidence and recheck")
     accepted = _insurer_decision(db_path, claim_id) if decision.decision == "accept" else None
     if decision.decision == "accept" and accepted is None:
         raise ValueError(f"{claim_id}: the insurer hasn't decided anything to accept")
@@ -96,6 +98,12 @@ def _insurer_decision(db_path: Path | str, claim_id: str) -> ClaimState | None:
     if last is None or last.sender != Sender.INSURER or isinstance(last, Query):
         return None
     return DECISION_STATE[last.decision if isinstance(last, Final) else last.type]
+
+
+def _past_preauth(db_path: Path | str, claim_id: str) -> bool:
+    """Holding back with nothing drafted sends a claim to the pre-auth draft, which only makes sense at pre-auth."""
+    last = exchange.latest(db_path, claim_id)
+    return last is not None and last.stage != Stage.PREAUTH
 
 
 def _save_requested(db_path: Path | str, claim_id: str, amount: int) -> None:

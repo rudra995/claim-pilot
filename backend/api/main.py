@@ -33,13 +33,14 @@ from backend.adapters import billing_import
 from backend.agents.approval import Decision, DraftChanged, decide
 from backend.agents.orchestrator import InvalidTransition, claim_state, pending_draft
 from backend.api import store
+from backend.api.analytics import analytics
 from backend.api.runner import Busy, Runner
 from backend.db import audit
 from backend.db.db import DEFAULT_DB_PATH, connect, init_db
 from backend.exchange import messages as exchange
 from backend import llm
 from backend.negotiation import INTERRUPTIBLE, play_round, resume
-from backend.rules.engine import billed, portfolio, total
+from backend.rules.engine import billed, portfolio, share, total
 from backend.schemas import BillLine, ClaimMessage, ClaimState, DocumentType, Query as InsurerQuery, Sender
 
 POLL_SECONDS = 0.25  # how often the trace checks the audit log for new steps
@@ -434,6 +435,11 @@ def create_app(db_path: Path | str = DEFAULT_DB_PATH) -> FastAPI:
     def dashboard() -> dict[str, Any]:
         return _dashboard(db_path)
 
+    @app.get("/api/analytics")
+    def analytics_view() -> dict[str, Any]:
+        """Charts for the dashboard: pipeline, first answers, deductions, oversight, risk, and the offline benchmark."""
+        return analytics(db_path, _claim_rows(db_path))
+
     # ---- Live trace ------------------------------------------------------------------------
 
     @app.websocket("/ws/trace")
@@ -531,11 +537,14 @@ def _actions(db_path: Path | str, claim_id: str) -> list[str]:
     if state == ClaimState.AWAITING_HUMAN:
         if pending is not None:
             actions += ["approve", "edit"]
-        actions.append("reject")
         last = exchange.latest(db_path, claim_id)
+        if pending is not None or last is None or last.stage == "preauth":
+            actions.append("reject")
         if last is not None and last.sender == Sender.INSURER and not isinstance(last, InsurerQuery):
             actions.append("accept")
-        if pending is not None and ClaimState(pending["from_state"]) in orchestrator.RECHECKABLE:
+        if (pending is not None and ClaimState(pending["from_state"]) in orchestrator.RECHECKABLE) or (
+            pending is None and orchestrator.appeal_recheckable(db_path, claim_id)
+        ):
             actions.append("recheck")
     elif state == ClaimState.IN_TREATMENT:
         actions += ["bill", "discharge"]
@@ -640,7 +649,7 @@ def _last_event_id(db_path: Path | str) -> int:
 def _dashboard(db_path: Path | str) -> dict[str, Any]:
     """Headline numbers across all claims. Phase 12 adds the learning loop and fairness panels."""
     rows = _claim_rows(db_path)
-    first_pass, first_answers, rounds, clauses, queries = 0, 0, [], Counter(), Counter()
+    first_pass, first_partial, first_answers, rounds, clauses, queries = 0, 0, 0, [], Counter(), Counter()
     clause_amounts: Counter = Counter()
     for row in rows:
         messages = exchange.thread(db_path, row["claim_id"])
@@ -651,7 +660,8 @@ def _dashboard(db_path: Path | str) -> dict[str, Any]:
                 continue
             if stage == "preauth":
                 first_answers += 1
-                first_pass += not isinstance(answers[0], InsurerQuery) and answers[0].type in ("APPROVE", "PARTIAL_APPROVE")
+                first_pass += answers[0].type == "APPROVE"  # in full; a part-approval is not "approved first time"
+                first_partial += answers[0].type == "PARTIAL_APPROVE"
             decided = [m for m in answers if not isinstance(m, InsurerQuery)]
             if decided:
                 rounds.append(decided[-1].round)
@@ -664,7 +674,8 @@ def _dashboard(db_path: Path | str) -> dict[str, Any]:
         "claims": len(rows),
         "by_state": dict(states),
         "awaiting_human": states.get(ClaimState.AWAITING_HUMAN, 0),
-        "first_pass_rate": round(first_pass / first_answers, 3) if first_answers else None,
+        "first_pass_rate": share(first_pass, first_answers),  # approved in full on the first answer
+        "first_pass_partial_rate": share(first_partial, first_answers),
         "average_rounds": round(sum(rounds) / len(rounds), 2) if rounds else None,
         **portfolio(rows),
         "top_deductions": [{"clause": c, "count": n, "amount": clause_amounts[c]} for c, n in clauses.most_common(5)],

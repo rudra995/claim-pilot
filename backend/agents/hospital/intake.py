@@ -56,10 +56,12 @@ SYNONYMS: dict[DocumentType, dict[str, list[str]]] = {
     },
     DocumentType.LAB_REPORT: {
         "test": ["test", "tests", "investigation", "investigations", "test name", "investigations done"],
-        "finding": ["finding", "findings", "result", "results", "interpretation", "conclusion"],
+        "finding": ["finding", "findings", "result", "results"],
+        "conclusion": ["interpretation", "conclusion"],
     },
-    DocumentType.XRAY_REPORT: {
-        "finding": ["finding", "findings", "impression", "conclusion", "report", "opinion", "radiological findings"],
+    DocumentType.XRAY_REPORT: {  # findings and impression are separate sections of a report, not two takes on one
+        "finding": ["finding", "findings", "report", "radiological findings"],
+        "impression": ["impression", "conclusion", "opinion"],
     },
     DocumentType.OPERATIVE_NOTE: {
         "procedure": ["procedure", "procedure performed", "operation", "operation performed", "name of operation", "surgery performed"],
@@ -219,6 +221,8 @@ def _candidates(doc_type: DocumentType, text: str, page: int) -> list[tuple[str,
     for name, value, basis, line in _alternate(doc_type, text):
         if name not in labelled:
             found.append((name, ReadField(value=value, page=page, confidence=TIER[basis], basis=basis, text=line[:200])))
+    if doc_type == DocumentType.XRAY_REPORT and not any(n == "finding" for n, _ in found):
+        found += [("finding", field) for n, field in list(found) if n == "impression"]  # a report with only an impression
     if doc_type == DocumentType.DISCHARGE_SUMMARY and not any(n == "reason_for_admission" for n, _ in found):
         if match := _ADMITTED_FOR.search(re.sub(r"\s+", " ", text)):
             found.append(("reason_for_admission", ReadField(value=match.group(1).strip(), page=page, confidence=TIER["narrative"], basis="narrative", text=match.group(0).strip()[:200])))

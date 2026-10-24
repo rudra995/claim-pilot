@@ -208,7 +208,7 @@ function Decide({ claim, onDone, send = 'Send', hold = 'Hold back', accept, edit
         {draft && <Button variant="primary" size="lg" icon="send" loading={busy === 'approve'} onClick={() => decide({ decision: 'approve' }, sentNote)}>{send}</Button>}
         {draft && <Button size="lg" onClick={() => setMode('edit')}>Edit first</Button>}
         {accept && <Button size="lg" loading={busy === 'accept'} onClick={() => decide({ decision: 'accept' }, { title: 'Decision accepted', icon: 'check' })}>{accept}</Button>}
-        <Button variant="ghost" size="lg" onClick={() => setMode('hold')}>{hold}</Button>
+        {claim.actions?.includes('reject') && <Button variant="ghost" size="lg" onClick={() => setMode('hold')}>{hold}</Button>}
       </div>
       <p className="flex items-center gap-1.5 text-xs text-ink-muted"><Icon name="shield" className="h-3.5 w-3.5" />Signed as {officer}. Nothing reaches the insurer without you.</p>
       {claim.pending_draft && <p className="text-xs text-ink-faint">Approving draft v{claim.pending_draft.version} · {claim.pending_draft.hash?.slice(0, 8)}. If it changes, you&apos;ll be asked again.</p>}
@@ -253,7 +253,7 @@ function FixAndRecheck({ claim, onDone }) {
     <div className="mb-5 space-y-3 rounded-lg border border-line p-3">
       {tasks.length > 0 && (
         <div>
-          <p className="text-[13px] font-medium text-ink-soft">To fix before sending</p>
+          <p className="text-[13px] font-medium text-ink-soft">{claim.pending_draft ? 'To fix before sending' : 'What you can do'}</p>
           <ul className="mt-1.5 space-y-1">
             {tasks.map((t, i) => <li key={i} className="text-[13px] text-ink-muted"><span className="font-medium text-ink">{t.issue}.</span> {t.fix}</li>)}
           </ul>
@@ -435,15 +435,19 @@ function DecideDenial({ claim, s, onDone }) {
   const m = s.lastInsurer
   const reason = m?.reason ?? m?.deductions?.[0]?.item?.replace('Whole claim: ', '')
   const rounds = m?.type === 'FINAL'
+  const heldBack = claim.agents?.appeal?.data?.held_back?.length > 0 && m?.type === 'PARTIAL_APPROVE'
+  const sub = rounds ? 'All three rounds are used, so the agents can’t send anything more. It’s your call.'
+    : heldBack ? 'The records don’t show enough to argue this cut, so the agents didn’t appeal. Attach a record that shows it and recheck, or accept the decision.'
+      : 'The agents don’t appeal a whole-claim denial on their own. It’s your call.'
   return (
     <>
-      <Title sub={rounds ? 'All three rounds are used, so the agents can’t send anything more. It’s your call.' : 'The agents don’t appeal a whole-claim denial on their own. It’s your call.'}>
+      <Title sub={sub}>
         {claim.insurer} {m?.decision === 'PARTIAL_APPROVE' || m?.type === 'PARTIAL_APPROVE' ? 'cut the claim' : 'denied the claim'}
       </Title>
       {reason && <div className="mb-5 rounded-lg border border-rose-200/70 bg-rose-50/40 p-3 text-sm text-rose-900">{reason}</div>}
       <EvidenceList claim={claim} evidence={claim.agents?.appeal?.data?.held_back?.length ? claim.agents.appeal.data.evidence : null} />
       <FixAndRecheck claim={claim} onDone={onDone} />
-      <p className="mb-4 text-sm text-ink-muted">Accept it and the patient pays what isn&apos;t covered, or hold it back to rework the claim.</p>
+      <p className="mb-4 text-sm text-ink-muted">Accept it and the patient pays what isn&apos;t covered{claim.actions?.includes('reject') ? ', or hold it back to rework the claim' : ''}.</p>
       <Decide claim={claim} onDone={onDone} accept="Accept decision" />
     </>
   )

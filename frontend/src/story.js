@@ -34,6 +34,7 @@ export function nextStep(claim) {
   const reason = claim.last_reason ?? ''
   switch (claim.state) {
     case 'AWAITING_HUMAN':
+      if (/not appealed|already refused/i.test(reason)) return 'Decide on the cut'
       if (/appeal/i.test(reason)) return 'Review the appeal'
       if (/Enhancement/i.test(reason)) return 'Approve more funds'
       if (/Final package/i.test(reason)) return 'Send the final claim'
