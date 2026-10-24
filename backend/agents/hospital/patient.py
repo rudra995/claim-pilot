@@ -1,8 +1,10 @@
 """Patient agent: a plain-language cost note with room advice, for staff to check and hand over (design sections 4, 10).
 
 The room advisor prices the same stay in each room on the hospital's tariff with the rules engine's
-`what_if_room`, and recommends the dearest room that costs the patient no more than the cheapest:
-the best room the policy fully supports. Every amount comes from the engine; the note is built in
+`what_if_room`. Only when the room is over the policy's cap does it recommend a switch: to the dearest
+room that costs the patient no more than the cheapest, the best room the policy fully supports. A
+room within the cap is never second-guessed, even when a percentage co-pay makes a cheaper one
+slightly cheaper. Every amount comes from the engine; the note is built in
 code. It never mentions fraud. A note that tells the patient the claim isn't covered goes to a person.
 """
 
@@ -57,8 +59,9 @@ def run(claim_id: str, case: Case) -> AgentResult:
 
     lowest = min(o.patient_pays for o in options)
     best = max((o for o in options if o.patient_pays == lowest), key=lambda o: o.rate)
-    recommended = None if best.current or best.saving <= 0 else best
     room_rule = next((r for r in case.policy.rules if r.type == RuleType.ROOM_RENT_CAP), None)
+    over_cap = room_rule is not None and any(d.rule_id == room_rule.rule_id for d in current.deductions)
+    recommended = best if over_cap and not best.current and best.saving > 0 else None
     clause = f" (clause {room_rule.clause_id})" if room_rule else ""
 
     if not covered:

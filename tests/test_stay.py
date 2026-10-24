@@ -106,6 +106,13 @@ def test_room_within_the_cap_needs_no_switch() -> None:
     assert "within your policy's room limit" in note.note
 
 
+def test_no_downgrade_advice_for_a_room_within_the_cap() -> None:
+    # Case 3's ₹3,000 room is within its ₹4,000 cap; only the 10% co-pay makes cheaper rooms a little cheaper.
+    note = patient.run("CLM-TEST", load("case3.json")).data
+    assert note.recommended is None
+    assert "within your policy's room limit" in note.note
+
+
 def test_patient_note_is_logged_for_staff(db: Path) -> None:
     case = load("case2.json")
     claim_id = run_admission(case, db).claim_id
