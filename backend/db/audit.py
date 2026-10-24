@@ -55,3 +55,18 @@ def events(db_path: Path | str, claim_id: str) -> list[dict[str, Any]]:
     finally:
         conn.close()
     return [{**dict(row), "output": json.loads(row["output_json"])} for row in rows]
+
+
+def since(db_path: Path | str, after: int, claim_id: str | None = None, limit: int = 500) -> list[dict[str, Any]]:
+    """Events after `after` (an event_id), oldest first, for every claim or just one."""
+    query = "SELECT event_id, claim_id, actor, action, output_json, created_at FROM audit_log WHERE event_id > ?"
+    params: list[Any] = [after]
+    if claim_id is not None:
+        query += " AND claim_id = ?"
+        params.append(claim_id)
+    conn = connect(db_path)
+    try:
+        rows = conn.execute(f"{query} ORDER BY event_id LIMIT ?", [*params, limit]).fetchall()
+    finally:
+        conn.close()
+    return [{key: row[key] for key in row.keys() if key != "output_json"} | {"output": json.loads(row["output_json"])} for row in rows]

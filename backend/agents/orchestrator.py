@@ -390,7 +390,12 @@ def _admission_graph():
 
 def run_admission(case: Case, db_path: Path | str) -> RunResult:
     """Open a claim for the case and take it from ADMITTED to AWAITING_HUMAN."""
-    claim_id = open_claim(db_path, case)
+    return admit(db_path, open_claim(db_path, case), case)
+
+
+def admit(db_path: Path | str, claim_id: str, case: Case) -> RunResult:
+    """Take a claim already opened with `open_claim` from ADMITTED to AWAITING_HUMAN."""
+    _require(db_path, claim_id, ClaimState.ADMITTED)
     final = _admission_graph().invoke(
         {"db_path": str(db_path), "claim_id": claim_id, "case": case, "results": {}, "review_flags": [], "failed": []}
     )
