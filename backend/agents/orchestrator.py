@@ -25,6 +25,15 @@ after a person approves it (`send`). The insurer's answer comes back through the
     APPROVED           done for this stage
     after round 3      no round is left: AWAITING_HUMAN, and a person decides
 
+Rest of the stay (design section 4). Each stage's decision moves the claim on (`next_stage`):
+
+    IN_TREATMENT       enhancement agent watches the bill (`watch_bill`); past the approval it drafts
+                       an enhancement -> RISK_CHECK -> AWAITING_HUMAN -> SUBMITTED -> insurer
+    DISCHARGE_DRAFT    discharge agent drafts the final package (`discharge`) -> RISK_CHECK -> AWAITING_HUMAN
+    FINAL_APPROVED     only on the insurer's discharge decision
+    SETTLED            only with a payment advice recorded (`settle`)
+    CLOSED             reconciliation agent finds nothing to chase (`reconcile`)
+
 Agents call the LLM only through backend.llm, which masks the patient's name and ids for the
 claim being worked on and logs the masked prompt (design section 9).
 """
@@ -40,7 +49,20 @@ from langgraph.graph import END, START, StateGraph
 
 from backend.agents.base import AgentResult
 from backend import llm
-from backend.agents.hospital import appeal, coder, denial_risk, estimator, intake, policy, preauth, query_responder
+from backend.agents.hospital import (
+    appeal,
+    coder,
+    denial_risk,
+    discharge as discharge_agent,
+    enhancement,
+    estimator,
+    intake,
+    patient,
+    policy,
+    preauth,
+    query_responder,
+    reconcile as reconcile_agent,
+)
 from backend.agents.hospital.intake import Reading, ReadDocument
 from backend.db import audit
 from backend.db.cases import save_case
@@ -76,11 +98,20 @@ TRANSITIONS: dict[ClaimState, set[ClaimState]] = {
     ClaimState.PREAUTH_DRAFT: {ClaimState.RISK_CHECK, ClaimState.AWAITING_HUMAN},
     ClaimState.RISK_CHECK: {ClaimState.AWAITING_HUMAN},
     # approved; rejected back to where the draft was made; or the insurer's decision accepted
-    ClaimState.AWAITING_HUMAN: {ClaimState.SUBMITTED, ClaimState.PREAUTH_DRAFT, ClaimState.QUERY_RAISED, *_DECIDED},
+    ClaimState.AWAITING_HUMAN: {
+        ClaimState.SUBMITTED, ClaimState.PREAUTH_DRAFT, ClaimState.QUERY_RAISED, ClaimState.IN_TREATMENT,
+        ClaimState.DISCHARGE_DRAFT, *_DECIDED,
+    },
     ClaimState.SUBMITTED: {ClaimState.QUERY_RAISED, *_DECIDED},
     ClaimState.QUERY_RAISED: {ClaimState.RISK_CHECK, ClaimState.AWAITING_HUMAN},
-    ClaimState.PARTIALLY_APPROVED: {ClaimState.RISK_CHECK, ClaimState.AWAITING_HUMAN},
+    # a decided stage moves on: back to treatment, or to final approval after the discharge stage
+    ClaimState.APPROVED: {ClaimState.IN_TREATMENT, ClaimState.FINAL_APPROVED},
+    ClaimState.PARTIALLY_APPROVED: {ClaimState.RISK_CHECK, ClaimState.AWAITING_HUMAN, ClaimState.IN_TREATMENT, ClaimState.FINAL_APPROVED},
     ClaimState.DENIED: {ClaimState.RISK_CHECK, ClaimState.AWAITING_HUMAN},
+    ClaimState.IN_TREATMENT: {ClaimState.RISK_CHECK, ClaimState.DISCHARGE_DRAFT, ClaimState.AWAITING_HUMAN},
+    ClaimState.DISCHARGE_DRAFT: {ClaimState.RISK_CHECK, ClaimState.AWAITING_HUMAN},
+    ClaimState.FINAL_APPROVED: {ClaimState.SETTLED},
+    ClaimState.SETTLED: {ClaimState.CLOSED},
 }
 APPROVING = {"approve", "edit"}  # decisions that let a claim be submitted
 DECISION_STATE = {
@@ -153,6 +184,12 @@ def transition(db_path: Path | str, claim_id: str, to: ClaimState, reason: str) 
                 raise InvalidTransition(f"{claim_id}: {current} -> {to} is not allowed")
             if to == ClaimState.SUBMITTED and approval(db_path, claim_id) is None:
                 raise ApprovalRequired(f"{claim_id}: no approval recorded since it reached {ClaimState.AWAITING_HUMAN}")
+            if to == ClaimState.FINAL_APPROVED:
+                last = exchange.latest(db_path, claim_id)
+                if last is None or last.stage != Stage.DISCHARGE or last.sender != Sender.INSURER:
+                    raise InvalidTransition(f"{claim_id}: final approval needs the insurer's discharge decision")
+            if to == ClaimState.SETTLED and payment(db_path, claim_id) is None:
+                raise InvalidTransition(f"{claim_id}: no payment advice recorded")
             conn.execute("UPDATE claims SET state = ? WHERE claim_id = ?", (to.value, claim_id))
     finally:
         conn.close()
@@ -384,7 +421,7 @@ def send(db_path: Path | str, claim_id: str, case: Case) -> ClaimMessage:
     if isinstance(message, Submit):
         package = {**message.package, **({"justification": edits["justification"]} if edits.get("justification") else {})}
         message = message.model_copy(update={
-            "package": {"preauth": package, "case": case.model_dump(mode="json")},
+            "package": {message.stage.value: package, "case": case.model_dump(mode="json")},
             "requested_amount": edits.get("requested_amount") or message.requested_amount,
         })
     elif edits.get("justification"):
@@ -513,6 +550,134 @@ def _reply_graph():
     graph.add_edge("denied", END)
     graph.add_edge("escalate", END)
     return graph.compile()
+
+
+# ---- Rest of the stay ----------------------------------------------------------------------
+
+
+def next_stage(db_path: Path | str, claim_id: str) -> ClaimState:
+    """After a stage is decided: back to treatment, or, after the discharge stage, final approval."""
+    state = claim_state(db_path, claim_id)
+    if state not in (ClaimState.APPROVED, ClaimState.PARTIALLY_APPROVED):
+        raise InvalidTransition(f"{claim_id} is {state}; only an approved stage moves on")
+    last = exchange.latest(db_path, claim_id)
+    if last is not None and last.stage == Stage.DISCHARGE:
+        transition(db_path, claim_id, ClaimState.FINAL_APPROVED, f"Final approval: ₹{_approved(db_path, claim_id):,}")
+        return ClaimState.FINAL_APPROVED
+    stage = last.stage if last else Stage.PREAUTH
+    transition(db_path, claim_id, ClaimState.IN_TREATMENT, f"{stage.value.capitalize()} decided: treatment goes on")
+    return ClaimState.IN_TREATMENT
+
+
+def watch_bill(db_path: Path | str, claim_id: str, case: Case) -> RunResult:
+    """The running bill has changed: store it, and ask for more if it has outgrown the approval."""
+    _require(db_path, claim_id, ClaimState.IN_TREATMENT)
+    conn = connect(db_path)
+    try:
+        save_case(conn, case)  # adds the new bill lines
+    finally:
+        conn.close()
+    sent = [m for m in exchange.thread(db_path, claim_id) if isinstance(m, Submit)]
+    last_sent = Case.model_validate(sent[-1].package["case"]) if sent and "case" in sent[-1].package else None
+    used = any(m.stage == Stage.ENHANCEMENT for m in sent)
+    result = call_agent(
+        db_path, claim_id, enhancement.AGENT, enhancement.run, case, _approved(db_path, claim_id), last_sent, used,
+        masker=Masker.for_case(case),
+    )
+    if result is None:
+        return _queue_for_person(db_path, claim_id, {}, [enhancement.AGENT], "Enhancement agent failed twice")
+    results = {enhancement.AGENT: result}
+    if result.data.submit is not None:
+        _save_requested(str(db_path), claim_id, result.data.submit.requested_amount)
+        draft(db_path, claim_id, result.data.submit, ClaimState.IN_TREATMENT)
+        return _risk_check_and_queue(db_path, claim_id, case, results, "Enhancement request drafted")
+    if result.wants_human:
+        return _queue_for_person(db_path, claim_id, results, [], "Bill above the approval: a person decides")
+    return RunResult(claim_id, claim_state(db_path, claim_id), results, [], [])
+
+
+def discharge(db_path: Path | str, claim_id: str, case: Case) -> RunResult:
+    """The patient is going home: draft the final package with its deduction preview."""
+    _require(db_path, claim_id, ClaimState.IN_TREATMENT)
+    transition(db_path, claim_id, ClaimState.DISCHARGE_DRAFT, "Patient ready for discharge")
+    result = call_agent(
+        db_path, claim_id, discharge_agent.AGENT, discharge_agent.run, case, _reading(db_path, case), masker=Masker.for_case(case)
+    )
+    if result is None:
+        return _queue_for_person(db_path, claim_id, {}, [discharge_agent.AGENT], "Discharge agent failed twice")
+    _save_requested(str(db_path), claim_id, result.data.submit.requested_amount)
+    draft(db_path, claim_id, result.data.submit, ClaimState.DISCHARGE_DRAFT)
+    return _risk_check_and_queue(db_path, claim_id, case, {discharge_agent.AGENT: result}, "Final package drafted")
+
+
+def settle(db_path: Path | str, claim_id: str, paid: int, reference: str) -> None:
+    """Record the insurer's payment advice; the claim is then settled."""
+    _require(db_path, claim_id, ClaimState.FINAL_APPROVED)
+    if paid < 0:
+        raise ValueError("a payment can't be negative")
+    audit.log(db_path, claim_id, ACTOR, "payment_advice", {"paid": paid, "reference": reference})
+    transition(db_path, claim_id, ClaimState.SETTLED, f"Paid ₹{paid:,} ({reference})")
+
+
+def payment(db_path: Path | str, claim_id: str) -> dict[str, Any] | None:
+    """The latest payment advice recorded for the claim, if any."""
+    advice = [e["output"] for e in audit.events(db_path, claim_id) if e["action"] == "payment_advice"]
+    return advice[-1] if advice else None
+
+
+def reconcile(db_path: Path | str, claim_id: str, case: Case) -> RunResult:
+    """Check the payment against the bill; close the claim if nothing is left to chase."""
+    _require(db_path, claim_id, ClaimState.SETTLED)
+    decision = next(
+        m for m in reversed(exchange.thread(db_path, claim_id, Stage.DISCHARGE))
+        if m.sender == Sender.INSURER and not isinstance(m, (Query, Deny))
+    )
+    result = call_agent(
+        db_path, claim_id, reconcile_agent.AGENT, reconcile_agent.run,
+        case, decision, _requested(db_path, claim_id), payment(db_path, claim_id)["paid"],
+        masker=Masker.for_case(case),
+    )
+    if result is None:
+        return RunResult(claim_id, claim_state(db_path, claim_id), {}, [], [reconcile_agent.AGENT])
+    flags = [f"{reconcile_agent.AGENT}: {result.output.decision}"] if result.wants_human else []
+    if result.data.to_chase == 0:
+        transition(db_path, claim_id, ClaimState.CLOSED, "Paid in full under the policy: nothing to chase")
+    return RunResult(claim_id, claim_state(db_path, claim_id), {reconcile_agent.AGENT: result}, flags, [])
+
+
+def advise_patient(db_path: Path | str, claim_id: str, case: Case) -> AgentResult | None:
+    """The patient's cost note and room advice, logged for staff to check before it is handed over."""
+    claim_state(db_path, claim_id)  # the claim must exist
+    return call_agent(db_path, claim_id, patient.AGENT, patient.run, case, masker=Masker.for_case(case))
+
+
+def _risk_check_and_queue(db_path: Path | str, claim_id: str, case: Case, results: dict[str, AgentResult], reason: str) -> RunResult:
+    transition(db_path, claim_id, ClaimState.RISK_CHECK, reason)
+    risk = call_agent(db_path, claim_id, denial_risk.AGENT, denial_risk.run, case, masker=Masker.for_case(case))
+    if risk is None:
+        return _queue_for_person(db_path, claim_id, results, [denial_risk.AGENT], "Denial-risk agent failed twice")
+    results = {**results, denial_risk.AGENT: risk}
+    flags = [f"{name}: {r.output.decision}" for name, r in results.items() if r.wants_human]
+    transition(db_path, claim_id, ClaimState.AWAITING_HUMAN, f"{reason}: needs approval")
+    return RunResult(claim_id, ClaimState.AWAITING_HUMAN, results, flags, [])
+
+
+def _queue_for_person(db_path: Path | str, claim_id: str, results: dict[str, AgentResult], failed: list[str], reason: str) -> RunResult:
+    transition(db_path, claim_id, ClaimState.AWAITING_HUMAN, reason)
+    return RunResult(claim_id, ClaimState.AWAITING_HUMAN, results, [reason], failed)
+
+
+def _require(db_path: Path | str, claim_id: str, state: ClaimState) -> None:
+    if (current := claim_state(db_path, claim_id)) != state:
+        raise InvalidTransition(f"{claim_id} is {current}, not {state}")
+
+
+def _approved(db_path: Path | str, claim_id: str) -> int:
+    conn = connect(db_path)
+    try:
+        return conn.execute("SELECT approved FROM claims WHERE claim_id = ?", (claim_id,)).fetchone()["approved"] or 0
+    finally:
+        conn.close()
 
 
 def _reading(db_path: Path | str, case: Case) -> Reading:
