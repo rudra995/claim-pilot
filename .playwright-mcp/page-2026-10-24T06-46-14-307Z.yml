@@ -1,0 +1,392 @@
+- generic [ref=f5e2]:
+  - banner [ref=f5e3]:
+    - generic [ref=f5e4]:
+      - generic [ref=f5e5]: ClaimPilot
+      - navigation [ref=f5e6]:
+        - link "Claims board" [ref=f5e7] [cursor=pointer]:
+          - /url: /
+        - link "Approval queue" [ref=f5e8] [cursor=pointer]:
+          - /url: /queue
+        - link "Insurer console" [ref=f5e9] [cursor=pointer]:
+          - /url: /insurer
+        - link "Patient view" [ref=f5e10] [cursor=pointer]:
+          - /url: /patient
+      - generic [ref=f5e11]:
+        - text: Billing officer
+        - textbox "Billing officer" [ref=f5e12]: Billing Officer
+  - main [ref=f5e13]:
+    - generic [ref=f5e76]:
+      - generic [ref=f5e77]:
+        - generic [ref=f5e78]:
+          - link "← Claims board" [ref=f5e79] [cursor=pointer]:
+            - /url: /
+          - heading "Lakshmi Rao · Gastroenteritis management" [level=1] [ref=f5e80]:
+            - text: Lakshmi Rao
+            - generic [ref=f5e81]: · Gastroenteritis management
+          - paragraph [ref=f5e82]: CLM-0003-1 · Demo Insurer B · TPA-B · sum insured ₹4,00,000
+        - generic [ref=f5e83]:
+          - generic [ref=f5e84]: IN TREATMENT
+          - generic [ref=f5e194]: Risk 92%
+          - generic [ref=f5e85]: Requested ₹34,200 · Approved ₹34,200
+          - generic [ref=f5e86]: ● live
+      - generic [ref=f5e88]:
+        - generic [ref=f5e89]:
+          - navigation [ref=f5e90]:
+            - button "Live trace" [ref=f5e91] [cursor=pointer]
+            - button "Agents" [ref=f5e92] [cursor=pointer]
+            - button "Insurer thread" [ref=f5e93] [cursor=pointer]
+            - button "Bill and documents" [ref=f5e94] [cursor=pointer]
+          - generic [ref=f5e95]:
+            - generic [ref=f5e96]:
+              - heading "Every step, as it happens" [level=2] [ref=f5e97]
+              - generic [ref=f5e98]:
+                - checkbox "Show LLM calls and case files" [ref=f5e99]
+                - text: Show LLM calls and case files
+            - list [ref=f5e101]:
+              - listitem [ref=f5e102]:
+                - generic [ref=f5e104]:
+                  - generic [ref=f5e105]: 12:15:54 PM
+                  - generic [ref=f5e106]: "orchestrator: open_claim"
+              - listitem [ref=f5e107]:
+                - generic [ref=f5e109]:
+                  - generic [ref=f5e110]: 12:15:54 PM
+                  - generic [ref=f5e111]:
+                    - text: Document reader decided Needs review
+                    - generic [ref=f5e112]: "· confidence 0.50 · next: Human review"
+                - list [ref=f5e114]:
+                  - listitem [ref=f5e115]:
+                    - text: Admission Note read
+                    - generic [ref=f5e116]: ": Fields: chief complaint, provisional diagnosis, planned treatment, vitals"
+                    - generic [ref=f5e117]: Admission Note ADM-0003-D1 p.1
+                  - listitem [ref=f5e118]:
+                    - text: Laboratory Report read
+                    - generic [ref=f5e119]: ": Fields: test, sodium mmol l, potassium mmol l, creatinine mg dl"
+                    - generic [ref=f5e120]: Laboratory Report ADM-0003-D2 p.1
+                  - listitem [ref=f5e121]:
+                    - text: Discharge Summary read
+                    - generic [ref=f5e122]: ": Fields: diagnosis, icd10, treatment given, length of stay days, condition at discharge"
+                    - generic [ref=f5e123]: Discharge Summary ADM-0003-D3 p.1
+                  - listitem [ref=f5e124]:
+                    - text: "Not found: reason for admission"
+                    - generic [ref=f5e125]: ": No 'reason for admission' line in the document"
+                    - generic [ref=f5e126]: Discharge Summary ADM-0003-D3 p.1
+                  - listitem [ref=f5e127]:
+                    - text: Final Bill read
+                    - generic [ref=f5e128]: ": Fields: total billed"
+                    - generic [ref=f5e129]: Final Bill ADM-0003-D4 p.1
+              - listitem [ref=f5e130]:
+                - generic [ref=f5e132]:
+                  - generic [ref=f5e133]: 12:15:54 PM
+                  - generic [ref=f5e134]:
+                    - text: Clinical coder decided Coded
+                    - generic [ref=f5e135]: "· confidence 0.67 · next: Policy and cost"
+                - list [ref=f5e137]:
+                  - listitem [ref=f5e138]:
+                    - text: Coded as A09
+                    - generic [ref=f5e139]: ": 'Acute gastroenteritis with dehydration' matches 'Acute gastroenteritis' in the ICD-10 lookup"
+                    - generic [ref=f5e140]: Admission Note ADM-0003-D1 p.1
+              - listitem [ref=f5e141]:
+                - generic [ref=f5e143]:
+                  - generic [ref=f5e144]: 12:15:54 PM
+                  - generic [ref=f5e145]: "ADMITTED -> PREAUTH_DRAFT: Documents read and diagnosis coded"
+              - listitem [ref=f5e146]:
+                - generic [ref=f5e148]:
+                  - generic [ref=f5e149]: 12:15:54 PM
+                  - generic [ref=f5e150]:
+                    - text: Policy decided Covered with deductions
+                    - generic [ref=f5e151]: "· confidence 1.00 · next: Preauth"
+                - list [ref=f5e153]:
+                  - listitem [ref=f5e154]:
+                    - text: Room rent cap
+                    - generic [ref=f5e155]: ": Room rent is payable up to 1% of the sum insured per day. Associated medical expenses are paid in the same proportion if a higher room is chosen."
+                    - generic [ref=f5e156]: Policy clause 2.4
+                  - listitem [ref=f5e157]:
+                    - text: Co-pay
+                    - generic [ref=f5e158]: ": A co-payment of 10% of every admissible claim applies to insured persons aged 60 or above."
+                    - generic [ref=f5e159]: Policy clause 6.1
+                  - listitem [ref=f5e160]:
+                    - text: Non-payable items
+                    - generic [ref=f5e161]: ": Items listed in Annexure III, including gloves, masks and admission kits, are not payable."
+                    - generic [ref=f5e162]: Policy clause Annexure III
+                  - listitem [ref=f5e163]:
+                    - text: 10% co-pay for patients aged 60+
+                    - generic [ref=f5e164]: ": Co-pay: ₹4,250 not payable"
+                    - generic [ref=f5e165]: Policy clause 6.1
+                  - listitem [ref=f5e166]:
+                    - text: Expected insurer share
+                    - generic [ref=f5e167]: ": ₹38,250 of ₹42,500 billed; patient pays ₹4,250"
+                    - generic [ref=f5e168]: Rules engine
+              - listitem [ref=f5e169]:
+                - generic [ref=f5e171]:
+                  - generic [ref=f5e172]: 12:15:54 PM
+                  - generic [ref=f5e173]:
+                    - text: Cost estimator decided Estimated
+                    - generic [ref=f5e174]: "· confidence 0.90 · next: Preauth"
+                - list [ref=f5e176]:
+                  - listitem [ref=f5e177]:
+                    - text: Typical bill
+                    - generic [ref=f5e178]: ": ₹34,200 (50th percentile)"
+                    - generic [ref=f5e179]: Cost model (XGBoost quantile regression)
+                  - listitem [ref=f5e180]:
+                    - text: High bill
+                    - generic [ref=f5e181]: ": ₹47,800 (90th percentile)"
+                    - generic [ref=f5e182]: Cost model (XGBoost quantile regression)
+                  - listitem [ref=f5e183]:
+                    - text: Expected length of stay
+                    - generic [ref=f5e184]: ": 2 days typical, 4 days high"
+                    - generic [ref=f5e185]: Cost model (XGBoost quantile regression)
+              - listitem [ref=f5e195]:
+                - generic [ref=f5e197]:
+                  - generic [ref=f5e198]: 12:15:59 PM
+                  - generic [ref=f5e199]:
+                    - text: Preauth decided Review flags
+                    - generic [ref=f5e200]: "· confidence 0.60 · next: Human approval"
+                - list [ref=f5e202]:
+                  - listitem [ref=f5e203]:
+                    - text: Amount requested
+                    - generic [ref=f5e204]: ": ₹34,200 (typical bill)"
+                    - generic [ref=f5e205]: Cost model (XGBoost quantile regression), 50th percentile
+                  - listitem [ref=f5e206]:
+                    - text: Diagnosis
+                    - generic [ref=f5e207]: ": A09 Acute gastroenteritis"
+                    - generic [ref=f5e208]: Admission Note ADM-0003-D1 p.1
+                  - listitem [ref=f5e209]:
+                    - text: Expected deductions
+                    - generic [ref=f5e210]: ": Deductions found: 1; insurer expected to pay ₹38,250 of ₹42,500"
+                    - generic [ref=f5e211]: Rules engine
+                  - listitem [ref=f5e212]:
+                    - text: Documents attached
+                    - generic [ref=f5e213]: ": ADM-0003-D1, ADM-0003-D2, ADM-0003-D3, ADM-0003-D4"
+                    - generic [ref=f5e214]: Document reader
+                  - listitem [ref=f5e215]:
+                    - text: Needs a person
+                    - generic [ref=f5e216]: ": document_reader: needs_review"
+                    - generic [ref=f5e217]: Orchestrator
+              - listitem [ref=f5e218]:
+                - generic [ref=f5e220]:
+                  - generic [ref=f5e221]: 12:15:59 PM
+                  - generic [ref=f5e222]: Drafted SUBMIT for approval
+              - listitem [ref=f5e223]:
+                - generic [ref=f5e225]:
+                  - generic [ref=f5e226]: 12:15:59 PM
+                  - generic [ref=f5e227]: "PREAUTH_DRAFT -> RISK_CHECK: Pre-auth package drafted"
+              - listitem [ref=f5e228]:
+                - generic [ref=f5e230]:
+                  - generic [ref=f5e231]: 12:15:59 PM
+                  - generic [ref=f5e232]:
+                    - text: Denial risk decided Fix before submit
+                    - generic [ref=f5e233]: "· confidence 0.91 · next: Human review"
+                - list [ref=f5e235]:
+                  - listitem [ref=f5e236]:
+                    - text: Denial risk
+                    - generic [ref=f5e237]: ": 92% chance of a cut or denial (approved 8%, partially approved 91%, denied 0%)"
+                    - generic [ref=f5e238]: Denial-risk model (XGBoost + SHAP)
+                  - listitem [ref=f5e239]:
+                    - text: Reason for admission not stated
+                    - generic [ref=f5e240]: ": The discharge summary doesn't say why admission was needed; model weight +3.65"
+                    - generic [ref=f5e241]: Discharge summary ADM-0003-D3
+              - listitem [ref=f5e242]:
+                - generic [ref=f5e244]:
+                  - generic [ref=f5e245]: 12:15:59 PM
+                  - generic [ref=f5e246]: "RISK_CHECK -> AWAITING_HUMAN: Pre-auth package needs approval"
+              - listitem [ref=f5e268]:
+                - generic [ref=f5e270]:
+                  - generic [ref=f5e271]: 12:15:59 PM
+                  - generic [ref=f5e272]: Billing Officer chose approve
+              - listitem [ref=f5e273]:
+                - generic [ref=f5e275]:
+                  - generic [ref=f5e276]: 12:15:59 PM
+                  - generic [ref=f5e277]: "AWAITING_HUMAN -> SUBMITTED: Approved by Billing Officer"
+              - listitem [ref=f5e278]:
+                - generic [ref=f5e280]:
+                  - generic [ref=f5e281]: 12:15:59 PM
+                  - generic [ref=f5e282]: hospital sent SUBMIT (preauth, round 1)
+              - listitem [ref=f5e283]:
+                - generic [ref=f5e285]:
+                  - generic [ref=f5e286]: 12:15:59 PM
+                  - generic [ref=f5e287]:
+                    - text: Tpa fraud screen decided Clear
+                    - generic [ref=f5e288]: "· confidence 1.00 · next: Tpa adjudicator"
+                - list [ref=f5e290]:
+                  - listitem [ref=f5e291]:
+                    - text: No fraud signals
+                    - generic [ref=f5e292]: ": Coding, length of stay and duplicates checked"
+                    - generic [ref=f5e293]: Fraud screen rules
+              - listitem [ref=f5e294]:
+                - generic [ref=f5e296]:
+                  - generic [ref=f5e297]: 12:15:59 PM
+                  - generic [ref=f5e298]:
+                    - text: Tpa medical reviewer decided Gaps found
+                    - generic [ref=f5e299]: "· confidence 1.00 · next: Tpa adjudicator"
+                - list [ref=f5e301]:
+                  - listitem [ref=f5e302]:
+                    - text: Admission not justified
+                    - generic [ref=f5e303]: ": The discharge summary doesn't say why admission was needed"
+                    - generic [ref=f5e304]: Discharge summary ADM-0003-D3
+              - listitem [ref=f5e305]:
+                - generic [ref=f5e307]:
+                  - generic [ref=f5e308]: 12:15:59 PM
+                  - generic [ref=f5e309]:
+                    - text: Tpa adjudicator decided Partial
+                    - generic [ref=f5e310]: "· confidence 1.00 · next: Reply"
+                - list [ref=f5e312]:
+                  - listitem [ref=f5e313]:
+                    - text: "Twin sharing room, 3 days x 3,000: stay charges not paid"
+                    - generic [ref=f5e314]: ": ₹9,000 not paid"
+                    - generic [ref=f5e315]: "Policy clause Medical necessity: reason for admission not documented"
+                  - listitem [ref=f5e316]:
+                    - text: "Nursing charges: stay charges not paid"
+                    - generic [ref=f5e317]: ": ₹4,500 not paid"
+                    - generic [ref=f5e318]: "Policy clause Medical necessity: reason for admission not documented"
+                  - listitem [ref=f5e319]:
+                    - text: "Co-pay: 10% co-pay for patients aged 60+"
+                    - generic [ref=f5e320]: ": ₹2,900 not paid"
+                    - generic [ref=f5e321]: Policy clause 6.1
+                  - listitem [ref=f5e322]:
+                    - text: Approved amount
+                    - generic [ref=f5e323]: ": ₹26,100 of ₹42,500 billed"
+                    - generic [ref=f5e324]: Rules engine, with the TPA's profile applied
+              - listitem [ref=f5e325]:
+                - generic [ref=f5e327]:
+                  - generic [ref=f5e328]: 12:15:59 PM
+                  - generic [ref=f5e329]: insurer sent PARTIAL_APPROVE (preauth, round 1)
+              - listitem [ref=f5e330]:
+                - generic [ref=f5e332]:
+                  - generic [ref=f5e333]: 12:15:59 PM
+                  - generic [ref=f5e334]: "SUBMITTED -> PARTIALLY_APPROVED: Insurer PARTIAL_APPROVE, round 1: ₹26,100 approved"
+              - listitem [ref=f5e336]:
+                - generic [ref=f5e338]:
+                  - generic [ref=f5e339]: 12:16:04 PM
+                  - generic [ref=f5e340]:
+                    - text: Appeal decided Appeal
+                    - generic [ref=f5e341]: "· confidence 0.90 · next: Human approval"
+                - list [ref=f5e343]:
+                  - listitem [ref=f5e344]:
+                    - text: Policy assessment
+                    - generic [ref=f5e345]: ": Insurer should pay ₹34,200; it approved ₹26,100"
+                    - generic [ref=f5e346]: Rules engine
+                  - listitem [ref=f5e347]:
+                    - text: "Contesting 'Medical necessity: reason for admission not documented'"
+                    - generic [ref=f5e348]: ": Insurer cut ₹13,500; policy supports ₹0"
+                    - generic [ref=f5e349]: Insurer decision, round 1
+                  - listitem [ref=f5e350]:
+                    - text: Citing Admission Note
+                    - generic [ref=f5e351]: ": Clinical record in the claim"
+                    - generic [ref=f5e352]: Admission Note ADM-0003-D1 p.1
+                  - listitem [ref=f5e353]:
+                    - text: Citing Laboratory Report
+                    - generic [ref=f5e354]: ": Clinical record in the claim"
+                    - generic [ref=f5e355]: Laboratory Report ADM-0003-D2 p.1
+              - listitem [ref=f5e356]:
+                - generic [ref=f5e358]:
+                  - generic [ref=f5e359]: 12:16:04 PM
+                  - generic [ref=f5e360]: Drafted APPEAL for approval
+              - listitem [ref=f5e361]:
+                - generic [ref=f5e363]:
+                  - generic [ref=f5e364]: 12:16:04 PM
+                  - generic [ref=f5e365]: "PARTIALLY_APPROVED -> RISK_CHECK: Appeal to the insurer drafted"
+              - listitem [ref=f5e366]:
+                - generic [ref=f5e368]:
+                  - generic [ref=f5e369]: 12:16:04 PM
+                  - generic [ref=f5e370]:
+                    - text: Denial risk decided Fix before submit
+                    - generic [ref=f5e371]: "· confidence 0.91 · next: Human review"
+                - list [ref=f5e373]:
+                  - listitem [ref=f5e374]:
+                    - text: Denial risk
+                    - generic [ref=f5e375]: ": 92% chance of a cut or denial (approved 8%, partially approved 91%, denied 0%)"
+                    - generic [ref=f5e376]: Denial-risk model (XGBoost + SHAP)
+                  - listitem [ref=f5e377]:
+                    - text: Reason for admission not stated
+                    - generic [ref=f5e378]: ": The discharge summary doesn't say why admission was needed; model weight +3.65"
+                    - generic [ref=f5e379]: Discharge summary ADM-0003-D3
+              - listitem [ref=f5e380]:
+                - generic [ref=f5e382]:
+                  - generic [ref=f5e383]: 12:16:04 PM
+                  - generic [ref=f5e384]: "RISK_CHECK -> AWAITING_HUMAN: Reply to the insurer needs approval"
+              - listitem [ref=f5e405]:
+                - generic [ref=f5e407]:
+                  - generic [ref=f5e408]: 12:16:13 PM
+                  - generic [ref=f5e409]: Billing Officer chose approve
+              - listitem [ref=f5e410]:
+                - generic [ref=f5e412]:
+                  - generic [ref=f5e413]: 12:16:13 PM
+                  - generic [ref=f5e414]: "AWAITING_HUMAN -> SUBMITTED: Approved by Billing Officer"
+              - listitem [ref=f5e415]:
+                - generic [ref=f5e417]:
+                  - generic [ref=f5e418]: 12:16:13 PM
+                  - generic [ref=f5e419]: hospital sent APPEAL (preauth, round 2)
+              - listitem [ref=f5e420]:
+                - generic [ref=f5e422]:
+                  - generic [ref=f5e423]: 12:16:13 PM
+                  - generic [ref=f5e424]:
+                    - text: Tpa fraud screen decided Clear
+                    - generic [ref=f5e425]: "· confidence 1.00 · next: Tpa adjudicator"
+                - list [ref=f5e427]:
+                  - listitem [ref=f5e428]:
+                    - text: No fraud signals
+                    - generic [ref=f5e429]: ": Coding, length of stay and duplicates checked"
+                    - generic [ref=f5e430]: Fraud screen rules
+              - listitem [ref=f5e431]:
+                - generic [ref=f5e433]:
+                  - generic [ref=f5e434]: 12:16:13 PM
+                  - generic [ref=f5e435]:
+                    - text: Tpa medical reviewer decided Justified
+                    - generic [ref=f5e436]: "· confidence 1.00 · next: Tpa adjudicator"
+                - list [ref=f5e438]:
+                  - listitem [ref=f5e439]:
+                    - text: Admission justified on appeal
+                    - generic [ref=f5e440]: ": The hospital pointed to clinical records showing admission was needed"
+                    - generic [ref=f5e441]: Hospital's appeal or response
+              - listitem [ref=f5e442]:
+                - generic [ref=f5e444]:
+                  - generic [ref=f5e445]: 12:16:13 PM
+                  - generic [ref=f5e446]:
+                    - text: Tpa adjudicator decided Approve
+                    - generic [ref=f5e447]: "· confidence 1.00 · next: Reply"
+                - list [ref=f5e449]:
+                  - listitem [ref=f5e450]:
+                    - text: "Co-pay: 10% co-pay for patients aged 60+"
+                    - generic [ref=f5e451]: ": ₹4,250 not paid"
+                    - generic [ref=f5e452]: Policy clause 6.1
+                  - listitem [ref=f5e453]:
+                    - text: Approved amount
+                    - generic [ref=f5e454]: ": ₹34,200 of ₹42,500 billed (capped at the amount requested)"
+                    - generic [ref=f5e455]: Rules engine, with the TPA's profile applied
+              - listitem [ref=f5e456]:
+                - generic [ref=f5e458]:
+                  - generic [ref=f5e459]: 12:16:13 PM
+                  - generic [ref=f5e460]: insurer sent APPROVE (preauth, round 2)
+              - listitem [ref=f5e461]:
+                - generic [ref=f5e463]:
+                  - generic [ref=f5e464]: 12:16:13 PM
+                  - generic [ref=f5e465]: "SUBMITTED -> APPROVED: Insurer APPROVE, round 2: ₹34,200 approved"
+              - listitem [ref=f5e466]:
+                - generic [ref=f5e468]:
+                  - generic [ref=f5e469]: 12:16:13 PM
+                  - generic [ref=f5e470]: "APPROVED -> IN_TREATMENT: Preauth decided: treatment goes on"
+        - generic [ref=f5e187]:
+          - heading "Next step" [level=2] [ref=f5e189]
+          - generic [ref=f5e190]:
+            - generic [ref=f5e471]:
+              - paragraph [ref=f5e472]: The patient is in treatment. Add charges to the running bill, or start discharge.
+              - generic [ref=f5e473]:
+                - textbox [ref=f5e474]: ICU, 1 day
+                - combobox [ref=f5e475]:
+                  - option "Room"
+                  - option "Icu" [selected]
+                  - option "Doctor fees"
+                  - option "Nursing"
+                  - option "Ot charges"
+                  - option "Implants"
+                  - option "Pharmacy"
+                  - option "Investigations"
+                  - option "Consumables"
+                  - option "Other"
+                - spinbutton [ref=f5e476]: "12000"
+              - generic [ref=f5e477]:
+                - button "Add to bill" [ref=f5e478] [cursor=pointer]
+                - button "Discharge" [ref=f5e479] [cursor=pointer]
+            - paragraph [ref=f5e192]:
+              - link "Patient view →" [ref=f5e193] [cursor=pointer]:
+                - /url: /patient/CLM-0003-1

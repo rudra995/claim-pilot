@@ -1,0 +1,156 @@
+- generic [ref=f18e3]:
+  - complementary [ref=f18e4]:
+    - generic [ref=f18e9]:
+      - paragraph [ref=f18e10]: ClaimPilot
+      - paragraph [ref=f18e11]: Cashless claims desk
+    - navigation [ref=f18e12]:
+      - generic [ref=f18e13]:
+        - paragraph [ref=f18e14]: Hospital
+        - list [ref=f18e15]:
+          - listitem [ref=f18e16]:
+            - link "Overview" [ref=f18e17] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=f18e21]:
+            - link "Claims" [ref=f18e22] [cursor=pointer]:
+              - /url: /claims
+          - listitem [ref=f18e26]:
+            - link "Approvals 1" [ref=f18e214] [cursor=pointer]:
+              - /url: /approvals
+              - generic [ref=f18e30]: Approvals
+              - generic [ref=f18e215]: "1"
+          - listitem [ref=f18e31]:
+            - link "Patient view" [ref=f18e32] [cursor=pointer]:
+              - /url: /patient
+      - generic [ref=f18e36]:
+        - paragraph [ref=f18e37]: Simulated insurer
+        - list [ref=f18e38]:
+          - listitem [ref=f18e39]:
+            - link "TPA console" [ref=f18e40] [cursor=pointer]:
+              - /url: /insurer
+    - generic [ref=f18e44]:
+      - generic [ref=f18e45]:
+        - generic [ref=f18e47]: Agents live
+        - generic [ref=f18e48]: Human gate on
+      - generic [ref=f18e49]:
+        - generic [ref=f18e50]: BO
+        - generic [ref=f18e51]:
+          - button "Billing Officer" [ref=f18e52] [cursor=pointer]
+          - paragraph [ref=f18e53]: Billing officer · signs every decision
+  - generic [ref=f18e54]:
+    - banner [ref=f18e55]:
+      - generic [ref=f18e56]:
+        - generic [ref=f18e57]:
+          - generic [ref=f18e58]: Demo Multispeciality Hospital
+          - generic [ref=f18e61]: Approvals
+        - textbox "Search patient, claim, procedure…" [ref=f18e63]
+        - button "New admission" [ref=f18e64] [cursor=pointer]
+    - main [ref=f18e67]:
+      - generic [ref=f18e69]:
+        - generic [ref=f18e70]:
+          - heading "Approvals" [level=1] [ref=f18e71]
+          - paragraph [ref=f18e72]: Nothing reaches an insurer until a person signs it off here.
+        - generic [ref=f18e73]:
+          - list [ref=f18e76]:
+            - listitem [ref=f18e77]:
+              - button "RI Ramesh Iyer just now Preauth submit · Total knee replacement High risk · 100%" [ref=f18e78] [cursor=pointer]:
+                - generic [ref=f18e79]: RI
+                - generic [ref=f18e80]:
+                  - generic [ref=f18e81]:
+                    - generic [ref=f18e82]: Ramesh Iyer
+                    - generic [ref=f18e83]: just now
+                  - generic [ref=f18e84]: Preauth submit · Total knee replacement
+                  - generic [ref=f18e85]: High risk · 100%
+          - generic [ref=f18e87]:
+            - generic [ref=f18e89]:
+              - generic [ref=f18e90]:
+                - generic [ref=f18e91]: RI
+                - generic [ref=f18e92]:
+                  - heading "Ramesh Iyer" [level=2] [ref=f18e93]
+                  - paragraph [ref=f18e94]: Total knee replacement · Demo Insurer A via TPA-A · CLM-0002-2
+                - link "Open claim" [ref=f18e95] [cursor=pointer]:
+                  - /url: /claims/CLM-0002-2
+              - list [ref=f18e98]:
+                - listitem [ref=f18e99]: "Denial-risk agent: fix before submit"
+                - listitem [ref=f18e102]: Pre-auth package needs approval
+              - generic [ref=f18e105]:
+                - generic [ref=f18e106]:
+                  - term [ref=f18e107]: Requested
+                  - definition [ref=f18e108]: ₹2,19,600
+                - generic [ref=f18e109]:
+                  - term [ref=f18e110]: Approved so far
+                  - definition [ref=f18e111]: —
+                - generic [ref=f18e112]:
+                  - term [ref=f18e113]: Sum insured
+                  - definition [ref=f18e114]: ₹3,00,000
+                - generic [ref=f18e115]:
+                  - term [ref=f18e116]: Room
+                  - definition [ref=f18e117]: Single deluxe
+            - generic [ref=f18e118]:
+              - generic [ref=f18e119]:
+                - generic [ref=f18e121]:
+                  - heading "Decide" [level=2] [ref=f18e122]
+                  - paragraph [ref=f18e123]: Approve as drafted, edit first, or send it back
+                - generic [ref=f18e125]:
+                  - generic [ref=f18e126]:
+                    - paragraph [ref=f18e127]: "Ready to send: preauth request"
+                    - generic [ref=f18e130]:
+                      - generic [ref=f18e132]:
+                        - paragraph [ref=f18e133]: Requested
+                        - paragraph [ref=f18e134]: ₹2,19,600
+                      - paragraph [ref=f18e135]: "The patient presented with right knee pain for 3 years, worse on walking, not relieved by physiotherapy and painkillers. Diagnosis: Primary osteoarthritis of knee (M17.1). Supporting investigation: Pre-operative blood work. Planned treatment: Right total knee replacement, which needs inpatient admission."
+                      - generic [ref=f18e136]:
+                        - generic [ref=f18e137]: ADM-0002-D1
+                        - generic [ref=f18e140]: ADM-0002-D2
+                        - generic [ref=f18e143]: ADM-0002-D3
+                        - generic [ref=f18e146]: ADM-0002-D4
+                        - generic [ref=f18e149]: ADM-0002-D5
+                  - generic [ref=f18e152]:
+                    - button "Approve and send" [ref=f18e153] [cursor=pointer]
+                    - button "Edit" [ref=f18e156] [cursor=pointer]
+                    - button "Send back" [ref=f18e157] [cursor=pointer]
+                  - paragraph [ref=f18e158]:
+                    - text: Signed as
+                    - generic [ref=f18e161]: Billing Officer
+                    - text: . Nothing reaches the insurer without this.
+              - generic [ref=f18e162]:
+                - generic [ref=f18e164]:
+                  - heading "Denial-risk check" [level=2] [ref=f18e165]
+                  - paragraph [ref=f18e166]: Why this might be cut, and what to fix
+                - generic [ref=f18e168]:
+                  - generic [ref=f18e169]:
+                    - generic [ref=f18e170]:
+                      - paragraph [ref=f18e171]: Chance it isn't paid in full
+                      - paragraph [ref=f18e172]:
+                        - text: 100%
+                        - generic [ref=f18e173]: high risk
+                    - generic [ref=f18e174]: Fix before submit
+                  - generic [ref=f18e175]:
+                    - generic "Paid in full 0%" [ref=f18e176]
+                    - generic "Cut 79%" [ref=f18e177]
+                    - generic "Denied 21%" [ref=f18e178]
+                  - generic [ref=f18e179]:
+                    - generic [ref=f18e180]: Paid in full 0%
+                    - generic [ref=f18e182]: Cut 79%
+                    - generic [ref=f18e184]: Denied 21%
+                  - list [ref=f18e186]:
+                    - listitem [ref=f18e187]:
+                      - generic [ref=f18e188]:
+                        - paragraph [ref=f18e189]: Missing xray report
+                        - generic [ref=f18e190]: weight +2.62
+                      - paragraph [ref=f18e191]: Not among the documents attached (ADM-0002-D1, ADM-0002-D2, ADM-0002-D3, ADM-0002-D4, ADM-0002-D5); model weight +2.62
+                      - paragraph [ref=f18e192]: Attach the pre-op X-ray report
+                      - paragraph [ref=f18e195]: "Source: Document checklist for total knee replacement"
+                    - listitem [ref=f18e196]:
+                      - generic [ref=f18e197]:
+                        - paragraph [ref=f18e198]: Room over cap
+                        - generic [ref=f18e199]: weight +2.62
+                      - paragraph [ref=f18e200]: "Proportionate deduction: paid at 60% of billed, the ratio of eligible to actual room rent; Room rent capped at ₹3,000 a day: ₹47,200 not payable; model weight +2.62"
+                      - paragraph [ref=f18e201]: "Room rent is above the policy cap: tell the patient about the proportionate deduction, or offer a room within the cap"
+                      - paragraph [ref=f18e204]: "Source: Policy clause 4.2"
+                    - listitem [ref=f18e205]:
+                      - generic [ref=f18e206]:
+                        - paragraph [ref=f18e207]: Non payables billed
+                        - generic [ref=f18e208]: weight +2.48
+                      - paragraph [ref=f18e209]: "Non-payable item: ₹7,000 not payable; model weight +2.48"
+                      - paragraph [ref=f18e210]: Move non-payable items (gloves, masks, kits) to the patient's bill
+                      - paragraph [ref=f18e213]: "Source: Policy clause Annexure II"

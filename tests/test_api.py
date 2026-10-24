@@ -40,6 +40,7 @@ def db(tmp_path: Path) -> Path:
 @pytest.fixture
 def client(db: Path):
     with TestClient(create_app(db)) as client:
+        assert client.post("/api/auth/login", json={"username": "officer@claimpilot.demo", "password": "OfficerDemo!2026"}).status_code == 200
         yield client
 
 

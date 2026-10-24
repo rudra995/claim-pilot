@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { api, useLoad, useTrace } from '../api'
 import { ActionCard, AgentLog, Deductions, Journey, RiskSummary, StageProgress, Thread } from '../components/claim'
+import PatientDesk from '../components/PatientDesk'
 import {
   Avatar, Badge, Card, CardHeader, EmptyState, ErrorNote, Icon, Skeleton, Status, label, money, procedureName, roomName, stagger,
 } from '../components/ui'
@@ -13,6 +14,7 @@ const TABS = [
   ['bill', 'Bill and documents'],
   ['estimate', 'Patient estimate'],
   ['log', 'Agent log'],
+  ['portal', 'Patient portal'],
 ]
 
 export default function PatientFile() {
@@ -80,6 +82,7 @@ export default function PatientFile() {
       </nav>
 
       <div key={tab} className="animate-fade-up">
+        {tab === 'portal' && <PatientDesk claimId={claimId} onDone={claim.reload} />}
         {tab === 'overview' && <Overview claim={c} onDone={claim.reload} onTab={(t) => setParams({ tab: t })} />}
         {tab === 'insurer' && <InsurerTab claim={c} />}
         {tab === 'bill' && <BillTab claim={c} />}

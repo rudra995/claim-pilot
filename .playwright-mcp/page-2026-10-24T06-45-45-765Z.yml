@@ -1,0 +1,90 @@
+- generic [ref=f4e2]:
+  - banner [ref=f4e3]:
+    - generic [ref=f4e4]:
+      - generic [ref=f4e5]: ClaimPilot
+      - navigation [ref=f4e6]:
+        - link "Claims board" [ref=f4e7] [cursor=pointer]:
+          - /url: /
+        - link "Approval queue" [ref=f4e8] [cursor=pointer]:
+          - /url: /queue
+        - link "Insurer console" [ref=f4e9] [cursor=pointer]:
+          - /url: /insurer
+        - link "Patient view" [ref=f4e10] [cursor=pointer]:
+          - /url: /patient
+      - generic [ref=f4e11]:
+        - text: Billing officer
+        - textbox "Billing officer" [ref=f4e12]: Billing Officer
+  - main [ref=f4e13]:
+    - generic [ref=f4e14]:
+      - generic [ref=f4e15]:
+        - generic [ref=f4e16]:
+          - link "← Claims board" [ref=f4e17] [cursor=pointer]:
+            - /url: /
+          - heading "Ramesh Iyer · Total knee replacement" [level=1] [ref=f4e18]:
+            - text: Ramesh Iyer
+            - generic [ref=f4e19]: · Total knee replacement
+          - paragraph [ref=f4e20]: CLM-0002-1 · Demo Insurer A · TPA-A · sum insured ₹3,00,000
+        - generic [ref=f4e21]:
+          - generic [ref=f4e22]: AWAITING HUMAN
+          - generic [ref=f4e23]: Risk 100%
+          - generic [ref=f4e24]: Requested ₹2,19,600 · Approved ₹0
+          - generic [ref=f4e25]: ● live
+      - generic [ref=f4e26]:
+        - generic [ref=f4e27]:
+          - navigation [ref=f4e28]:
+            - button "Live trace" [ref=f4e29] [cursor=pointer]
+            - button "Agents" [ref=f4e30] [cursor=pointer]
+            - button "Insurer thread" [active] [ref=f4e31] [cursor=pointer]
+            - button "Bill and documents" [ref=f4e32] [cursor=pointer]
+          - generic [ref=f4e593]:
+            - generic [ref=f4e594]:
+              - paragraph [ref=f4e595]: hospital · SUBMIT · Preauth · round 1
+              - generic [ref=f4e596]:
+                - paragraph [ref=f4e597]: "Requested: ₹2,19,600"
+                - paragraph [ref=f4e598]: "The patient presented with right knee pain for 3 years, worse on walking, not relieved by physiotherapy and painkillers. Diagnosis: Primary osteoarthritis of knee (M17.1). Supporting investigation: Pre-operative blood work. Planned treatment: Right total knee replacement, which needs inpatient admission."
+                - paragraph [ref=f4e599]: "Documents: ADM-0002-D1, ADM-0002-D2, ADM-0002-D3, ADM-0002-D4, ADM-0002-D5"
+            - generic [ref=f4e600]:
+              - paragraph [ref=f4e601]: insurer · QUERY · Preauth · round 1
+              - paragraph [ref=f4e603]: "Asks for: Please send: Pre-op X-ray Report. Orthopaedic claims need the pre-op X-ray report to confirm that total knee replacement was needed."
+            - generic [ref=f4e604]:
+              - paragraph [ref=f4e605]: hospital · RESPONSE · Preauth · round 2
+              - paragraph [ref=f4e607]: "Not yet in the claim file, being retrieved: X-ray Report."
+            - generic [ref=f4e608]:
+              - paragraph [ref=f4e609]: insurer · QUERY · Preauth · round 2
+              - paragraph [ref=f4e611]: "Asks for: Please send: Pre-op X-ray Report. Orthopaedic claims need the pre-op X-ray report to confirm that total knee replacement was needed."
+            - generic [ref=f4e612]:
+              - paragraph [ref=f4e613]: hospital · RESPONSE · Preauth · round 3
+              - paragraph [ref=f4e615]: "Not yet in the claim file, being retrieved: X-ray Report."
+            - generic [ref=f4e616]:
+              - paragraph [ref=f4e617]: insurer · FINAL · Preauth · round 3
+              - generic [ref=f4e618]:
+                - paragraph [ref=f4e619]: "Approved: ₹0"
+                - paragraph [ref=f4e620]: "Final decision: DENY"
+                - table [ref=f4e621]:
+                  - rowgroup [ref=f4e622]:
+                    - row [ref=f4e623]:
+                      - columnheader "Deduction" [ref=f4e624]
+                      - columnheader "Amount" [ref=f4e625]
+                      - columnheader "Clause" [ref=f4e626]
+                  - rowgroup [ref=f4e627]:
+                    - row [ref=f4e628]:
+                      - 'cell "Whole claim: Not received after three rounds: Pre-op X-ray Report" [ref=f4e629]'
+                      - cell "₹2,40,000" [ref=f4e630]
+                      - 'cell "Claim documents: requested records not received" [ref=f4e631]'
+        - generic [ref=f4e217]:
+          - generic [ref=f4e218]:
+            - heading "Next step" [level=2] [ref=f4e220]
+            - generic [ref=f4e221]:
+              - generic [ref=f4e581]:
+                - paragraph [ref=f4e582]: Nothing drafted to send. Accept the insurer's decision, or reject to send it back.
+                - generic [ref=f4e583]:
+                  - button "Accept insurer's decision" [ref=f4e584] [cursor=pointer]
+                  - button "Reject" [ref=f4e585] [cursor=pointer]
+                - paragraph [ref=f4e586]: Deciding as Billing Officer
+              - paragraph [ref=f4e234]:
+                - link "Patient view →" [ref=f4e235] [cursor=pointer]:
+                  - /url: /patient/CLM-0002-1
+          - generic [ref=f4e587]:
+            - heading "Why it needs a person" [level=2] [ref=f4e589]
+            - list [ref=f4e591]:
+              - listitem [ref=f4e592]: "3 rounds used without full approval: a person decides"

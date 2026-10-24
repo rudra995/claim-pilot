@@ -14,6 +14,8 @@
     "product": "Health Secure Individual",
     "sum_insured": 300000,
     "start_date": "2022-04-01",
+    "coverage_start_date": "2026-01-01",
+    "expiry_date": "2027-03-31",
     "rules": [
       {
         "rule_id": "POL-A-4.2",

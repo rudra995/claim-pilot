@@ -1,7 +1,7 @@
 // Talks to the ClaimPilot API (backend/api/main.py). The dev server proxies /api and /ws to it.
 import { useEffect, useRef, useState } from 'react'
 
-async function request(method, path, body) {
+export async function request(method, path, body) {
   const response = await fetch(path, {
     method,
     headers: body ? { 'Content-Type': 'application/json' } : undefined,
@@ -9,6 +9,7 @@ async function request(method, path, body) {
   })
   const data = await response.json().catch(() => null)
   if (!response.ok) {
+    if (response.status === 401 && !path.startsWith('/api/auth/')) window.dispatchEvent(new Event('session-expired'))
     const detail = typeof data?.detail === 'string' ? data.detail : JSON.stringify(data?.detail ?? data)
     throw new Error(detail || `${response.status} ${response.statusText}`)
   }

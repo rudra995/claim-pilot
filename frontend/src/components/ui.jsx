@@ -277,7 +277,7 @@ export function Icon({ name, className = 'h-5 w-5' }) {
 // ---- The billing officer's name, used on every decision. Kept for this browser only. ----------
 
 const OfficerContext = createContext(['Billing Officer', () => {}])
-export function OfficerProvider({ children }) {
+export function OfficerProvider({ children, accountName }) {
   const [officer, setOfficer] = useState(() => {
     try {
       return localStorage.getItem('officer') || 'Billing Officer'
@@ -293,7 +293,7 @@ export function OfficerProvider({ children }) {
       /* private window: keep it for this session only */
     }
   }
-  return <OfficerContext.Provider value={[officer, update]}>{children}</OfficerContext.Provider>
+  return <OfficerContext.Provider value={[accountName || officer, accountName ? () => {} : update]}>{children}</OfficerContext.Provider>
 }
 export const useOfficer = () => useContext(OfficerContext)
 

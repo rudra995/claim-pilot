@@ -25,6 +25,7 @@ def trained() -> None:
 def client(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
     monkeypatch.setattr(llm, "complete", lambda *a, **k: (_ for _ in ()).throw(llm.LLMUnavailable("disabled in tests")))
     with TestClient(create_app(tmp_path / "claims.db")) as client:
+        assert client.post("/api/auth/login", json={"username": "officer@claimpilot.demo", "password": "OfficerDemo!2026"}).status_code == 200
         yield client
 
 

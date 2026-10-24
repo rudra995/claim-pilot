@@ -33,6 +33,7 @@ def isolated(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
 @pytest.fixture
 def client(tmp_path: Path):
     with TestClient(create_app(tmp_path / "claims.db")) as client:
+        assert client.post("/api/auth/login", json={"username": "officer@claimpilot.demo", "password": "OfficerDemo!2026"}).status_code == 200
         yield client
 
 

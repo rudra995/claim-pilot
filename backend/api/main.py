@@ -28,7 +28,8 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field, ValidationError
 
 from backend.agents import orchestrator
-from backend import policy_config, remediation
+from backend import policy_config, remediation, portal_auth
+from backend.api import portal
 from backend.adapters import billing_import
 from backend.agents.approval import Decision, DraftChanged, decide
 from backend.agents.orchestrator import InvalidTransition, claim_state, pending_draft
@@ -98,6 +99,7 @@ def officer_tokens() -> dict[str, str]:
 
 def create_app(db_path: Path | str = DEFAULT_DB_PATH) -> FastAPI:
     init_db(db_path).close()
+    portal_auth.seed(db_path)
     runner = Runner(db_path)
 
     @asynccontextmanager
@@ -109,6 +111,8 @@ def create_app(db_path: Path | str = DEFAULT_DB_PATH) -> FastAPI:
     app.state.db_path = db_path
     app.state.runner = runner
     app.add_middleware(CORSMiddleware, allow_origins=FRONTEND_ORIGINS, allow_methods=["*"], allow_headers=["*"])
+    portal_auth.install(app, db_path)
+    portal.install(app, db_path, runner, lambda *args: schedule(*args), _actions)
 
     def existing(claim_id: str) -> ClaimState:
         try:
@@ -127,7 +131,8 @@ def create_app(db_path: Path | str = DEFAULT_DB_PATH) -> FastAPI:
         """(name, identity). With tokens configured the token decides who is acting; otherwise the name is self-declared."""
         tokens = officer_tokens()
         if not tokens:
-            return claimed, "self-declared"
+            account = portal_auth.current_user.get()
+            return (account['display_name'], "session") if account else (claimed, "self-declared")
         if token not in tokens:
             raise HTTPException(status.HTTP_401_UNAUTHORIZED, "An officer token is required (X-Officer-Token)")
         return tokens[token], "token"
@@ -445,6 +450,16 @@ def create_app(db_path: Path | str = DEFAULT_DB_PATH) -> FastAPI:
     @app.websocket("/ws/trace")
     async def trace(websocket: WebSocket, claim_id: str | None = None, after: int = Query(0)) -> None:
         """Streams audit events as they're written. `after=-1` starts from now; a claim_id narrows it to one claim."""
+        account = portal_auth.session_user(db_path, websocket.cookies.get(portal_auth.COOKIE))
+        if account is None or account['role'] != 'officer':
+            await websocket.close(code=4403)
+            return
+        origin = websocket.headers.get('origin')
+        if origin:
+            from urllib.parse import urlparse
+            if origin not in portal_auth.DEV_ORIGINS and urlparse(origin).netloc != websocket.headers.get('host'):
+                await websocket.close(code=4403)
+                return
         await websocket.accept()
         last = _last_event_id(db_path) if after < 0 else after
         idle = 0

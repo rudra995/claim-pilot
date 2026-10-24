@@ -1,0 +1,70 @@
+- generic [ref=f2e2]:
+  - banner [ref=f2e3]:
+    - generic [ref=f2e4]:
+      - generic [ref=f2e5]: ClaimPilot
+      - navigation [ref=f2e6]:
+        - link "Claims board" [ref=f2e7] [cursor=pointer]:
+          - /url: /
+        - link "Approval queue" [ref=f2e8] [cursor=pointer]:
+          - /url: /queue
+        - link "Insurer console" [ref=f2e9] [cursor=pointer]:
+          - /url: /insurer
+        - link "Patient view" [ref=f2e10] [cursor=pointer]:
+          - /url: /patient
+      - generic [ref=f2e11]:
+        - text: Billing officer
+        - textbox "Billing officer" [ref=f2e12]: Billing Officer
+  - main [ref=f2e13]:
+    - generic [ref=f2e14]:
+      - generic [ref=f2e15]:
+        - heading "Approval queue" [level=1] [ref=f2e16]
+        - paragraph [ref=f2e17]: Nothing reaches the insurer until a person approves it here.
+      - generic [ref=f2e18]:
+        - generic [ref=f2e19]:
+          - heading "Ramesh Iyer · Total knee replacement AWAITING HUMAN Risk 100%" [level=2] [ref=f2e20]:
+            - generic [ref=f2e21]:
+              - link "Ramesh Iyer · Total knee replacement" [ref=f2e22] [cursor=pointer]:
+                - /url: /claims/CLM-0002-1
+              - generic [ref=f2e23]: AWAITING HUMAN
+              - generic [ref=f2e24]: Risk 100%
+          - generic [ref=f2e25]: CLM-0002-1 · TPA-A
+        - generic [ref=f2e27]:
+          - generic [ref=f2e28]:
+            - list [ref=f2e29]:
+              - listitem [ref=f2e30]: "denial_risk: fix_before_submit"
+              - listitem [ref=f2e31]: Pre-auth package needs approval
+            - generic [ref=f2e32]:
+              - paragraph [ref=f2e33]: Denial-risk check
+              - list [ref=f2e34]:
+                - listitem [ref=f2e35]:
+                  - text: Denial risk
+                  - generic [ref=f2e36]: ": 100% chance of a cut or denial (approved 0%, partially approved 79%, denied 20%)"
+                  - generic [ref=f2e37]: Denial-risk model (XGBoost + SHAP)
+                - listitem [ref=f2e38]:
+                  - text: Missing xray report
+                  - generic [ref=f2e39]: ": Not among the documents attached (ADM-0002-D1, ADM-0002-D2, ADM-0002-D3, ADM-0002-D4, ADM-0002-D5); model weight +2.62"
+                  - generic [ref=f2e40]: Document checklist for total knee replacement
+                - listitem [ref=f2e41]:
+                  - text: Room over cap
+                  - generic [ref=f2e42]: ": Proportionate deduction: paid at 60% of billed, the ratio of eligible to actual room rent; Room rent capped at ₹3,000 a day: ₹47,200 not payable; model weight +2.62"
+                  - generic [ref=f2e43]: Policy clause 4.2
+                - listitem [ref=f2e44]:
+                  - text: Non payables billed
+                  - generic [ref=f2e45]: ": Non-payable item: ₹7,000 not payable; model weight +2.48"
+                  - generic [ref=f2e46]: Policy clause Annexure II
+              - list [ref=f2e47]:
+                - listitem [ref=f2e48]: "Fix: Attach the pre-op X-ray report"
+                - listitem [ref=f2e49]: "Fix: Room rent is above the policy cap: tell the patient about the proportionate deduction, or offer a room within the cap"
+                - listitem [ref=f2e50]: "Fix: Move non-payable items (gloves, masks, kits) to the patient's bill"
+          - generic [ref=f2e51]:
+            - generic [ref=f2e52]:
+              - paragraph [ref=f2e53]: Drafted SUBMIT · Preauth · round 1
+              - generic [ref=f2e54]:
+                - paragraph [ref=f2e55]: "Requested: ₹2,19,600"
+                - paragraph [ref=f2e56]: "The patient presented with right knee pain for 3 years, worse on walking, not relieved by physiotherapy and painkillers. Diagnosis: Primary osteoarthritis of knee (M17.1). Supporting investigation: Pre-operative blood work. Planned treatment: Right total knee replacement, which needs inpatient admission."
+                - paragraph [ref=f2e57]: "Documents: ADM-0002-D1, ADM-0002-D2, ADM-0002-D3, ADM-0002-D4, ADM-0002-D5"
+            - generic [ref=f2e58]:
+              - button "Approve and send" [ref=f2e59] [cursor=pointer]
+              - button "Edit" [ref=f2e60] [cursor=pointer]
+              - button "Reject" [ref=f2e61] [cursor=pointer]
+            - paragraph [ref=f2e62]: Deciding as Billing Officer

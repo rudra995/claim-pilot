@@ -1,0 +1,211 @@
+- generic [ref=f17e3]:
+  - complementary [ref=f17e4]:
+    - generic [ref=f17e9]:
+      - paragraph [ref=f17e10]: ClaimPilot
+      - paragraph [ref=f17e11]: Cashless claims desk
+    - navigation [ref=f17e12]:
+      - generic [ref=f17e13]:
+        - paragraph [ref=f17e14]: Hospital
+        - list [ref=f17e15]:
+          - listitem [ref=f17e16]:
+            - link "Overview" [ref=f17e17] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=f17e21]:
+            - link "Claims" [ref=f17e22] [cursor=pointer]:
+              - /url: /claims
+          - listitem [ref=f17e26]:
+            - link "Approvals" [ref=f17e27] [cursor=pointer]:
+              - /url: /approvals
+          - listitem [ref=f17e31]:
+            - link "Patient view" [ref=f17e32] [cursor=pointer]:
+              - /url: /patient
+      - generic [ref=f17e36]:
+        - paragraph [ref=f17e37]: Simulated insurer
+        - list [ref=f17e38]:
+          - listitem [ref=f17e39]:
+            - link "TPA console" [ref=f17e40] [cursor=pointer]:
+              - /url: /insurer
+    - generic [ref=f17e44]:
+      - generic [ref=f17e45]:
+        - generic [ref=f17e47]: Agents live
+        - generic [ref=f17e48]: Human gate on
+      - generic [ref=f17e49]:
+        - generic [ref=f17e50]: BO
+        - generic [ref=f17e51]:
+          - button "Billing Officer" [ref=f17e52] [cursor=pointer]
+          - paragraph [ref=f17e53]: Billing officer · signs every decision
+  - generic [ref=f17e54]:
+    - banner [ref=f17e55]:
+      - generic [ref=f17e56]:
+        - generic [ref=f17e57]:
+          - generic [ref=f17e58]: Demo Multispeciality Hospital
+          - generic [ref=f17e61]: TPA console
+        - textbox "Search patient, claim, procedure…" [ref=f17e63]
+        - button "New admission" [ref=f17e64] [cursor=pointer]
+    - main [ref=f17e67]:
+      - generic [ref=f17e69]:
+        - generic [ref=f17e71]:
+          - generic [ref=f17e72]:
+            - heading "TPA console" [level=1] [ref=f17e73]
+            - generic [ref=f17e74]: Simulated insurer
+          - paragraph [ref=f17e75]: The insurer's own agents. They never see hospital code, only messages on the claims exchange.
+        - generic [ref=f17e76]:
+          - list [ref=f17e79]:
+            - listitem [ref=f17e80]:
+              - button "C CLM-0001-1 Laparoscopic appendectomy · ₹1,10,000 Closed" [ref=f17e81] [cursor=pointer]:
+                - generic [ref=f17e82]: C
+                - generic [ref=f17e83]:
+                  - generic [ref=f17e84]: CLM-0001-1
+                  - generic [ref=f17e85]: Laparoscopic appendectomy · ₹1,10,000
+                - generic [ref=f17e86]: Closed
+            - listitem [ref=f17e88]:
+              - button "B CLM-0003-1 Gastroenteritis management · ₹34,200 In treatment" [ref=f17e89] [cursor=pointer]:
+                - generic [ref=f17e90]: B
+                - generic [ref=f17e91]:
+                  - generic [ref=f17e92]: CLM-0003-1
+                  - generic [ref=f17e93]: Gastroenteritis management · ₹34,200
+                - generic [ref=f17e94]: In treatment
+            - listitem [ref=f17e96]:
+              - button "C CLM-0001-2 Laparoscopic appendectomy · ₹0 Denied" [ref=f17e97] [cursor=pointer]:
+                - generic [ref=f17e98]: C
+                - generic [ref=f17e99]:
+                  - generic [ref=f17e100]: CLM-0001-2
+                  - generic [ref=f17e101]: Laparoscopic appendectomy · ₹0
+                - generic [ref=f17e102]: Denied
+          - generic [ref=f17e104]:
+            - generic [ref=f17e107]:
+              - generic [ref=f17e108]: T
+              - generic [ref=f17e109]:
+                - heading "TPA-B · Demo Insurer B" [level=2] [ref=f17e110]
+                - paragraph [ref=f17e111]: CLM-0003-1 from Demo Multispeciality Hospital · Gastroenteritis management
+              - generic [ref=f17e112]:
+                - paragraph [ref=f17e113]: Approved
+                - paragraph [ref=f17e114]: ₹34,200
+            - generic [ref=f17e115]:
+              - generic [ref=f17e117]:
+                - heading "Latest ruling" [level=2] [ref=f17e118]
+                - paragraph [ref=f17e119]: What the insurer's agents found on the most recent round
+              - list [ref=f17e121]:
+                - listitem [ref=f17e122]:
+                  - generic [ref=f17e123]:
+                    - generic [ref=f17e126]: TPA medical reviewer
+                    - generic [ref=f17e127]: Justified
+                  - list [ref=f17e128]:
+                    - listitem [ref=f17e129]:
+                      - text: Admission justified on appeal
+                      - generic [ref=f17e130]: — The hospital pointed to clinical records showing admission was needed
+                      - generic [ref=f17e131]: Hospital's appeal or response
+                - listitem [ref=f17e134]:
+                  - generic [ref=f17e135]:
+                    - generic [ref=f17e138]: TPA fraud screen
+                    - generic [ref=f17e139]: Clear
+                  - list [ref=f17e140]:
+                    - listitem [ref=f17e141]:
+                      - text: No fraud signals
+                      - generic [ref=f17e142]: — Coding, length of stay and duplicates checked
+                      - generic [ref=f17e143]: Fraud screen rules
+                - listitem [ref=f17e146]:
+                  - generic [ref=f17e147]:
+                    - generic [ref=f17e150]: TPA adjudicator
+                    - generic [ref=f17e151]: Approve
+                  - list [ref=f17e152]:
+                    - listitem [ref=f17e153]:
+                      - text: "Co-pay: 10% co-pay for patients aged 60+"
+                      - generic [ref=f17e154]: — ₹4,250 not paid
+                      - generic [ref=f17e155]: Policy clause 6.1
+                    - listitem [ref=f17e158]:
+                      - text: Approved amount
+                      - generic [ref=f17e159]: — ₹34,200 of ₹42,500 billed (capped at the amount requested)
+                      - generic [ref=f17e160]: Rules engine, with the TPA's profile applied
+            - generic [ref=f17e163]:
+              - generic [ref=f17e164]:
+                - generic [ref=f17e165]: H
+                - generic [ref=f17e166]:
+                  - generic [ref=f17e167]:
+                    - generic [ref=f17e168]: Hospital billing
+                    - generic [ref=f17e169]: Submit
+                    - generic [ref=f17e170]: Preauth · round 1
+                  - generic [ref=f17e171]:
+                    - generic [ref=f17e173]:
+                      - paragraph [ref=f17e174]: Requested
+                      - paragraph [ref=f17e175]: ₹34,200
+                    - paragraph [ref=f17e176]: "The patient presented with loose stools and vomiting for 2 days, dizziness. Diagnosis: Acute gastroenteritis (A09). Supporting investigation: Serum electrolytes and renal function. Planned treatment: IV fluids, antiemetics, monitoring, which needs inpatient admission."
+                    - generic [ref=f17e177]:
+                      - generic [ref=f17e178]: ADM-0003-D1
+                      - generic [ref=f17e181]: ADM-0003-D2
+                      - generic [ref=f17e184]: ADM-0003-D3
+                      - generic [ref=f17e187]: ADM-0003-D4
+              - generic [ref=f17e190]:
+                - generic [ref=f17e191]: T
+                - generic [ref=f17e192]:
+                  - generic [ref=f17e193]:
+                    - generic [ref=f17e194]: TPA-B
+                    - generic [ref=f17e195]: Partial approve
+                    - generic [ref=f17e196]: Preauth · round 1
+                  - generic [ref=f17e197]:
+                    - generic [ref=f17e199]:
+                      - paragraph [ref=f17e200]: Approved
+                      - paragraph [ref=f17e201]: ₹26,100
+                    - table [ref=f17e203]:
+                      - rowgroup [ref=f17e204]:
+                        - row [ref=f17e205]:
+                          - columnheader "Deduction" [ref=f17e206]
+                          - columnheader "Clause" [ref=f17e207]
+                          - columnheader "Amount" [ref=f17e208]
+                      - rowgroup [ref=f17e209]:
+                        - row [ref=f17e210]:
+                          - 'cell "Twin sharing room, 3 days x 3,000: stay charges not paid" [ref=f17e211]'
+                          - 'cell "Medical necessity: reason for admission not documented" [ref=f17e212]'
+                          - cell "₹9,000" [ref=f17e213]
+                        - row [ref=f17e214]:
+                          - 'cell "Nursing charges: stay charges not paid" [ref=f17e215]'
+                          - 'cell "Medical necessity: reason for admission not documented" [ref=f17e216]'
+                          - cell "₹4,500" [ref=f17e217]
+                        - row [ref=f17e218]:
+                          - 'cell "Co-pay: 10% co-pay for patients aged 60+" [ref=f17e219]'
+                          - cell "6.1" [ref=f17e220]
+                          - cell "₹2,900" [ref=f17e221]
+                      - rowgroup [ref=f17e222]:
+                        - row [ref=f17e223]:
+                          - cell "Total deducted" [ref=f17e224]
+                          - cell "₹16,400" [ref=f17e225]
+              - generic [ref=f17e226]:
+                - generic [ref=f17e227]: H
+                - generic [ref=f17e228]:
+                  - generic [ref=f17e229]:
+                    - generic [ref=f17e230]: Hospital billing
+                    - generic [ref=f17e231]: Appeal
+                    - generic [ref=f17e232]: Preauth · round 2
+                  - generic [ref=f17e233]:
+                    - paragraph [ref=f17e234]: "The insurer cut the claim citing: Medical necessity: reason for admission not documented. The records in this claim show the treatment and admission were needed. Admission Note ADM-0003-D1: chief complaint: Loose stools and vomiting for 2 days, dizziness; provisional diagnosis: Acute gastroenteritis with dehydration; planned treatment: IV fluids, antiemetics, monitoring; vitals: BP 92/60, pulse 112. Laboratory Report ADM-0003-D2: test: Serum electrolytes and renal function; sodium mmol l: 129; potassium mmol l: 3.1; creatinine mg dl: 1.6. Under clause 'Medical necessity: reason for admission not documented' the insurer cut ₹13,500, but the policy supports ₹0. As priced under the policy, ₹34,200 is payable; ₹26,100 was approved."
+                    - generic [ref=f17e235]:
+                      - generic [ref=f17e236]: ADM-0003-D1
+                      - generic [ref=f17e239]: ADM-0003-D2
+                      - generic [ref=f17e242]: Clause 6.1
+                      - generic [ref=f17e245]: "Clause Medical necessity: reason for admission not documented"
+              - generic [ref=f17e248]:
+                - generic [ref=f17e249]: T
+                - generic [ref=f17e250]:
+                  - generic [ref=f17e251]:
+                    - generic [ref=f17e252]: TPA-B
+                    - generic [ref=f17e253]: Approve
+                    - generic [ref=f17e254]: Preauth · round 2
+                  - generic [ref=f17e255]:
+                    - generic [ref=f17e257]:
+                      - paragraph [ref=f17e258]: Approved
+                      - paragraph [ref=f17e259]: ₹34,200
+                    - table [ref=f17e261]:
+                      - rowgroup [ref=f17e262]:
+                        - row [ref=f17e263]:
+                          - columnheader "Deduction" [ref=f17e264]
+                          - columnheader "Clause" [ref=f17e265]
+                          - columnheader "Amount" [ref=f17e266]
+                      - rowgroup [ref=f17e267]:
+                        - row [ref=f17e268]:
+                          - 'cell "Co-pay: 10% co-pay for patients aged 60+" [ref=f17e269]'
+                          - cell "6.1" [ref=f17e270]
+                          - cell "₹4,250" [ref=f17e271]
+                      - rowgroup [ref=f17e272]:
+                        - row [ref=f17e273]:
+                          - cell "Total deducted" [ref=f17e274]
+                          - cell "₹4,250" [ref=f17e275]

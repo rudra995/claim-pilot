@@ -42,7 +42,17 @@ class Policy(_Model):
     product: NonEmptyStr
     sum_insured: int = Field(gt=0)
     start_date: date
+    coverage_start_date: date | None = None  # current renewal term; start_date remains original inception
+    expiry_date: date | None = None
     rules: list[Rule] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def _coverage_dates(self) -> "Policy":
+        if self.coverage_start_date and self.coverage_start_date < self.start_date:
+            raise ValueError("coverage term cannot precede policy inception")
+        if self.expiry_date and self.expiry_date < (self.coverage_start_date or self.start_date):
+            raise ValueError("policy expiry precedes coverage start")
+        return self
 
 
 class Admission(_Model):

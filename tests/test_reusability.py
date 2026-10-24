@@ -118,6 +118,7 @@ def test_import_errors_say_which_row_and_what_to_fix(tmp_path: Path) -> None:
 
 def test_an_imported_admission_runs_through_the_api(tmp_path: Path) -> None:
     with TestClient(create_app(tmp_path / "claims.db")) as client:
+        assert client.post("/api/auth/login", json={"username": "officer@claimpilot.demo", "password": "OfficerDemo!2026"}).status_code == 200
         response = client.post("/api/imports", json={"format": "csv", "content": SAMPLE.read_text(encoding="utf-8")})
         assert response.status_code == 200
         case_id = response.json()["imported"][0]

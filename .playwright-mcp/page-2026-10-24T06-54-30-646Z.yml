@@ -1,0 +1,117 @@
+- generic [ref=f13e3]:
+  - complementary [ref=f13e4]:
+    - generic [ref=f13e9]:
+      - paragraph [ref=f13e10]: ClaimPilot
+      - paragraph [ref=f13e11]: Cashless claims desk
+    - navigation [ref=f13e12]:
+      - generic [ref=f13e13]:
+        - paragraph [ref=f13e14]: Hospital
+        - list [ref=f13e15]:
+          - listitem [ref=f13e16]:
+            - link "Overview" [ref=f13e17] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=f13e21]:
+            - link "Claims" [ref=f13e22] [cursor=pointer]:
+              - /url: /claims
+          - listitem [ref=f13e26]:
+            - link "Approvals" [ref=f13e27] [cursor=pointer]:
+              - /url: /approvals
+          - listitem [ref=f13e31]:
+            - link "Patient view" [ref=f13e32] [cursor=pointer]:
+              - /url: /patient
+      - generic [ref=f13e36]:
+        - paragraph [ref=f13e37]: Simulated insurer
+        - list [ref=f13e38]:
+          - listitem [ref=f13e39]:
+            - link "TPA console" [ref=f13e40] [cursor=pointer]:
+              - /url: /insurer
+    - generic [ref=f13e44]:
+      - generic [ref=f13e45]:
+        - generic [ref=f13e47]: Connecting…
+        - generic [ref=f13e48]: Human gate on
+      - generic [ref=f13e49]:
+        - generic [ref=f13e50]: BO
+        - generic [ref=f13e51]:
+          - button "Billing Officer" [ref=f13e52] [cursor=pointer]
+          - paragraph [ref=f13e53]: Billing officer · signs every decision
+  - generic [ref=f13e54]:
+    - banner [ref=f13e55]:
+      - generic [ref=f13e56]:
+        - generic [ref=f13e57]:
+          - generic [ref=f13e58]: Demo Multispeciality Hospital
+          - generic [ref=f13e61]: Overview
+        - textbox "Search patient, claim, procedure…" [ref=f13e63]
+        - button "New admission" [ref=f13e64] [cursor=pointer]
+    - main [ref=f13e67]:
+      - generic [ref=f13e69]:
+        - generic [ref=f13e71]:
+          - heading "Good to see you" [level=1] [ref=f13e72]
+          - paragraph [ref=f13e73]: Agents prepare every claim. You approve what leaves the hospital.
+        - generic [ref=f13e74]:
+          - generic [ref=f13e75]:
+            - paragraph [ref=f13e77]: Claims in flight
+            - paragraph [ref=f13e81]: —
+            - paragraph [ref=f13e82]: 0 closed
+          - generic [ref=f13e83]:
+            - paragraph [ref=f13e85]: Waiting for you
+            - paragraph [ref=f13e89]: —
+            - paragraph [ref=f13e90]: Approve, edit or send back
+          - generic [ref=f13e91]:
+            - paragraph [ref=f13e93]: First-pass approval
+            - paragraph [ref=f13e97]: —
+            - paragraph [ref=f13e98]: No insurer answers yet
+          - generic [ref=f13e99]:
+            - paragraph [ref=f13e101]: Approved by insurers
+            - paragraph [ref=f13e105]: —
+            - paragraph [ref=f13e106]: of — requested
+        - generic [ref=f13e107]:
+          - generic [ref=f13e108]:
+            - generic [ref=f13e109]:
+              - generic [ref=f13e110]:
+                - generic [ref=f13e111]:
+                  - heading "Needs your approval" [level=2] [ref=f13e112]
+                  - paragraph [ref=f13e113]: Nothing goes to an insurer until someone signs it off
+                - link "Open approvals" [ref=f13e114] [cursor=pointer]:
+                  - /url: /approvals
+              - paragraph [ref=f13e116]: You're all caught up.
+            - generic [ref=f13e117]:
+              - generic [ref=f13e119]:
+                - heading "Pipeline" [level=2] [ref=f13e120]
+                - paragraph [ref=f13e121]: Where every claim is in the stay
+              - generic [ref=f13e123]:
+                - link [ref=f13e124] [cursor=pointer]:
+                  - /url: /claims?view=board
+                  - paragraph [ref=f13e125]: "0"
+                  - paragraph [ref=f13e126]: Admission
+                - link [ref=f13e128] [cursor=pointer]:
+                  - /url: /claims?view=board
+                  - paragraph [ref=f13e129]: "0"
+                  - paragraph [ref=f13e130]: Needs approval
+                - link [ref=f13e132] [cursor=pointer]:
+                  - /url: /claims?view=board
+                  - paragraph [ref=f13e133]: "0"
+                  - paragraph [ref=f13e134]: With insurer
+                - link [ref=f13e136] [cursor=pointer]:
+                  - /url: /claims?view=board
+                  - paragraph [ref=f13e137]: "0"
+                  - paragraph [ref=f13e138]: In treatment
+                - link [ref=f13e140] [cursor=pointer]:
+                  - /url: /claims?view=board
+                  - paragraph [ref=f13e141]: "0"
+                  - paragraph [ref=f13e142]: Settlement
+            - generic [ref=f13e144]:
+              - generic [ref=f13e145]:
+                - generic [ref=f13e147]:
+                  - heading "Top deductions" [level=2] [ref=f13e148]
+                  - paragraph [ref=f13e149]: By policy clause, across insurer decisions
+                - paragraph [ref=f13e151]: No deductions yet.
+              - generic [ref=f13e152]:
+                - generic [ref=f13e154]:
+                  - heading "What insurers ask for" [level=2] [ref=f13e155]
+                  - paragraph [ref=f13e156]: Queries raised, most common first
+                - paragraph [ref=f13e158]: No queries yet.
+          - generic [ref=f13e159]:
+            - generic [ref=f13e161]:
+              - heading "Live activity" [level=2] [ref=f13e162]
+              - paragraph [ref=f13e163]: Agent steps and decisions as they happen
+            - paragraph [ref=f13e165]: Waiting for activity…

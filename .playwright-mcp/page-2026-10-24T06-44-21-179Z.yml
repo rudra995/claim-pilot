@@ -1,0 +1,136 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: ClaimPilot
+      - navigation [ref=e6]:
+        - link "Claims board" [ref=e7] [cursor=pointer]:
+          - /url: /
+        - link "Approval queue" [ref=e8] [cursor=pointer]:
+          - /url: /queue
+        - link "Insurer console" [ref=e9] [cursor=pointer]:
+          - /url: /insurer
+        - link "Patient view" [ref=e10] [cursor=pointer]:
+          - /url: /patient
+      - generic [ref=e11]:
+        - text: Billing officer
+        - textbox "Billing officer" [ref=e12]: Billing Officer
+  - main [ref=e13]:
+    - generic [ref=e38]:
+      - generic [ref=e39]:
+        - generic [ref=e40]:
+          - link "← Claims board" [ref=e41] [cursor=pointer]:
+            - /url: /
+          - heading "Priya Menon · Laparoscopic appendectomy" [level=1] [ref=e42]:
+            - text: Priya Menon
+            - generic [ref=e43]: · Laparoscopic appendectomy
+          - paragraph [ref=e44]: CLM-0001-1 · Demo Insurer C · TPA-C · sum insured ₹5,00,000
+        - generic [ref=e45]:
+          - generic [ref=e46]: PREAUTH DRAFT
+          - generic [ref=e47]: Requested — · Approved —
+          - generic [ref=e48]: ● live
+          - generic [ref=e49]: agents working…
+      - generic [ref=e50]:
+        - generic [ref=e51]:
+          - navigation [ref=e52]:
+            - button "Live trace" [ref=e53] [cursor=pointer]
+            - button "Agents" [ref=e54] [cursor=pointer]
+            - button "Insurer thread" [ref=e55] [cursor=pointer]
+            - button "Bill and documents" [ref=e56] [cursor=pointer]
+          - generic [ref=e57]:
+            - generic [ref=e58]:
+              - heading "Every step, as it happens" [level=2] [ref=e59]
+              - generic [ref=e60]:
+                - checkbox "Show LLM calls and case files" [ref=e61]
+                - text: Show LLM calls and case files
+            - list [ref=e63]:
+              - listitem [ref=e64]:
+                - generic [ref=e66]:
+                  - generic [ref=e67]: 12:14:20 PM
+                  - generic [ref=e68]: "orchestrator: open_claim"
+              - listitem [ref=e69]:
+                - generic [ref=e71]:
+                  - generic [ref=e72]: 12:14:20 PM
+                  - generic [ref=e73]:
+                    - text: Document reader decided Read
+                    - generic [ref=e74]: "· confidence 0.95 · next: Clinical coder"
+                - list [ref=e76]:
+                  - listitem [ref=e77]:
+                    - text: Admission Note read
+                    - generic [ref=e78]: ": Fields: chief complaint, provisional diagnosis, planned treatment"
+                    - generic [ref=e79]: Admission Note ADM-0001-D1 p.1
+                  - listitem [ref=e80]:
+                    - text: Laboratory Report read
+                    - generic [ref=e81]: ": Fields: test, wbc per ul, ultrasound finding"
+                    - generic [ref=e82]: Laboratory Report ADM-0001-D2 p.1
+                  - listitem [ref=e83]:
+                    - text: Operative Note read
+                    - generic [ref=e84]: ": Fields: procedure, finding, duration minutes"
+                    - generic [ref=e85]: Operative Note ADM-0001-D3 p.1
+                  - listitem [ref=e86]:
+                    - text: Discharge Summary read
+                    - generic [ref=e87]: ": Fields: diagnosis, icd10, reason for admission, treatment given, length of stay days, condition at discharge"
+                    - generic [ref=e88]: Discharge Summary ADM-0001-D4 p.1
+                  - listitem [ref=e89]:
+                    - text: Final Bill read
+                    - generic [ref=e90]: ": Fields: total billed"
+                    - generic [ref=e91]: Final Bill ADM-0001-D5 p.1
+              - listitem [ref=e92]:
+                - generic [ref=e94]:
+                  - generic [ref=e95]: 12:14:20 PM
+                  - generic [ref=e96]:
+                    - text: Clinical coder decided Coded
+                    - generic [ref=e97]: "· confidence 1.00 · next: Policy and cost"
+                - list [ref=e99]:
+                  - listitem [ref=e100]:
+                    - text: Coded as K35.8
+                    - generic [ref=e101]: ": 'Acute appendicitis' matches 'Acute appendicitis' in the ICD-10 lookup"
+                    - generic [ref=e102]: Admission Note ADM-0001-D1 p.1
+              - listitem [ref=e103]:
+                - generic [ref=e105]:
+                  - generic [ref=e106]: 12:14:20 PM
+                  - generic [ref=e107]: "ADMITTED -> PREAUTH_DRAFT: Documents read and diagnosis coded"
+              - listitem [ref=e108]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: 12:14:20 PM
+                  - generic [ref=e112]:
+                    - text: Policy decided Covered
+                    - generic [ref=e113]: "· confidence 1.00 · next: Preauth"
+                - list [ref=e115]:
+                  - listitem [ref=e116]:
+                    - text: Room rent cap
+                    - generic [ref=e117]: ": Room rent is payable up to 1% of the sum insured per day. If a higher room is chosen, associated medical expenses are paid in the same proportion."
+                    - generic [ref=e118]: Policy clause 3.1
+                  - listitem [ref=e119]:
+                    - text: Non-payable items
+                    - generic [ref=e120]: ": Items listed in Annexure I (gloves, masks, admission kits and similar consumables) are not payable."
+                    - generic [ref=e121]: Policy clause Annexure I
+                  - listitem [ref=e122]:
+                    - text: Expected insurer share
+                    - generic [ref=e123]: ": ₹98,000 of ₹98,000 billed; patient pays ₹0"
+                    - generic [ref=e124]: Rules engine
+              - listitem [ref=e125]:
+                - generic [ref=e127]:
+                  - generic [ref=e128]: 12:14:20 PM
+                  - generic [ref=e129]:
+                    - text: Cost estimator decided Estimated
+                    - generic [ref=e130]: "· confidence 0.90 · next: Preauth"
+                - list [ref=e132]:
+                  - listitem [ref=e133]:
+                    - text: Typical bill
+                    - generic [ref=e134]: ": ₹80,400 (50th percentile)"
+                    - generic [ref=e135]: Cost model (XGBoost quantile regression)
+                  - listitem [ref=e136]:
+                    - text: High bill
+                    - generic [ref=e137]: ": ₹102,100 (90th percentile)"
+                    - generic [ref=e138]: Cost model (XGBoost quantile regression)
+                  - listitem [ref=e139]:
+                    - text: Expected length of stay
+                    - generic [ref=e140]: ": 3 days typical, 4 days high"
+                    - generic [ref=e141]: Cost model (XGBoost quantile regression)
+        - generic [ref=e143]:
+          - heading "Next step" [level=2] [ref=e145]
+          - generic [ref=e146]:
+            - paragraph [ref=e147]: Agents are working. Steps appear in the trace as they happen.
+            - paragraph [ref=e148]:
+              - link "Patient view →" [ref=e149] [cursor=pointer]:
+                - /url: /patient/CLM-0001-1

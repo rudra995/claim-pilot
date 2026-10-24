@@ -99,3 +99,58 @@ CREATE TRIGGER IF NOT EXISTS audit_log_no_update BEFORE UPDATE ON audit_log
 BEGIN SELECT RAISE(ABORT, 'audit_log is append-only'); END;
 CREATE TRIGGER IF NOT EXISTS audit_log_no_delete BEFORE DELETE ON audit_log
 BEGIN SELECT RAISE(ABORT, 'audit_log is append-only'); END;
+
+-- Patient portal. Existing claims and state transitions remain owned by the orchestrator.
+CREATE TABLE IF NOT EXISTS portal_accounts (
+    account_id TEXT PRIMARY KEY,
+    username TEXT NOT NULL UNIQUE,
+    password_hash TEXT NOT NULL,
+    role TEXT NOT NULL CHECK(role IN ('patient', 'officer')),
+    display_name TEXT NOT NULL,
+    patient_id TEXT,
+    CHECK ((role = 'patient' AND patient_id IS NOT NULL) OR (role = 'officer' AND patient_id IS NULL))
+);
+CREATE TABLE IF NOT EXISTS portal_sessions (
+    token_hash TEXT PRIMARY KEY,
+    account_id TEXT NOT NULL REFERENCES portal_accounts(account_id),
+    expires_at INTEGER NOT NULL
+);
+CREATE TABLE IF NOT EXISTS portal_enrollments (
+    patient_id TEXT NOT NULL,
+    policy_id TEXT NOT NULL,
+    profile_json TEXT NOT NULL,
+    approved_by TEXT NOT NULL,
+    PRIMARY KEY(patient_id, policy_id)
+);
+CREATE TABLE IF NOT EXISTS portal_updates (
+    update_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    claim_id TEXT NOT NULL REFERENCES claims(claim_id),
+    snapshot_json TEXT NOT NULL,
+    approved_by TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+CREATE TABLE IF NOT EXISTS portal_requests (
+    request_id TEXT PRIMARY KEY,
+    claim_id TEXT NOT NULL REFERENCES claims(claim_id),
+    document_type TEXT NOT NULL,
+    message TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'open' CHECK(status IN ('open', 'fulfilled')),
+    officer TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+CREATE TABLE IF NOT EXISTS portal_uploads (
+    upload_id TEXT PRIMARY KEY,
+    claim_id TEXT NOT NULL REFERENCES claims(claim_id),
+    patient_id TEXT NOT NULL,
+    request_id TEXT REFERENCES portal_requests(request_id),
+    document_type TEXT NOT NULL,
+    filename TEXT NOT NULL,
+    content BLOB NOT NULL,
+    sha256 TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'pending' CHECK(status IN ('pending', 'accepted', 'rejected')),
+    reason TEXT,
+    reviewed_by TEXT,
+    reviewed_at TEXT,
+    created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+    UNIQUE(claim_id, sha256, document_type)
+);

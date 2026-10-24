@@ -1,0 +1,54 @@
+- generic [ref=f27e3]:
+  - complementary [ref=f27e4]:
+    - generic [ref=f27e9]:
+      - paragraph [ref=f27e10]: ClaimPilot
+      - paragraph [ref=f27e11]: Demo Multispeciality
+    - button "Admit patient" [ref=f27e13] [cursor=pointer]
+    - navigation [ref=f27e16]:
+      - list [ref=f27e17]:
+        - listitem [ref=f27e18]:
+          - link "Dashboard" [ref=f27e19] [cursor=pointer]:
+            - /url: /
+        - listitem [ref=f27e23]:
+          - link "Patients" [ref=f27e24] [cursor=pointer]:
+            - /url: /patients
+        - listitem [ref=f27e28]:
+          - link "Tasks" [ref=f27e29] [cursor=pointer]:
+            - /url: /tasks
+      - generic [ref=f27e33]:
+        - paragraph [ref=f27e34]: Simulation
+        - list [ref=f27e35]:
+          - listitem [ref=f27e36]:
+            - link "Insurer desk" [ref=f27e37] [cursor=pointer]:
+              - /url: /insurer
+    - generic [ref=f27e40]:
+      - generic [ref=f27e41]: Reconnecting…
+      - generic [ref=f27e43]:
+        - generic [ref=f27e44]: BO
+        - generic [ref=f27e45]:
+          - button "Billing Officer" [ref=f27e46] [cursor=pointer]
+          - paragraph [ref=f27e47]: Billing officer
+  - main [ref=f27e48]:
+    - generic [ref=f27e49]:
+      - generic [ref=f27e50]:
+        - generic [ref=f27e51]:
+          - paragraph [ref=f27e52]: Saturday, 24 October
+          - heading "You’re all caught up" [level=1] [ref=f27e53]
+        - link [ref=f27e54] [cursor=pointer]:
+          - /url: /patients/admit
+          - button "Admit patient" [ref=f27e55]
+      - generic [ref=f27e58]:
+        - generic [ref=f27e59]:
+          - paragraph [ref=f27e60]: Active claims
+          - generic [ref=f27e61]: —
+        - paragraph [ref=f27e63]: Approved first time
+        - paragraph [ref=f27e67]: Approved by insurers
+        - paragraph [ref=f27e71]: Requested
+      - generic [ref=f27e74]:
+        - generic [ref=f27e77]:
+          - heading "Your tasks" [level=2] [ref=f27e78]
+          - paragraph [ref=f27e79]: Nothing goes to an insurer until you approve it
+        - generic [ref=f27e97]:
+          - heading "Recently updated" [level=2] [ref=f27e99]
+          - link "All patients" [ref=f27e100] [cursor=pointer]:
+            - /url: /patients

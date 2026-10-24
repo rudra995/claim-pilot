@@ -1,0 +1,135 @@
+- generic [ref=f24e3]:
+  - complementary [ref=f24e4]:
+    - generic [ref=f24e9]:
+      - paragraph [ref=f24e10]: ClaimPilot
+      - paragraph [ref=f24e11]: Demo Multispeciality
+    - button "Admit patient" [ref=f24e13] [cursor=pointer]
+    - navigation [ref=f24e16]:
+      - list [ref=f24e17]:
+        - listitem [ref=f24e18]:
+          - link "Dashboard" [ref=f24e19] [cursor=pointer]:
+            - /url: /
+        - listitem [ref=f24e23]:
+          - link "Patients" [ref=f24e24] [cursor=pointer]:
+            - /url: /patients
+        - listitem [ref=f24e28]:
+          - link "Tasks 1" [ref=f24e422] [cursor=pointer]:
+            - /url: /tasks
+            - generic [ref=f24e32]: Tasks
+            - generic [ref=f24e423]: "1"
+      - generic [ref=f24e33]:
+        - paragraph [ref=f24e34]: Simulation
+        - list [ref=f24e35]:
+          - listitem [ref=f24e36]:
+            - link "Insurer desk" [ref=f24e37] [cursor=pointer]:
+              - /url: /insurer
+    - generic [ref=f24e40]:
+      - generic [ref=f24e41]: Agents online
+      - generic [ref=f24e43]:
+        - generic [ref=f24e44]: BO
+        - generic [ref=f24e45]:
+          - button "Billing Officer" [ref=f24e46] [cursor=pointer]
+          - paragraph [ref=f24e47]: Billing officer
+  - main [ref=f24e48]:
+    - generic [ref=f24e49]:
+      - link "Patients" [ref=f24e328] [cursor=pointer]:
+        - /url: /patients
+      - generic [ref=f24e331]:
+        - generic [ref=f24e332]: HF
+        - generic [ref=f24e333]:
+          - generic [ref=f24e334]:
+            - heading "Harish Fernandes" [level=1] [ref=f24e335]
+            - generic [ref=f24e336]: Needs you
+          - paragraph [ref=f24e338]: Heart bypass surgery (CABG) · 47 years · Twin sharing · Demo Insurer C (TPA-A)
+        - generic [ref=f24e339]:
+          - generic [ref=f24e340]:
+            - paragraph [ref=f24e341]: Requested
+            - paragraph [ref=f24e342]: ₹3,25,600
+          - generic [ref=f24e343]:
+            - paragraph [ref=f24e344]: Approved
+            - paragraph [ref=f24e345]: —
+      - generic [ref=f24e347]:
+        - paragraph [ref=f24e351]: Admission
+        - paragraph [ref=f24e354]: Pre-auth
+        - paragraph [ref=f24e357]: Treatment
+        - paragraph [ref=f24e360]: Discharge
+        - paragraph [ref=f24e363]: Settlement
+      - navigation [ref=f24e364]:
+        - button "Overview" [ref=f24e365] [cursor=pointer]
+        - button "Insurer messages" [ref=f24e367] [cursor=pointer]
+        - button "Bill and documents" [ref=f24e368] [cursor=pointer]
+        - button "Patient estimate" [ref=f24e369] [cursor=pointer]
+        - button "Agent log" [ref=f24e370] [cursor=pointer]
+      - generic [ref=f24e372]:
+        - generic [ref=f24e373]:
+          - generic [ref=f24e374]:
+            - generic [ref=f24e425]: Your turn · Review pre-auth
+            - generic [ref=f24e427]:
+              - generic [ref=f24e428]:
+                - heading "Send the pre-auth to Demo Insurer C?" [level=3] [ref=f24e429]
+                - paragraph [ref=f24e430]: The agents read the file, checked Demo Insurer C's policy and priced the stay. Review the request, then send it.
+              - generic [ref=f24e431]:
+                - generic [ref=f24e432]:
+                  - paragraph [ref=f24e433]: Asking for
+                  - paragraph [ref=f24e434]: ₹3,25,600
+                - generic [ref=f24e435]:
+                  - paragraph [ref=f24e436]: Policy should pay
+                  - paragraph [ref=f24e437]: ₹3,62,360
+                - generic [ref=f24e438]:
+                  - paragraph [ref=f24e439]: Patient pays
+                  - paragraph [ref=f24e440]: ₹0
+              - paragraph [ref=f24e441]: "Risk check passed: nothing here is likely to be cut."
+              - generic [ref=f24e444]:
+                - generic [ref=f24e445]:
+                  - button "Send to insurer" [ref=f24e446] [cursor=pointer]
+                  - button "Edit first" [ref=f24e449] [cursor=pointer]
+                  - button "Hold back" [ref=f24e450] [cursor=pointer]
+                - paragraph [ref=f24e451]: Signed as Billing Officer. Nothing reaches the insurer without you.
+          - generic [ref=f24e454]:
+            - generic [ref=f24e456]:
+              - heading "Risk check" [level=2] [ref=f24e457]
+              - paragraph [ref=f24e458]: From the denial model, trained on past claims
+            - generic [ref=f24e460]:
+              - generic [ref=f24e461]:
+                - paragraph [ref=f24e462]: Chance it's not paid in full
+                - generic [ref=f24e463]: Low
+              - paragraph [ref=f24e464]: 3%
+              - generic [ref=f24e469]:
+                - generic [ref=f24e470]:
+                  - generic [ref=f24e471]: Paid in full
+                  - generic [ref=f24e473]: 97%
+                - generic [ref=f24e474]:
+                  - generic [ref=f24e475]: Cut
+                  - generic [ref=f24e477]: 0%
+                - generic [ref=f24e478]:
+                  - generic [ref=f24e479]: Denied
+                  - generic [ref=f24e481]: 2%
+        - generic [ref=f24e382]:
+          - generic [ref=f24e384]:
+            - heading "What's happened" [level=2] [ref=f24e385]
+            - paragraph [ref=f24e386]: Each step by the agents, by you, and by the insurer
+          - list [ref=f24e388]:
+            - listitem [ref=f24e389]:
+              - generic [ref=f24e394]:
+                - generic [ref=f24e395]:
+                  - paragraph [ref=f24e396]: Patient admitted
+                  - generic [ref=f24e397]: 12:49 PM
+                - paragraph [ref=f24e398]: Claim opened; agents start reading the file
+            - listitem [ref=f24e399]:
+              - generic [ref=f24e403]:
+                - generic [ref=f24e404]:
+                  - paragraph [ref=f24e405]: Documents read
+                  - generic [ref=f24e406]: 12:49 PM
+                - paragraph [ref=f24e407]: 5 documents, every field tied to its page
+            - listitem [ref=f24e483]:
+              - generic [ref=f24e488]:
+                - generic [ref=f24e489]:
+                  - paragraph [ref=f24e490]: Pre-auth prepared for ₹3,25,600
+                  - generic [ref=f24e491]: 12:49 PM
+                - paragraph [ref=f24e492]: Typical bill for this treatment, from the cost model
+            - listitem [ref=f24e493]:
+              - generic [ref=f24e497]:
+                - generic [ref=f24e498]:
+                  - paragraph [ref=f24e499]: Risk check passed
+                  - generic [ref=f24e500]: 12:49 PM
+                - paragraph [ref=f24e501]: Nothing likely to be cut

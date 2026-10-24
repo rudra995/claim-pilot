@@ -1,0 +1,41 @@
+- generic [ref=f6e2]:
+  - banner [ref=f6e3]:
+    - generic [ref=f6e4]:
+      - generic [ref=f6e5]: ClaimPilot
+      - navigation [ref=f6e6]:
+        - link "Claims board" [ref=f6e7] [cursor=pointer]:
+          - /url: /
+        - link "Approval queue" [ref=f6e8] [cursor=pointer]:
+          - /url: /queue
+        - link "Insurer console" [ref=f6e9] [cursor=pointer]:
+          - /url: /insurer
+        - link "Patient view" [ref=f6e10] [cursor=pointer]:
+          - /url: /patient
+      - generic [ref=f6e11]:
+        - text: Billing officer
+        - textbox "Billing officer" [ref=f6e12]: Billing Officer
+  - main [ref=f6e13]:
+    - generic [ref=f6e14]:
+      - generic [ref=f6e15]:
+        - heading "Insurer console" [level=1] [ref=f6e16]
+        - paragraph [ref=f6e17]: "The simulated TPA's view: what each hospital sent, and what the insurer answered. The two sides talk only through these messages."
+      - generic [ref=f6e18]:
+        - generic [ref=f6e19]:
+          - heading "Claims" [level=2] [ref=f6e21]
+          - list [ref=f6e23]:
+            - listitem [ref=f6e24]:
+              - button "CLM-0001-1 · TPA-C CLOSED Laparoscopic appendectomy · approved ₹1,10,000" [ref=f6e25] [cursor=pointer]:
+                - text: CLM-0001-1 · TPA-C
+                - generic [ref=f6e26]: CLOSED
+                - generic [ref=f6e28]: Laparoscopic appendectomy · approved ₹1,10,000
+            - listitem [ref=f6e29]:
+              - button "CLM-0002-1 · TPA-A AWAITING HUMAN Total knee replacement · approved ₹0" [ref=f6e30] [cursor=pointer]:
+                - text: CLM-0002-1 · TPA-A
+                - generic [ref=f6e31]: AWAITING HUMAN
+                - generic [ref=f6e33]: Total knee replacement · approved ₹0
+            - listitem [ref=f6e34]:
+              - button "CLM-0003-1 · TPA-B IN TREATMENT Gastroenteritis management · approved ₹34,200" [ref=f6e35] [cursor=pointer]:
+                - text: CLM-0003-1 · TPA-B
+                - generic [ref=f6e36]: IN TREATMENT
+                - generic [ref=f6e38]: Gastroenteritis management · approved ₹34,200
+        - paragraph [ref=f6e40]: Pick a claim to see the thread.

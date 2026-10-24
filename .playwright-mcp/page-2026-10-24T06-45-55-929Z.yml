@@ -1,0 +1,144 @@
+- generic [ref=f5e2]:
+  - banner [ref=f5e3]:
+    - generic [ref=f5e4]:
+      - generic [ref=f5e5]: ClaimPilot
+      - navigation [ref=f5e6]:
+        - link "Claims board" [ref=f5e7] [cursor=pointer]:
+          - /url: /
+        - link "Approval queue" [ref=f5e8] [cursor=pointer]:
+          - /url: /queue
+        - link "Insurer console" [ref=f5e9] [cursor=pointer]:
+          - /url: /insurer
+        - link "Patient view" [ref=f5e10] [cursor=pointer]:
+          - /url: /patient
+      - generic [ref=f5e11]:
+        - text: Billing officer
+        - textbox "Billing officer" [ref=f5e12]: Billing Officer
+  - main [ref=f5e13]:
+    - generic [ref=f5e76]:
+      - generic [ref=f5e77]:
+        - generic [ref=f5e78]:
+          - link "← Claims board" [ref=f5e79] [cursor=pointer]:
+            - /url: /
+          - heading "Lakshmi Rao · Gastroenteritis management" [level=1] [ref=f5e80]:
+            - text: Lakshmi Rao
+            - generic [ref=f5e81]: · Gastroenteritis management
+          - paragraph [ref=f5e82]: CLM-0003-1 · Demo Insurer B · TPA-B · sum insured ₹4,00,000
+        - generic [ref=f5e83]:
+          - generic [ref=f5e84]: PREAUTH DRAFT
+          - generic [ref=f5e85]: Requested — · Approved —
+          - generic [ref=f5e86]: ● live
+          - generic [ref=f5e87]: agents working…
+      - generic [ref=f5e88]:
+        - generic [ref=f5e89]:
+          - navigation [ref=f5e90]:
+            - button "Live trace" [ref=f5e91] [cursor=pointer]
+            - button "Agents" [ref=f5e92] [cursor=pointer]
+            - button "Insurer thread" [ref=f5e93] [cursor=pointer]
+            - button "Bill and documents" [ref=f5e94] [cursor=pointer]
+          - generic [ref=f5e95]:
+            - generic [ref=f5e96]:
+              - heading "Every step, as it happens" [level=2] [ref=f5e97]
+              - generic [ref=f5e98]:
+                - checkbox "Show LLM calls and case files" [ref=f5e99]
+                - text: Show LLM calls and case files
+            - list [ref=f5e101]:
+              - listitem [ref=f5e102]:
+                - generic [ref=f5e104]:
+                  - generic [ref=f5e105]: 12:15:54 PM
+                  - generic [ref=f5e106]: "orchestrator: open_claim"
+              - listitem [ref=f5e107]:
+                - generic [ref=f5e109]:
+                  - generic [ref=f5e110]: 12:15:54 PM
+                  - generic [ref=f5e111]:
+                    - text: Document reader decided Needs review
+                    - generic [ref=f5e112]: "· confidence 0.50 · next: Human review"
+                - list [ref=f5e114]:
+                  - listitem [ref=f5e115]:
+                    - text: Admission Note read
+                    - generic [ref=f5e116]: ": Fields: chief complaint, provisional diagnosis, planned treatment, vitals"
+                    - generic [ref=f5e117]: Admission Note ADM-0003-D1 p.1
+                  - listitem [ref=f5e118]:
+                    - text: Laboratory Report read
+                    - generic [ref=f5e119]: ": Fields: test, sodium mmol l, potassium mmol l, creatinine mg dl"
+                    - generic [ref=f5e120]: Laboratory Report ADM-0003-D2 p.1
+                  - listitem [ref=f5e121]:
+                    - text: Discharge Summary read
+                    - generic [ref=f5e122]: ": Fields: diagnosis, icd10, treatment given, length of stay days, condition at discharge"
+                    - generic [ref=f5e123]: Discharge Summary ADM-0003-D3 p.1
+                  - listitem [ref=f5e124]:
+                    - text: "Not found: reason for admission"
+                    - generic [ref=f5e125]: ": No 'reason for admission' line in the document"
+                    - generic [ref=f5e126]: Discharge Summary ADM-0003-D3 p.1
+                  - listitem [ref=f5e127]:
+                    - text: Final Bill read
+                    - generic [ref=f5e128]: ": Fields: total billed"
+                    - generic [ref=f5e129]: Final Bill ADM-0003-D4 p.1
+              - listitem [ref=f5e130]:
+                - generic [ref=f5e132]:
+                  - generic [ref=f5e133]: 12:15:54 PM
+                  - generic [ref=f5e134]:
+                    - text: Clinical coder decided Coded
+                    - generic [ref=f5e135]: "· confidence 0.67 · next: Policy and cost"
+                - list [ref=f5e137]:
+                  - listitem [ref=f5e138]:
+                    - text: Coded as A09
+                    - generic [ref=f5e139]: ": 'Acute gastroenteritis with dehydration' matches 'Acute gastroenteritis' in the ICD-10 lookup"
+                    - generic [ref=f5e140]: Admission Note ADM-0003-D1 p.1
+              - listitem [ref=f5e141]:
+                - generic [ref=f5e143]:
+                  - generic [ref=f5e144]: 12:15:54 PM
+                  - generic [ref=f5e145]: "ADMITTED -> PREAUTH_DRAFT: Documents read and diagnosis coded"
+              - listitem [ref=f5e146]:
+                - generic [ref=f5e148]:
+                  - generic [ref=f5e149]: 12:15:54 PM
+                  - generic [ref=f5e150]:
+                    - text: Policy decided Covered with deductions
+                    - generic [ref=f5e151]: "· confidence 1.00 · next: Preauth"
+                - list [ref=f5e153]:
+                  - listitem [ref=f5e154]:
+                    - text: Room rent cap
+                    - generic [ref=f5e155]: ": Room rent is payable up to 1% of the sum insured per day. Associated medical expenses are paid in the same proportion if a higher room is chosen."
+                    - generic [ref=f5e156]: Policy clause 2.4
+                  - listitem [ref=f5e157]:
+                    - text: Co-pay
+                    - generic [ref=f5e158]: ": A co-payment of 10% of every admissible claim applies to insured persons aged 60 or above."
+                    - generic [ref=f5e159]: Policy clause 6.1
+                  - listitem [ref=f5e160]:
+                    - text: Non-payable items
+                    - generic [ref=f5e161]: ": Items listed in Annexure III, including gloves, masks and admission kits, are not payable."
+                    - generic [ref=f5e162]: Policy clause Annexure III
+                  - listitem [ref=f5e163]:
+                    - text: 10% co-pay for patients aged 60+
+                    - generic [ref=f5e164]: ": Co-pay: ₹4,250 not payable"
+                    - generic [ref=f5e165]: Policy clause 6.1
+                  - listitem [ref=f5e166]:
+                    - text: Expected insurer share
+                    - generic [ref=f5e167]: ": ₹38,250 of ₹42,500 billed; patient pays ₹4,250"
+                    - generic [ref=f5e168]: Rules engine
+              - listitem [ref=f5e169]:
+                - generic [ref=f5e171]:
+                  - generic [ref=f5e172]: 12:15:54 PM
+                  - generic [ref=f5e173]:
+                    - text: Cost estimator decided Estimated
+                    - generic [ref=f5e174]: "· confidence 0.90 · next: Preauth"
+                - list [ref=f5e176]:
+                  - listitem [ref=f5e177]:
+                    - text: Typical bill
+                    - generic [ref=f5e178]: ": ₹34,200 (50th percentile)"
+                    - generic [ref=f5e179]: Cost model (XGBoost quantile regression)
+                  - listitem [ref=f5e180]:
+                    - text: High bill
+                    - generic [ref=f5e181]: ": ₹47,800 (90th percentile)"
+                    - generic [ref=f5e182]: Cost model (XGBoost quantile regression)
+                  - listitem [ref=f5e183]:
+                    - text: Expected length of stay
+                    - generic [ref=f5e184]: ": 2 days typical, 4 days high"
+                    - generic [ref=f5e185]: Cost model (XGBoost quantile regression)
+        - generic [ref=f5e187]:
+          - heading "Next step" [level=2] [ref=f5e189]
+          - generic [ref=f5e190]:
+            - paragraph [ref=f5e191]: Agents are working. Steps appear in the trace as they happen.
+            - paragraph [ref=f5e192]:
+              - link "Patient view →" [ref=f5e193] [cursor=pointer]:
+                - /url: /patient/CLM-0003-1

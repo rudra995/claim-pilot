@@ -1,0 +1,6 @@
+[
+  {"username": "officer@claimpilot.demo", "password": "OfficerDemo!2026", "role": "officer", "name": "Billing Officer"},
+  {"username": "ramesh@claimpilot.demo", "password": "PatientDemo!2026", "role": "patient", "case_id": "case2"},
+  {"username": "patient1@claimpilot.demo", "password": "PatientDemo!2026", "role": "patient", "case_id": "case1"},
+  {"username": "patient3@claimpilot.demo", "password": "PatientDemo!2026", "role": "patient", "case_id": "case3"}
+]

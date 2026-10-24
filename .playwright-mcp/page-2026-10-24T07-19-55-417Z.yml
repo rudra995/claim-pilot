@@ -1,0 +1,232 @@
+- generic [ref=f25e3]:
+  - complementary [ref=f25e4]:
+    - generic [ref=f25e9]:
+      - paragraph [ref=f25e10]: ClaimPilot
+      - paragraph [ref=f25e11]: Demo Multispeciality
+    - button "Admit patient" [ref=f25e13] [cursor=pointer]
+    - navigation [ref=f25e16]:
+      - list [ref=f25e17]:
+        - listitem [ref=f25e18]:
+          - link "Dashboard" [ref=f25e19] [cursor=pointer]:
+            - /url: /
+        - listitem [ref=f25e23]:
+          - link "Patients" [ref=f25e24] [cursor=pointer]:
+            - /url: /patients
+        - listitem [ref=f25e28]:
+          - link "Tasks 1" [ref=f25e72] [cursor=pointer]:
+            - /url: /tasks
+            - generic [ref=f25e32]: Tasks
+            - generic [ref=f25e73]: "1"
+      - generic [ref=f25e33]:
+        - paragraph [ref=f25e34]: Simulation
+        - list [ref=f25e35]:
+          - listitem [ref=f25e36]:
+            - link "Insurer desk" [ref=f25e37] [cursor=pointer]:
+              - /url: /insurer
+    - generic [ref=f25e40]:
+      - generic [ref=f25e41]: Agents online
+      - generic [ref=f25e43]:
+        - generic [ref=f25e44]: BO
+        - generic [ref=f25e45]:
+          - button "Billing Officer" [ref=f25e46] [cursor=pointer]
+          - paragraph [ref=f25e47]: Billing officer
+  - main [ref=f25e48]:
+    - generic [ref=f25e49]:
+      - link "Patients" [ref=f25e50] [cursor=pointer]:
+        - /url: /patients
+      - generic [ref=f25e53]:
+        - heading "Admit a patient" [level=1] [ref=f25e54]
+        - paragraph [ref=f25e55]: Choose who is being admitted. Their documents, policy and estimated bill are already on file.
+      - generic [ref=f25e56]:
+        - generic [ref=f25e57]:
+          - generic [ref=f25e58]:
+            - textbox "Search by name, condition or city" [ref=f25e60]
+            - combobox [ref=f25e61]:
+              - option "All" [selected]
+              - option "Demo Insurer C"
+              - option "Demo Insurer A"
+              - option "Demo Insurer B"
+          - generic [ref=f25e62]:
+            - button "PM Priya Menon Demo 34 · Female · Bengaluru Appendix removal (laparoscopic) Demo Insurer C Emergency" [ref=f25e74] [cursor=pointer]:
+              - generic [ref=f25e75]:
+                - generic [ref=f25e76]: PM
+                - generic [ref=f25e77]:
+                  - generic [ref=f25e78]:
+                    - paragraph [ref=f25e79]: Priya Menon
+                    - generic [ref=f25e80]: Demo
+                  - paragraph [ref=f25e81]: 34 · Female · Bengaluru
+              - paragraph [ref=f25e85]: Appendix removal (laparoscopic)
+              - generic [ref=f25e86]:
+                - generic [ref=f25e87]: Demo Insurer C
+                - generic [ref=f25e88]: Emergency
+            - button "RI Ramesh Iyer Demo 58 · Male · Bengaluru Total knee replacement Demo Insurer A" [ref=f25e89] [cursor=pointer]:
+              - generic [ref=f25e90]:
+                - generic [ref=f25e91]: RI
+                - generic [ref=f25e92]:
+                  - generic [ref=f25e93]:
+                    - paragraph [ref=f25e94]: Ramesh Iyer
+                    - generic [ref=f25e95]: Demo
+                  - paragraph [ref=f25e96]: 58 · Male · Bengaluru
+              - paragraph [ref=f25e100]: Total knee replacement
+              - generic [ref=f25e101]: Demo Insurer A
+            - button "LR Lakshmi Rao Demo 64 · Female · Mysuru Gastroenteritis care Demo Insurer B Emergency" [active] [ref=f25e103] [cursor=pointer]:
+              - generic [ref=f25e104]:
+                - generic [ref=f25e105]: LR
+                - generic [ref=f25e106]:
+                  - generic [ref=f25e107]:
+                    - paragraph [ref=f25e108]: Lakshmi Rao
+                    - generic [ref=f25e109]: Demo
+                  - paragraph [ref=f25e110]: 64 · Female · Mysuru
+              - paragraph [ref=f25e114]: Gastroenteritis care
+              - generic [ref=f25e115]:
+                - generic [ref=f25e116]: Demo Insurer B
+                - generic [ref=f25e117]: Emergency
+            - button "HF Harish Fernandes 47 · Male · Pune Heart bypass surgery (CABG) Demo Insurer C" [ref=f25e118] [cursor=pointer]:
+              - generic [ref=f25e119]:
+                - generic [ref=f25e120]: HF
+                - generic [ref=f25e121]:
+                  - paragraph [ref=f25e123]: Harish Fernandes
+                  - paragraph [ref=f25e124]: 47 · Male · Pune
+              - paragraph [ref=f25e128]: Heart bypass surgery (CABG)
+              - generic [ref=f25e129]: Demo Insurer C
+            - button "SD Sunita Das 32 · Female · Mangaluru Caesarean section Demo Insurer C" [ref=f25e131] [cursor=pointer]:
+              - generic [ref=f25e132]:
+                - generic [ref=f25e133]: SD
+                - generic [ref=f25e134]:
+                  - paragraph [ref=f25e136]: Sunita Das
+                  - paragraph [ref=f25e137]: 32 · Female · Mangaluru
+              - paragraph [ref=f25e141]: Caesarean section
+              - generic [ref=f25e142]: Demo Insurer C
+            - button "ZP Zara Pillai 21 · Female · Mysuru Caesarean section Demo Insurer B" [ref=f25e144] [cursor=pointer]:
+              - generic [ref=f25e145]:
+                - generic [ref=f25e146]: ZP
+                - generic [ref=f25e147]:
+                  - paragraph [ref=f25e149]: Zara Pillai
+                  - paragraph [ref=f25e150]: 21 · Female · Mysuru
+              - paragraph [ref=f25e154]: Caesarean section
+              - generic [ref=f25e155]: Demo Insurer B
+            - button "JP Joseph Pillai 22 · Male · Pune Tonsillectomy Demo Insurer A" [ref=f25e157] [cursor=pointer]:
+              - generic [ref=f25e158]:
+                - generic [ref=f25e159]: JP
+                - generic [ref=f25e160]:
+                  - paragraph [ref=f25e162]: Joseph Pillai
+                  - paragraph [ref=f25e163]: 22 · Male · Pune
+              - paragraph [ref=f25e167]: Tonsillectomy
+              - generic [ref=f25e168]: Demo Insurer A
+            - button "RS Ravi Singh 52 · Male · Chennai Prostate surgery (TURP) Demo Insurer B" [ref=f25e170] [cursor=pointer]:
+              - generic [ref=f25e171]:
+                - generic [ref=f25e172]: RS
+                - generic [ref=f25e173]:
+                  - paragraph [ref=f25e175]: Ravi Singh
+                  - paragraph [ref=f25e176]: 52 · Male · Chennai
+              - paragraph [ref=f25e180]: Prostate surgery (TURP)
+              - generic [ref=f25e181]: Demo Insurer B
+            - button "SD Shalini Das 46 · Female · Hyderabad Femur fracture fixation Demo Insurer A Emergency" [ref=f25e183] [cursor=pointer]:
+              - generic [ref=f25e184]:
+                - generic [ref=f25e185]: SD
+                - generic [ref=f25e186]:
+                  - paragraph [ref=f25e188]: Shalini Das
+                  - paragraph [ref=f25e189]: 46 · Female · Hyderabad
+              - paragraph [ref=f25e193]: Femur fracture fixation
+              - generic [ref=f25e194]:
+                - generic [ref=f25e195]: Demo Insurer A
+                - generic [ref=f25e196]: Emergency
+            - button "MG Mary Gupta 51 · Female · Mumbai Kidney stone removal Demo Insurer A" [ref=f25e197] [cursor=pointer]:
+              - generic [ref=f25e198]:
+                - generic [ref=f25e199]: MG
+                - generic [ref=f25e200]:
+                  - paragraph [ref=f25e202]: Mary Gupta
+                  - paragraph [ref=f25e203]: 51 · Female · Mumbai
+              - paragraph [ref=f25e207]: Kidney stone removal
+              - generic [ref=f25e208]: Demo Insurer A
+            - button "AN Arjun Nair 75 · Male · Kolkata Prostate surgery (TURP) Demo Insurer B" [ref=f25e210] [cursor=pointer]:
+              - generic [ref=f25e211]:
+                - generic [ref=f25e212]: AN
+                - generic [ref=f25e213]:
+                  - paragraph [ref=f25e215]: Arjun Nair
+                  - paragraph [ref=f25e216]: 75 · Male · Kolkata
+              - paragraph [ref=f25e220]: Prostate surgery (TURP)
+              - generic [ref=f25e221]: Demo Insurer B
+            - button "AV Arjun Verma 66 · Male · Chennai Hernia repair Demo Insurer A" [ref=f25e223] [cursor=pointer]:
+              - generic [ref=f25e224]:
+                - generic [ref=f25e225]: AV
+                - generic [ref=f25e226]:
+                  - paragraph [ref=f25e228]: Arjun Verma
+                  - paragraph [ref=f25e229]: 66 · Male · Chennai
+              - paragraph [ref=f25e233]: Hernia repair
+              - generic [ref=f25e234]: Demo Insurer A
+            - button "RM Rohan Menon 45 · Male · Chennai Coronary angioplasty Demo Insurer C Emergency" [ref=f25e236] [cursor=pointer]:
+              - generic [ref=f25e237]:
+                - generic [ref=f25e238]: RM
+                - generic [ref=f25e239]:
+                  - paragraph [ref=f25e241]: Rohan Menon
+                  - paragraph [ref=f25e242]: 45 · Male · Chennai
+              - paragraph [ref=f25e246]: Coronary angioplasty
+              - generic [ref=f25e247]:
+                - generic [ref=f25e248]: Demo Insurer C
+                - generic [ref=f25e249]: Emergency
+            - button "SR Sanjay Reddy 76 · Male · Pune Cataract surgery Demo Insurer A" [ref=f25e250] [cursor=pointer]:
+              - generic [ref=f25e251]:
+                - generic [ref=f25e252]: SR
+                - generic [ref=f25e253]:
+                  - paragraph [ref=f25e255]: Sanjay Reddy
+                  - paragraph [ref=f25e256]: 76 · Male · Pune
+              - paragraph [ref=f25e260]: Cataract surgery
+              - generic [ref=f25e261]: Demo Insurer A
+            - button "LV Lakshmi Verma 65 · Female · Mysuru Spinal fusion Demo Insurer A" [ref=f25e263] [cursor=pointer]:
+              - generic [ref=f25e264]:
+                - generic [ref=f25e265]: LV
+                - generic [ref=f25e266]:
+                  - paragraph [ref=f25e268]: Lakshmi Verma
+                  - paragraph [ref=f25e269]: 65 · Female · Mysuru
+              - paragraph [ref=f25e273]: Spinal fusion
+              - generic [ref=f25e274]: Demo Insurer A
+            - button "SN Sunita Naidu 51 · Female · Ahmedabad Gallbladder removal (laparoscopic) Demo Insurer B" [ref=f25e276] [cursor=pointer]:
+              - generic [ref=f25e277]:
+                - generic [ref=f25e278]: SN
+                - generic [ref=f25e279]:
+                  - paragraph [ref=f25e281]: Sunita Naidu
+                  - paragraph [ref=f25e282]: 51 · Female · Ahmedabad
+              - paragraph [ref=f25e286]: Gallbladder removal (laparoscopic)
+              - generic [ref=f25e287]: Demo Insurer B
+        - generic [ref=f25e289]:
+          - generic [ref=f25e291]:
+            - generic [ref=f25e292]: LR
+            - generic [ref=f25e293]:
+              - paragraph [ref=f25e294]: Lakshmi Rao
+              - paragraph [ref=f25e295]: 64 years · Female · Mysuru
+          - generic [ref=f25e296]:
+            - generic [ref=f25e297]:
+              - term [ref=f25e298]: Condition
+              - definition [ref=f25e299]: "Gastroenteritis admission: discharge summary doesn't say why admission was needed"
+            - generic [ref=f25e300]:
+              - term [ref=f25e301]: Treatment
+              - definition [ref=f25e302]: Gastroenteritis care
+            - generic [ref=f25e303]:
+              - term [ref=f25e304]: Admission
+              - definition [ref=f25e305]: Emergency · 3 days
+            - generic [ref=f25e306]:
+              - term [ref=f25e307]: Room
+              - definition [ref=f25e308]: Twin sharing
+            - generic [ref=f25e309]:
+              - term [ref=f25e310]: Insurer
+              - definition [ref=f25e311]: Demo Insurer B · TPA-B
+            - generic [ref=f25e312]:
+              - term [ref=f25e313]: Policy
+              - definition [ref=f25e314]: Senior Care Plus · ₹4,00,000
+            - generic [ref=f25e315]:
+              - term [ref=f25e316]: On file
+              - definition [ref=f25e317]: 4 documents · bill est. ₹42,500
+          - generic [ref=f25e318]:
+            - paragraph [ref=f25e319]: What happens next
+            - list [ref=f25e320]:
+              - listitem [ref=f25e321]:
+                - generic [ref=f25e322]: "1"
+                - text: Agents read the documents and code the diagnosis
+              - listitem [ref=f25e323]:
+                - generic [ref=f25e324]: "2"
+                - text: They check the policy and draft the pre-auth
+              - listitem [ref=f25e325]:
+                - generic [ref=f25e326]: "3"
+                - text: You review it before anything is sent
+            - button "Admit and start claim" [ref=f25e327] [cursor=pointer]

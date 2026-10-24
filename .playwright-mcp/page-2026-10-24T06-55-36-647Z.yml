@@ -1,0 +1,255 @@
+- generic [ref=f17e276]:
+  - complementary [ref=f17e277]:
+    - generic [ref=f17e282]:
+      - paragraph [ref=f17e283]: ClaimPilot
+      - paragraph [ref=f17e284]: Cashless claims desk
+    - navigation [ref=f17e285]:
+      - generic [ref=f17e286]:
+        - paragraph [ref=f17e287]: Hospital
+        - list [ref=f17e288]:
+          - listitem [ref=f17e289]:
+            - link "Overview" [ref=f17e290] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=f17e294]:
+            - link "Claims" [ref=f17e295] [cursor=pointer]:
+              - /url: /claims
+          - listitem [ref=f17e299]:
+            - link "Approvals 1" [ref=f17e739] [cursor=pointer]:
+              - /url: /approvals
+              - generic [ref=f17e303]: Approvals
+              - generic [ref=f17e740]: "1"
+          - listitem [ref=f17e304]:
+            - link "Patient view" [ref=f17e305] [cursor=pointer]:
+              - /url: /patient
+      - generic [ref=f17e309]:
+        - paragraph [ref=f17e310]: Simulated insurer
+        - list [ref=f17e311]:
+          - listitem [ref=f17e312]:
+            - link "TPA console" [ref=f17e313] [cursor=pointer]:
+              - /url: /insurer
+    - generic [ref=f17e317]:
+      - generic [ref=f17e318]:
+        - generic [ref=f17e320]: Agents live
+        - generic [ref=f17e321]: Human gate on
+      - generic [ref=f17e322]:
+        - generic [ref=f17e323]: BO
+        - generic [ref=f17e324]:
+          - button "Billing Officer" [ref=f17e325] [cursor=pointer]
+          - paragraph [ref=f17e326]: Billing officer · signs every decision
+  - generic [ref=f17e327]:
+    - banner [ref=f17e328]:
+      - generic [ref=f17e329]:
+        - generic [ref=f17e330]:
+          - generic [ref=f17e331]: Demo Multispeciality Hospital
+          - generic [ref=f17e334]: Claim
+        - textbox "Search patient, claim, procedure…" [ref=f17e586]
+        - button "New admission" [ref=f17e337] [cursor=pointer]
+    - main [ref=f17e340]:
+      - generic [ref=f17e587]:
+        - generic [ref=f17e588]:
+          - generic [ref=f17e589]:
+            - link [ref=f17e590] [cursor=pointer]:
+              - /url: /claims
+            - generic [ref=f17e593]: RI
+            - generic [ref=f17e594]:
+              - generic [ref=f17e595]:
+                - heading "Ramesh Iyer" [level=1] [ref=f17e596]
+                - generic [ref=f17e597]: Needs approval
+              - paragraph [ref=f17e601]: Total knee replacement · age 58 · CLM-0002-2
+              - paragraph [ref=f17e602]: Demo Insurer A via TPA-A · sum insured ₹3,00,000 · Single deluxe
+            - generic [ref=f17e603]:
+              - generic [ref=f17e604]:
+                - term [ref=f17e605]: Requested
+                - definition [ref=f17e606]: ₹2,19,600
+              - generic [ref=f17e607]:
+                - term [ref=f17e608]: Approved
+                - definition [ref=f17e609]: —
+          - list [ref=f17e611]:
+            - listitem [ref=f17e612]:
+              - generic [ref=f17e613]: Admission
+            - listitem [ref=f17e617]:
+              - generic [ref=f17e618]:
+                - generic [ref=f17e619]: "2"
+                - generic [ref=f17e620]: Pre-auth
+            - listitem [ref=f17e622]:
+              - generic [ref=f17e623]:
+                - generic [ref=f17e624]: "3"
+                - generic [ref=f17e625]: Treatment
+            - listitem [ref=f17e627]:
+              - generic [ref=f17e628]:
+                - generic [ref=f17e629]: "4"
+                - generic [ref=f17e630]: Discharge
+            - listitem [ref=f17e632]:
+              - generic [ref=f17e633]:
+                - generic [ref=f17e634]: "5"
+                - generic [ref=f17e635]: Settlement
+        - generic [ref=f17e636]:
+          - generic [ref=f17e637]:
+            - navigation [ref=f17e638]:
+              - button "Overview" [ref=f17e639] [cursor=pointer]
+              - button "Agent activity" [ref=f17e642] [cursor=pointer]
+              - button "Insurer thread" [ref=f17e645] [cursor=pointer]
+              - button "Bill and documents" [ref=f17e648] [cursor=pointer]
+            - generic [ref=f17e651]:
+              - generic [ref=f17e652]:
+                - paragraph [ref=f17e653]: Every agent step, message and decision, grouped by run. Newest runs open.
+                - generic [ref=f17e654]:
+                  - checkbox "Show masked LLM calls and drafts" [ref=f17e655]
+                  - text: Show masked LLM calls and drafts
+              - generic [ref=f17e657]:
+                - button "Admission and pre-auth draft 12:25:31 PM · 6 agent steps" [ref=f17e743] [cursor=pointer]:
+                  - generic [ref=f17e662]:
+                    - generic [ref=f17e663]: Admission and pre-auth draft
+                    - generic [ref=f17e664]: 12:25:31 PM · 6 agent steps
+                - list [ref=f17e667]:
+                  - listitem [ref=f17e668]:
+                    - generic [ref=f17e670]:
+                      - generic [ref=f17e671]: Claim opened
+                      - generic [ref=f17e672]: 12:25:31 PM
+                  - listitem [ref=f17e673]:
+                    - generic [ref=f17e675]:
+                      - button "Document reader Read confidence 0.95 12:25:31 PM" [ref=f17e676] [cursor=pointer]:
+                        - generic [ref=f17e677]: Document reader
+                        - generic [ref=f17e678]: Read
+                        - generic [ref=f17e679]: confidence 0.95
+                        - generic [ref=f17e680]: 12:25:31 PM
+                      - paragraph [ref=f17e681]:
+                        - text: 5 findings, each with its source ·
+                        - button "show" [ref=f17e682] [cursor=pointer]
+                  - listitem [ref=f17e683]:
+                    - generic [ref=f17e685]:
+                      - button "Clinical coder Coded confidence 1.00 12:25:31 PM" [ref=f17e686] [cursor=pointer]:
+                        - generic [ref=f17e687]: Clinical coder
+                        - generic [ref=f17e688]: Coded
+                        - generic [ref=f17e689]: confidence 1.00
+                        - generic [ref=f17e690]: 12:25:31 PM
+                      - paragraph [ref=f17e691]:
+                        - text: 1 finding, each with its source ·
+                        - button "show" [ref=f17e692] [cursor=pointer]
+                  - listitem [ref=f17e693]:
+                    - generic [ref=f17e695]:
+                      - generic [ref=f17e696]: Moved to preauth draft — Documents read and diagnosis coded
+                      - generic [ref=f17e697]: 12:25:31 PM
+                  - listitem [ref=f17e698]:
+                    - generic [ref=f17e700]:
+                      - button "Policy agent Covered with deductions confidence 1.00 12:25:31 PM" [ref=f17e701] [cursor=pointer]:
+                        - generic [ref=f17e702]: Policy agent
+                        - generic [ref=f17e703]: Covered with deductions
+                        - generic [ref=f17e704]: confidence 1.00
+                        - generic [ref=f17e705]: 12:25:31 PM
+                      - paragraph [ref=f17e706]:
+                        - text: 9 findings, each with its source ·
+                        - button "show" [ref=f17e707] [cursor=pointer]
+                  - listitem [ref=f17e708]:
+                    - generic [ref=f17e710]:
+                      - button "Cost estimator Estimated confidence 0.90 12:25:31 PM" [ref=f17e711] [cursor=pointer]:
+                        - generic [ref=f17e712]: Cost estimator
+                        - generic [ref=f17e713]: Estimated
+                        - generic [ref=f17e714]: confidence 0.90
+                        - generic [ref=f17e715]: 12:25:31 PM
+                      - paragraph [ref=f17e716]:
+                        - text: 3 findings, each with its source ·
+                        - button "show" [ref=f17e717] [cursor=pointer]
+                  - listitem [ref=f17e744]:
+                    - generic [ref=f17e746]:
+                      - button "Pre-auth agent Ready for review confidence 0.90 12:25:36 PM" [ref=f17e747] [cursor=pointer]:
+                        - generic [ref=f17e748]: Pre-auth agent
+                        - generic [ref=f17e749]: Ready for review
+                        - generic [ref=f17e750]: confidence 0.90
+                        - generic [ref=f17e751]: 12:25:36 PM
+                      - paragraph [ref=f17e752]:
+                        - text: 4 findings, each with its source ·
+                        - button "show" [ref=f17e753] [cursor=pointer]
+                  - listitem [ref=f17e754]:
+                    - generic [ref=f17e756]:
+                      - generic [ref=f17e757]: Moved to risk check — Pre-auth package drafted
+                      - generic [ref=f17e758]: 12:25:36 PM
+                  - listitem [ref=f17e759]:
+                    - generic [ref=f17e761]:
+                      - button "Denial-risk agent Fix before submit confidence 0.79 12:25:36 PM" [ref=f17e762] [cursor=pointer]:
+                        - generic [ref=f17e763]: Denial-risk agent
+                        - generic [ref=f17e764]: Fix before submit
+                        - generic [ref=f17e765]: confidence 0.79
+                        - generic [ref=f17e766]: 12:25:36 PM
+                      - paragraph [ref=f17e767]:
+                        - text: 4 findings, each with its source ·
+                        - button "show" [ref=f17e768] [cursor=pointer]
+                  - listitem [ref=f17e769]:
+                    - generic [ref=f17e771]:
+                      - generic [ref=f17e772]: Moved to awaiting human — Pre-auth package needs approval
+                      - generic [ref=f17e773]: 12:25:36 PM
+          - generic [ref=f17e718]:
+            - generic [ref=f17e719]:
+              - generic [ref=f17e721]:
+                - heading "Your decision" [level=2] [ref=f17e774]
+                - paragraph [ref=f17e775]: Pre-auth package needs approval
+              - generic [ref=f17e724]:
+                - list [ref=f17e776]:
+                  - listitem [ref=f17e777]: "Denial-risk agent: fix before submit"
+                  - listitem [ref=f17e780]: Pre-auth package needs approval
+                - generic [ref=f17e783]:
+                  - generic [ref=f17e784]:
+                    - paragraph [ref=f17e785]: "Ready to send: preauth request"
+                    - generic [ref=f17e788]:
+                      - generic [ref=f17e790]:
+                        - paragraph [ref=f17e791]: Requested
+                        - paragraph [ref=f17e792]: ₹2,19,600
+                      - paragraph [ref=f17e793]: "The patient presented with right knee pain for 3 years, worse on walking, not relieved by physiotherapy and painkillers. Diagnosis: Primary osteoarthritis of knee (M17.1). Supporting investigation: Pre-operative blood work. Planned treatment: Right total knee replacement, which needs inpatient admission."
+                      - generic [ref=f17e794]:
+                        - generic [ref=f17e795]: ADM-0002-D1
+                        - generic [ref=f17e798]: ADM-0002-D2
+                        - generic [ref=f17e801]: ADM-0002-D3
+                        - generic [ref=f17e804]: ADM-0002-D4
+                        - generic [ref=f17e807]: ADM-0002-D5
+                  - generic [ref=f17e810]:
+                    - button "Approve and send" [ref=f17e811] [cursor=pointer]
+                    - button "Edit" [ref=f17e814] [cursor=pointer]
+                    - button "Send back" [ref=f17e815] [cursor=pointer]
+                  - paragraph [ref=f17e816]:
+                    - text: Signed as
+                    - generic [ref=f17e819]: Billing Officer
+                    - text: . Nothing reaches the insurer without this.
+                - link "Patient cost note and room advice" [ref=f17e727] [cursor=pointer]:
+                  - /url: /patient/CLM-0002-2
+            - generic [ref=f17e732]:
+              - generic [ref=f17e734]:
+                - heading "Denial-risk check" [level=2] [ref=f17e735]
+                - paragraph [ref=f17e736]: Model score plus checklist, each with its source
+              - generic [ref=f17e820]:
+                - generic [ref=f17e821]:
+                  - generic [ref=f17e822]:
+                    - paragraph [ref=f17e823]: Chance it isn't paid in full
+                    - paragraph [ref=f17e824]:
+                      - text: 100%
+                      - generic [ref=f17e825]: high risk
+                  - generic [ref=f17e826]: Fix before submit
+                - generic [ref=f17e827]:
+                  - generic "Paid in full 0%" [ref=f17e828]
+                  - generic "Cut 79%" [ref=f17e829]
+                  - generic "Denied 21%" [ref=f17e830]
+                - generic [ref=f17e831]:
+                  - generic [ref=f17e832]: Paid in full 0%
+                  - generic [ref=f17e834]: Cut 79%
+                  - generic [ref=f17e836]: Denied 21%
+                - list [ref=f17e838]:
+                  - listitem [ref=f17e839]:
+                    - generic [ref=f17e840]:
+                      - paragraph [ref=f17e841]: Missing xray report
+                      - generic [ref=f17e842]: weight +2.62
+                    - paragraph [ref=f17e843]: Not among the documents attached (ADM-0002-D1, ADM-0002-D2, ADM-0002-D3, ADM-0002-D4, ADM-0002-D5); model weight +2.62
+                    - paragraph [ref=f17e844]: Attach the pre-op X-ray report
+                    - paragraph [ref=f17e847]: "Source: Document checklist for total knee replacement"
+                  - listitem [ref=f17e848]:
+                    - generic [ref=f17e849]:
+                      - paragraph [ref=f17e850]: Room over cap
+                      - generic [ref=f17e851]: weight +2.62
+                    - paragraph [ref=f17e852]: "Proportionate deduction: paid at 60% of billed, the ratio of eligible to actual room rent; Room rent capped at ₹3,000 a day: ₹47,200 not payable; model weight +2.62"
+                    - paragraph [ref=f17e853]: "Room rent is above the policy cap: tell the patient about the proportionate deduction, or offer a room within the cap"
+                    - paragraph [ref=f17e856]: "Source: Policy clause 4.2"
+                  - listitem [ref=f17e857]:
+                    - generic [ref=f17e858]:
+                      - paragraph [ref=f17e859]: Non payables billed
+                      - generic [ref=f17e860]: weight +2.48
+                    - paragraph [ref=f17e861]: "Non-payable item: ₹7,000 not payable; model weight +2.48"
+                    - paragraph [ref=f17e862]: Move non-payable items (gloves, masks, kits) to the patient's bill
+                    - paragraph [ref=f17e865]: "Source: Policy clause Annexure II"
