@@ -16,7 +16,7 @@ from backend.agents.hospital.intake import Reading
 from backend.models.features import DOC_FLAGS, RULE_FLAGS, denial_features
 from backend.models.fixes_map import FIXES
 from backend.models.predict import denial_risk
-from backend.rules.engine import assess
+from backend.rules.engine import assess, total
 from backend.schemas import AgentOutput, Case, DocumentType, Finding, Stage
 from backend.stages import available, due_at
 from data.generator.procedures import BY_SLUG
@@ -104,8 +104,7 @@ def _checklist(flag: str, case: Case) -> tuple[str, str, str]:
         cuts = [d for d in assess(case).deductions if rule_types.get(d.rule_id) == RULE_FLAGS[flag]]
         clauses = ", ".join(sorted({d.clause_id for d in cuts}))
         reasons = "; ".join(sorted({d.reason for d in cuts}))
-        total = sum(d.amount for d in cuts)
-        return flag.replace("_", " ").capitalize(), f"{reasons}: ₹{total:,} not payable", f"Policy clause {clauses}"
+        return flag.replace("_", " ").capitalize(), f"{reasons}: ₹{total(d.amount for d in cuts):,} not payable", f"Policy clause {clauses}"
     if flag == "coding_mismatch":
         expected = BY_SLUG[case.admission.procedure].icd10
         return "ICD-10 code doesn't match", f"Claim coded {case.admission.icd10}; {procedure} is {expected}", "ICD-10 lookup"

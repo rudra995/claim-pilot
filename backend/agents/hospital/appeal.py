@@ -27,7 +27,8 @@ from pydantic import BaseModel
 from backend import llm
 from backend.agents.base import HUMAN, AgentResult
 from backend.agents.hospital.intake import Reading
-from backend.evidence.clinical import Assessment, Verdict, assess_admission_necessity
+from backend.evidence.clinical import Assessment, assess_admission_necessity
+from backend.evidence.text import instructions_in
 from backend.rules.engine import assess, by_clause, excess, payable_up_to, total
 from backend.schemas import AgentOutput, Appeal, Case, Deduction, Deny, Finding, PartialApprove
 
@@ -166,7 +167,7 @@ def _argument(contested: list[Contested], evidence: Assessment | None, case: Cas
             paragraph = llm.complete(prompt, system=_SYSTEM, seed=7, temperature=0.2).strip()
         except llm.LLMUnavailable:
             paragraph = ""
-        if paragraph and not _MONEY.search(paragraph):
+        if paragraph and not _MONEY.search(paragraph) and not instructions_in([paragraph]):
             lines.append(paragraph)
             written_by = "llm"
         else:

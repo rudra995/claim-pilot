@@ -13,7 +13,8 @@ from pydantic import BaseModel
 from backend.agents.base import AgentResult
 from backend.agents.insurer.fraud import FraudScreen
 from backend.agents.insurer.medical_review import Gap, MedicalReview
-from backend.rules.engine import RuleDeduction, assess
+from backend.rules.engine import RuleDeduction, assess, payable_up_to
+from backend.rules.engine import billed as bill_total
 from backend.schemas import MAX_ROUNDS, AgentOutput, Case, Deduction, Finding, RuleType
 from data.generator.tpa_profiles import STAY_CHARGES, TPA_PROFILES
 
@@ -37,7 +38,7 @@ class Ruling(BaseModel):
 
 def run(claim_id: str, case: Case, requested: int, review: MedicalReview, screen: FraudScreen, round: int) -> AgentResult:
     final = round >= MAX_ROUNDS
-    billed = sum(line.amount for line in case.bill_lines)
+    billed = bill_total(case.bill_lines)
     gaps = review.gaps + [Gap(missing="Daily clinical notes for the stay", reason=flag.detail) for flag in screen.of("long_stay")]
 
     if flags := screen.of("upcoding") + screen.of("duplicate"):
@@ -88,7 +89,7 @@ def _price(case: Case, requested: int, review: MedicalReview, final: bool) -> Ru
 
     rule_types = {rule.rule_id: rule.type for rule in case.policy.rules}
     cuts = review.stay_unjustified or any(rule_types.get(d.rule_id) != RuleType.CO_PAY for d in assessment.deductions)
-    return Ruling(kind="partial" if cuts else "approve", final=final, approved_amount=min(assessment.payable, requested), deductions=deductions)
+    return Ruling(kind="partial" if cuts else "approve", final=final, approved_amount=payable_up_to(assessment, requested), deductions=deductions)
 
 
 def _deduction(d: RuleDeduction) -> Deduction:

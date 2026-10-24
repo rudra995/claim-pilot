@@ -36,7 +36,9 @@ from backend.api.runner import Busy, Runner
 from backend.db import audit
 from backend.db.db import DEFAULT_DB_PATH, connect, init_db
 from backend.exchange import messages as exchange
-from backend.negotiation import play_round
+from backend import llm
+from backend.negotiation import INTERRUPTIBLE, play_round, resume
+from backend.rules.engine import billed, portfolio, total
 from backend.schemas import BillLine, ClaimMessage, ClaimState, DocumentType, Query as InsurerQuery, Sender
 
 POLL_SECONDS = 0.25  # how often the trace checks the audit log for new steps
@@ -139,7 +141,38 @@ def create_app(db_path: Path | str = DEFAULT_DB_PATH) -> FastAPI:
 
     @app.get("/api/health")
     def health() -> dict[str, str]:
+        """The API is up. For whether the models and LLM are ready, see /api/ready."""
         return {"status": "ok"}
+
+    @app.get("/api/ready")
+    def ready() -> dict[str, Any]:
+        """What works right now: database, trained models, policy search, the LLM (live or template fallback)."""
+        from backend.models import train_cost, train_denial
+
+        models = {
+            "cost": all(train_cost.model_path(t, q).exists() for t in train_cost.TARGETS for q in train_cost.QUANTILES),
+            "denial": train_denial.model_path().exists(),
+        }
+        try:
+            uploads = remediation.uploads_dir()
+            uploads.mkdir(parents=True, exist_ok=True)
+            writable = os.access(uploads, os.W_OK)
+        except OSError:
+            writable = False
+        rows = _claim_rows(db_path)
+        interrupted = [r["claim_id"] for r in rows if r["state"] in INTERRUPTIBLE | {ClaimState.SUBMITTED} and not runner.busy(r["claim_id"])]
+        problems = [f"{name} model not trained: run python -m backend.models.train_{name}" for name, ok in models.items() if not ok]
+        return {
+            "api": "ok",
+            "database": str(db_path),
+            "models": models,
+            "policy_search": Path("data/chroma").exists(),
+            "llm": llm.status(),
+            "uploads_writable": writable,
+            "interrupted_claims": interrupted,
+            "ready": all(models.values()) and writable,
+            "problems": problems,
+        }
 
     @app.get("/api/cases")
     def cases() -> list[dict[str, Any]]:
@@ -162,7 +195,7 @@ def create_app(db_path: Path | str = DEFAULT_DB_PATH) -> FastAPI:
                 "product": c.policy.product,
                 "sum_insured": c.policy.sum_insured,
                 "documents": len(c.documents),
-                "estimated_bill": sum(line.amount for line in c.bill_lines),
+                "estimated_bill": billed(c.bill_lines),
             }
             for c in store.fixture_cases().values()
         ]
@@ -255,6 +288,19 @@ def create_app(db_path: Path | str = DEFAULT_DB_PATH) -> FastAPI:
         if body.decision == "accept":
             move_on(claim_id)
         return {"claim_id": claim_id, "state": claim_state(db_path, claim_id), "job": None}
+
+    @app.post("/api/claims/{claim_id}/resume", status_code=status.HTTP_202_ACCEPTED)
+    def resume_claim(claim_id: str) -> dict[str, Any]:
+        """Carry on a claim whose run stopped part-way, from the last step on record."""
+        state = existing(claim_id)
+        if state not in INTERRUPTIBLE | {ClaimState.SUBMITTED}:
+            raise HTTPException(status.HTTP_409_CONFLICT, f"The claim is {state}; nothing to resume")
+
+        def work() -> None:
+            resume(db_path, claim_id, store.load(db_path, claim_id))
+            move_on(claim_id)
+
+        return schedule(claim_id, "resume", work)
 
     # ---- Fix and recheck -------------------------------------------------------------------
 
@@ -500,8 +546,6 @@ def _evidence(latest: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
 
 def _totals(case, thread: list[ClaimMessage]) -> dict[str, Any]:
     """Rupee totals the screens show, worked out by the rules engine's helpers rather than in the browser."""
-    from backend.rules.engine import billed, total
-
     return {
         "billed": billed(case.bill_lines) if case else None,
         "deducted_by_message": [total(d.amount for d in getattr(m, "deductions", [])) for m in thread],
@@ -593,8 +637,7 @@ def _dashboard(db_path: Path | str) -> dict[str, Any]:
         "awaiting_human": states.get(ClaimState.AWAITING_HUMAN, 0),
         "first_pass_rate": round(first_pass / first_answers, 3) if first_answers else None,
         "average_rounds": round(sum(rounds) / len(rounds), 2) if rounds else None,
-        "requested_total": sum(row["requested"] or 0 for row in rows),
-        "approved_total": sum(row["approved"] or 0 for row in rows),
+        **portfolio(rows),
         "top_deductions": [{"clause": c, "count": n, "amount": clause_amounts[c]} for c, n in clauses.most_common(5)],
         "top_queries": [{"missing": q, "count": n} for q, n in queries.most_common(5)],
     }

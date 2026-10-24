@@ -7,70 +7,20 @@ the policy pays minus what was paid, so the policy's own co-pay on a recovered a
 A gap at or above GAP_THRESHOLD goes to a person.
 """
 
-from collections import defaultdict
-
-from pydantic import BaseModel
-
 from backend.agents.base import HUMAN, AgentResult
-from backend.rules.engine import assess
+from backend.rules.engine import ClauseGap, Reconciliation, assess, reconcile_payment
 from backend.schemas import AgentOutput, Approve, Case, Final, Finding, PartialApprove
 
 AGENT = "reconciliation"
 GAP_THRESHOLD = 1_000  # rupees: a gap this size or more is worth a person's time
 
-
-class ClauseGap(BaseModel):
-    clause: str
-    items: list[str]
-    insurer_cut: int
-    policy_cut: int  # what the policy cuts under this clause
-    valid: int  # the part of the insurer's cut the policy supports
-    recoverable: int  # the part it doesn't
-
-
-class GapReport(BaseModel):
-    billed: int
-    expected: int  # what the policy pays, up to the amount requested
-    approved: int
-    paid: int
-    clauses: list[ClauseGap]
-    valid_total: int
-    recoverable_total: int  # recoverable deductions plus any payment short of the approval
-    short_paid: int
-    to_chase: int  # expected minus paid
+GapReport = Reconciliation  # the engine does every sum; this agent explains them
 
 
 def run(claim_id: str, case: Case, decision: Approve | PartialApprove | Final, requested: int, paid: int) -> AgentResult:
     assessment = assess(case)
-    expected = min(assessment.payable, requested)
-    policy_by_clause: dict[str, int] = defaultdict(int)
-    for d in assessment.deductions:
-        policy_by_clause[d.clause_id] += d.amount
-
-    insurer: dict[str, list] = defaultdict(list)
-    for d in decision.deductions:
-        insurer[d.clause].append(d)
-    clauses = []
-    for clause, cuts in insurer.items():
-        cut = sum(d.amount for d in cuts)
-        valid = min(cut, policy_by_clause.get(clause, 0))
-        clauses.append(ClauseGap(
-            clause=clause, items=[d.item for d in cuts], insurer_cut=cut,
-            policy_cut=policy_by_clause.get(clause, 0), valid=valid, recoverable=cut - valid,
-        ))
-    short_paid = max(0, decision.approved_amount - paid)
-    report = GapReport(
-        billed=assessment.billed,
-        expected=expected,
-        approved=decision.approved_amount,
-        paid=paid,
-        clauses=clauses,
-        valid_total=sum(c.valid for c in clauses),
-        recoverable_total=sum(c.recoverable for c in clauses) + short_paid,
-        short_paid=short_paid,
-        to_chase=max(0, expected - paid),
-    )
-
+    report = reconcile_payment(assessment, requested, ((d.clause, d.item, d.amount) for d in decision.deductions), decision.approved_amount, paid)
+    clauses, short_paid, expected = report.clauses, report.short_paid, report.expected
     findings = [
         Finding(
             issue="Payment against the policy",

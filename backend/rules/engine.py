@@ -7,6 +7,8 @@ Order: whole-claim rules (exclusion, waiting period), then non-payables, room an
 proportionate cuts, sub-limits, co-pay, and last the sum-insured ceiling.
 """
 
+import hashlib
+import json
 import math
 from collections.abc import Iterable
 from datetime import date
@@ -15,7 +17,7 @@ from fractions import Fraction
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from backend.schemas import BillCategory, BillLine, Case, Rule, RuleType
+from backend.schemas import BillCategory, BillLine, Case, Policy, Rule, RuleType
 from backend.schemas.rules import DailyCapValue, SubLimitValue
 
 # The sum insured comes from the policy schedule, not an extracted rule.
@@ -108,6 +110,32 @@ def assess(case: Case) -> Assessment:
     return bill.result()
 
 
+def policy_version(policy: Policy) -> str:
+    """A fingerprint of everything that decides the amounts: sum insured, start date and every rule.
+
+    Any change to a rule (even marking it verified) gives a new version, so a past decision can be
+    traced to, and recomputed under, exactly the rules it used.
+    """
+    body = {
+        "sum_insured": policy.sum_insured, "start_date": policy.start_date.isoformat(),
+        "rules": sorted((rule.model_dump(mode="json") for rule in policy.rules), key=lambda r: r["rule_id"]),
+    }
+    return "pv-" + hashlib.sha256(json.dumps(body, sort_keys=True).encode()).hexdigest()[:12]
+
+
+def calculation_record(case: Case, assessment: Assessment) -> dict:
+    """What an assessment used and produced, for the audit log: rerun `assess` on the same inputs to reproduce it."""
+    lines = sorted((line.model_dump(mode="json") for line in case.bill_lines), key=lambda l: l["line_id"])
+    return {
+        "policy_version": policy_version(case.policy),
+        "bill_hash": hashlib.sha256(json.dumps(lines, sort_keys=True).encode()).hexdigest()[:12],
+        "rules_applied": sorted({d.rule_id for d in assessment.deductions}),
+        "billed": assessment.billed,
+        "payable": assessment.payable,
+        "patient_share": assessment.patient_share,
+    }
+
+
 def what_if_room(case: Case, rate: int) -> Assessment:
     """Assess the same stay as if every room line had been charged `rate` a day."""
     lines = [
@@ -154,6 +182,58 @@ def payable_up_to(assessment: "Assessment", requested: int) -> int:
 def share(part: int, whole: int) -> float | None:
     """part / whole as a fraction, for rates; None when there is nothing to divide by."""
     return round(part / whole, 4) if whole else None
+
+
+class ClauseGap(BaseModel):
+    """One clause of an insurer's decision set against what the policy cuts under it."""
+
+    clause: str
+    items: list[str]
+    insurer_cut: int
+    policy_cut: int  # what the policy cuts under this clause
+    valid: int  # the part of the insurer's cut the policy supports
+    recoverable: int  # the part it doesn't
+
+
+class Reconciliation(BaseModel):
+    billed: int
+    expected: int  # what the policy pays, up to the amount requested
+    approved: int
+    paid: int
+    clauses: list[ClauseGap]
+    valid_total: int
+    recoverable_total: int  # recoverable deductions plus any payment short of the approval
+    short_paid: int
+    to_chase: int  # expected minus paid
+
+
+def reconcile_payment(
+    assessment: "Assessment", requested: int, insurer_cuts: Iterable[tuple[str, str, int]], approved: int, paid: int
+) -> Reconciliation:
+    """Split each insurer deduction (clause, item, amount) into the part the policy supports and the part to recover."""
+    policy_by_clause = by_clause((d.clause_id, d.amount) for d in assessment.deductions)
+    grouped: dict[str, list[tuple[str, int]]] = {}
+    for clause, item, amount in insurer_cuts:
+        grouped.setdefault(clause, []).append((item, int(amount)))
+    clauses = []
+    for clause, cuts in grouped.items():
+        cut = total(amount for _, amount in cuts)
+        policy_cut = policy_by_clause.get(clause, 0)
+        valid = min(cut, policy_cut)
+        clauses.append(ClauseGap(clause=clause, items=[item for item, _ in cuts], insurer_cut=cut, policy_cut=policy_cut, valid=valid, recoverable=cut - valid))
+    expected = payable_up_to(assessment, requested)
+    short_paid = excess(approved, paid)
+    return Reconciliation(
+        billed=assessment.billed, expected=expected, approved=approved, paid=paid, clauses=clauses,
+        valid_total=total(c.valid for c in clauses), recoverable_total=total(c.recoverable for c in clauses) + short_paid,
+        short_paid=short_paid, to_chase=excess(expected, paid),
+    )
+
+
+def portfolio(rows: Iterable[dict]) -> dict[str, int]:
+    """Requested and approved totals across claims (rows with 'requested' and 'approved', either may be None)."""
+    rows = list(rows)
+    return {"requested_total": total(r.get("requested") or 0 for r in rows), "approved_total": total(r.get("approved") or 0 for r in rows)}
 
 
 class _Bill:

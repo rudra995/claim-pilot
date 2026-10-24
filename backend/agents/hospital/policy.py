@@ -1,13 +1,18 @@
 """Policy agent: what the patient's policy allows for this stay, each point tied to its clause.
 
 All amounts come from the rules engine run on the hospital's itemised bill; this agent only
-reports them. A rule no person has checked yet counts as an ambiguous clause and goes to a person.
+reports them. A rule no person has checked yet counts as an ambiguous clause and goes to a person,
+and so do two rules that disagree (two room caps, two co-pays for the same patients): the engine
+would apply both, so a person must say which the policy means.
+
+Each review records the policy version (a fingerprint of the rules) and what the calculation used
+and produced, so the same numbers can be recomputed later under the same rules.
 """
 
 from pydantic import BaseModel
 
 from backend.agents.base import HUMAN, AgentResult
-from backend.rules.engine import Assessment, assess
+from backend.rules.engine import Assessment, assess, calculation_record, policy_version
 from backend.schemas import AgentOutput, Case, Finding, RuleType
 
 AGENT = "policy"
@@ -24,10 +29,27 @@ RULE_NAMES = {
 _WHOLE_CLAIM = {RuleType.EXCLUSION, RuleType.WAITING_PERIOD}
 
 
+_SINGLE = {RuleType.ROOM_RENT_CAP, RuleType.ICU_CAP}  # a policy should have at most one of each
+
+
 class PolicyReview(BaseModel):
     covered: bool
     assessment: Assessment
     unverified_rules: list[str]
+    conflicting_rules: list[list[str]] = []
+    policy_version: str = ""
+    calculation: dict = {}
+
+
+def conflicts(case: Case) -> list[list[str]]:
+    """Groups of rules that can't all be meant: two caps of one kind, or two co-pays for the same ages."""
+    groups: dict[tuple, list[str]] = {}
+    for rule in case.policy.rules:
+        if rule.type in _SINGLE:
+            groups.setdefault((rule.type,), []).append(rule.rule_id)
+        elif rule.type == RuleType.CO_PAY:
+            groups.setdefault((rule.type, rule.value.min_age), []).append(rule.rule_id)
+    return [ids for ids in groups.values() if len(ids) > 1]
 
 
 def run(claim_id: str, case: Case) -> AgentResult:
@@ -64,8 +86,18 @@ def run(claim_id: str, case: Case) -> AgentResult:
             )
         )
 
+    clashes = conflicts(case)
+    for ids in clashes:
+        findings.append(Finding(
+            issue="Rules disagree",
+            evidence=f"{', '.join(ids)} are both {rules[ids[0]].type.value.replace('_', ' ')} rules; a person must say which applies",
+            source="Policy clauses " + ", ".join(sorted({rules[i].clause_id for i in ids})),
+        ))
+    version = policy_version(case.policy)
+    findings.append(Finding(issue="Policy version", evidence=f"Amounts worked out under {version}", source="Rules engine"))
+
     covered = not any(rules[d.rule_id].type in _WHOLE_CLAIM for d in assessment.deductions if d.rule_id in rules)
-    needs_person = bool(unverified) or not covered
+    needs_person = bool(unverified) or bool(clashes) or not covered
     if not covered:
         decision = "not_covered"
     elif assessment.deductions:
@@ -77,9 +109,12 @@ def run(claim_id: str, case: Case) -> AgentResult:
             agent=AGENT,
             claim_id=claim_id,
             decision=decision,
-            confidence=0.6 if unverified else 1.0,
+            confidence=0.6 if unverified or clashes else 1.0,
             findings=findings,
             next=HUMAN if needs_person else "preauth",
         ),
-        data=PolicyReview(covered=covered, assessment=assessment, unverified_rules=unverified),
+        data=PolicyReview(
+            covered=covered, assessment=assessment, unverified_rules=unverified, conflicting_rules=clashes,
+            policy_version=version, calculation=calculation_record(case, assessment),
+        ),
     )

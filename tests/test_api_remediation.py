@@ -106,3 +106,28 @@ def test_officer_tokens_decide_who_is_acting(client: TestClient, monkeypatch: py
     timeline = wait(client, claim_id)["timeline"]
     decision = next(e for e in timeline if e["action"] == "human_decision")
     assert decision["actor"] == "human:Asha Rao" and decision["output"]["identity"] == "token"
+
+
+def test_readiness_tells_api_models_and_llm_apart(client: TestClient, monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("CLAIMPILOT_LLM", "off")
+    ready = client.get("/api/ready").json()
+    assert ready["api"] == "ok" and ready["models"] == {"cost": True, "denial": True}
+    assert ready["llm"]["mode"] == "fallback" and "CLAIMPILOT_LLM=off" in ready["llm"]["reason"]
+
+
+def test_a_claim_stopped_after_sending_resumes_without_sending_twice(client: TestClient, tmp_path: Path) -> None:
+    from backend.agents import orchestrator
+    from backend.agents.approval import Decision, decide
+    from backend.api import store
+    from backend.exchange import messages as exchange
+
+    db = client.app.state.db_path
+    claim_id = start(client, "case1")
+    decide(db, claim_id, Decision(decision="approve", officer=OFFICER))
+    orchestrator.send(db, claim_id, store.load(db, claim_id))  # ...and the process stopped here
+    assert claim_id in client.get("/api/ready").json()["interrupted_claims"]
+    assert client.post(f"/api/claims/{claim_id}/resume").status_code == 202
+    done = wait(client, claim_id)
+    assert [m["type"] for m in done["thread"]] == ["SUBMIT", "APPROVE"]
+    assert done["state"] == ClaimState.IN_TREATMENT
+    assert len(exchange.submissions(db)) == 1
