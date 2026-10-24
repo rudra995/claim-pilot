@@ -1,0 +1,128 @@
+{
+  "data": {
+    "train_rows": 800,
+    "test_rows": 200,
+    "split": "time-based: test admissions from 2026-03-27"
+  },
+  "not_fully_approved": {
+    "model": {
+      "roc_auc": 0.986,
+      "recall": 0.953,
+      "precision": 1.0,
+      "flagged_share": 0.505
+    },
+    "rule_any_flag": {
+      "roc_auc": 0.964,
+      "recall": 0.981,
+      "precision": 0.954,
+      "flagged_share": 0.545
+    },
+    "brier_model": 0.0206,
+    "brier_rule": 0.035
+  },
+  "denied": {
+    "model": {
+      "roc_auc": 0.977,
+      "recall": 0.861,
+      "precision": 1.0,
+      "flagged_share": 0.155
+    },
+    "rule_any_hard_flag": {
+      "roc_auc": 0.969,
+      "recall": 0.944,
+      "precision": 0.971,
+      "flagged_share": 0.175
+    }
+  },
+  "reliability_not_fully_approved": [
+    {
+      "bin": "0.0-0.2",
+      "n": 93,
+      "mean_predicted": 0.033,
+      "observed": 0.022
+    },
+    {
+      "bin": "0.2-0.4",
+      "n": 4,
+      "mean_predicted": 0.308,
+      "observed": 0.25
+    },
+    {
+      "bin": "0.4-0.6",
+      "n": 3,
+      "mean_predicted": 0.509,
+      "observed": 1.0
+    },
+    {
+      "bin": "0.6-0.8",
+      "n": 3,
+      "mean_predicted": 0.711,
+      "observed": 1.0
+    },
+    {
+      "bin": "0.8-1.0",
+      "n": 97,
+      "mean_predicted": 0.977,
+      "observed": 1.0
+    }
+  ],
+  "subgroups": [
+    {
+      "by": "age band",
+      "group": "40-59",
+      "n": 65,
+      "not_approved_rate": 0.523,
+      "flagged_rate": 0.492,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.059,
+      "conclusive": true
+    },
+    {
+      "by": "age band",
+      "group": "60+",
+      "n": 63,
+      "not_approved_rate": 0.54,
+      "flagged_rate": 0.508,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.059,
+      "conclusive": true
+    },
+    {
+      "by": "age band",
+      "group": "under 40",
+      "n": 72,
+      "not_approved_rate": 0.528,
+      "flagged_rate": 0.514,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.026,
+      "conclusive": true
+    },
+    {
+      "by": "gender",
+      "group": "F",
+      "n": 100,
+      "not_approved_rate": 0.55,
+      "flagged_rate": 0.54,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.018,
+      "conclusive": true
+    },
+    {
+      "by": "gender",
+      "group": "M",
+      "n": 100,
+      "not_approved_rate": 0.51,
+      "flagged_rate": 0.47,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.078,
+      "conclusive": true
+    }
+  ],
+  "caveats": [
+    "Labels are synthetic and decided by the generator from the same flags the model uses, plus the TPA's habits and 3% noise: a near-perfect score is expected and says nothing about real insurers.",
+    "The simple rules come close because the outcome is mostly a function of those flags; the model's extra value here is ranking and per-claim reasons (SHAP), not accuracy.",
+    "Calibration is checked on 200 synthetic test claims only; probabilities should not be read as real-world denial chances.",
+    "Gender is excluded from the features, but that alone does not make the model fair; subgroup error rates are reported, and groups under 30 claims are marked inconclusive.",
+    "In a hospital the model would be retrained and re-validated on that hospital's own claim history before any use."
+  ]
+}

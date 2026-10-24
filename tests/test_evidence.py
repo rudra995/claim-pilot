@@ -216,3 +216,22 @@ def test_supported_evidence_does_not_skip_the_gate_or_the_round_limit(db: Path) 
     assert exchange.thread(db, claim_id) == []
     rounds = [m.round for m in exchange.thread(db, drive(db, case))]
     assert max(rounds) <= 3
+
+
+def test_an_appeal_the_insurer_refused_is_not_sent_again(db: Path) -> None:
+    """A strict insurer keeps a cut after a policy appeal: the same appeal isn't repeated in the last round."""
+    from data.generator import tpa_profiles
+
+    case = load("case2.json")
+    xray = Document(doc_id="ADM-0002-D6", type=DocumentType.XRAY_REPORT, file_path="fixtures/remediation/ADM-0002-xray-report.pdf")
+    case = case.model_copy(update={
+        "documents": [*case.documents, xray],
+        "admission": case.admission.model_copy(update={"tpa_id": "TPA-C"}),  # also cuts medicines with the room
+    })
+    with tpa_profiles.using("standard"):
+        claim_id = drive(db, case)
+    appeals = [m for m in exchange.thread(db, claim_id) if isinstance(m, Appeal)]
+    assert len({m.stage for m in appeals}) == len(appeals)  # at most one appeal of the same cut per stage
+    assert orchestrator.claim_state(db, claim_id) == ClaimState.AWAITING_HUMAN
+    reasons = [e["output"]["reason"] for e in audit.events(db, claim_id) if e["action"] == "transition"]
+    assert reasons[-1] == "The insurer already refused this appeal: a person decides"

@@ -75,6 +75,7 @@ from backend.stages import available
 from backend.schemas import (
     MAX_ROUNDS,
     AgentOutput,
+    Appeal,
     Approve,
     Case,
     ClaimMessage,
@@ -122,6 +123,8 @@ DECISION_STATE = {
     MessageType.PARTIAL_APPROVE: ClaimState.PARTIALLY_APPROVED,
     MessageType.DENY: ClaimState.DENIED,
 }
+
+REFUSED = "appeal: the insurer already refused this appeal"
 
 # The order agents run in, for printing a run.
 ADMISSION_AGENTS = [intake.AGENT, coder.AGENT, policy.AGENT, estimator.AGENT, preauth.AGENT, denial_risk.AGENT]
@@ -555,13 +558,29 @@ def _appeal(state: _Reply) -> dict[str, Any]:
     reading, requested = _reading(db_path, state["case"]), _requested(db_path, claim_id)
     update = _step(state, appeal.AGENT, appeal.run, reply, state["case"], reading, requested, reply.round + 1)
     if appeal.AGENT in update.get("results", {}) and (letter := update["results"][appeal.AGENT].data.appeal):
+        if _already_refused(db_path, claim_id, reply, letter):
+            audit.log(db_path, claim_id, ACTOR, "escalate", {"agent": appeal.AGENT, "reason": "The insurer already refused this appeal; a person decides instead of sending it again"})
+            return {**update, "review_flags": [*update.get("review_flags", []), REFUSED]}
         draft(db_path, claim_id, letter, claim_state(db_path, claim_id))
     return update
+
+
+def _already_refused(db_path: Path | str, claim_id: str, reply: ClaimMessage, letter: Appeal) -> bool:
+    """An earlier appeal in this stage contested the same clauses, and the insurer paid no more after it."""
+    stage = exchange.thread(db_path, claim_id, reply.stage)
+    for earlier, answer in zip(stage, stage[1:]):
+        if isinstance(earlier, Appeal) and set(earlier.cited_clauses) == set(letter.cited_clauses):
+            before = next((m for m in reversed(stage[:stage.index(earlier)]) if m.sender == Sender.INSURER), None)
+            if before is not None and getattr(answer, "approved_amount", 0) <= getattr(before, "approved_amount", 0):
+                return True
+    return False
 
 
 def _after_appeal(state: _Reply) -> str:
     if state["failed"]:
         return "escalate"
+    if REFUSED in state["review_flags"]:
+        return "denied"
     result = state["results"][appeal.AGENT]
     if result.data.appeal:
         return "risk_check"
@@ -571,6 +590,8 @@ def _after_appeal(state: _Reply) -> str:
 def _denied(state: _Reply) -> dict[str, Any]:
     if isinstance(state["reply"], Deny):
         reason = "Claim denied: a person decides whether to appeal"
+    elif REFUSED in state["review_flags"]:
+        reason = "The insurer already refused this appeal: a person decides"
     else:
         reason = "Cut not appealed: the records don't support an appeal, so a person decides"
     transition(state["db_path"], state["claim_id"], ClaimState.AWAITING_HUMAN, reason)
