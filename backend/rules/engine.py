@@ -236,6 +236,37 @@ def portfolio(rows: Iterable[dict]) -> dict[str, int]:
     return {"requested_total": total(r.get("requested") or 0 for r in rows), "approved_total": total(r.get("approved") or 0 for r in rows)}
 
 
+class RoomScenario(BaseModel):
+    """The same stay priced as if every room day had been at another tariff rate."""
+
+    room: str
+    rate: int  # per day
+    patient_pays: int
+    insurer_pays: int
+    saving: int  # patient's saving against the current room; negative = costs the patient more
+    current: bool
+
+
+def room_scenarios(case: Case, tariff: Iterable[tuple[str, str, int]], current_label: str) -> list[RoomScenario]:
+    """Each tariff room as a what-if on this stay (dearest first), with the saving worked out here, not by callers.
+
+    `tariff` is (slug, label, rate per day). A room at the current rate is the current room.
+    """
+    room_lines = [line for line in case.bill_lines if line.category == BillCategory.ROOM]
+    current = assess(case)
+    rate = room_lines[0].amount // room_lines[0].quantity if room_lines else 0
+    out = [RoomScenario(room=current_label, rate=rate, patient_pays=current.patient_share, insurer_pays=current.payable, saving=0, current=True)]
+    for slug, label, tariff_rate in tariff:
+        if slug == case.admission.room_category or tariff_rate == rate:
+            continue
+        priced = what_if_room(case, tariff_rate)
+        out.append(RoomScenario(
+            room=label, rate=tariff_rate, patient_pays=priced.patient_share, insurer_pays=priced.payable,
+            saving=current.patient_share - priced.patient_share, current=False,
+        ))
+    return sorted(out, key=lambda o: o.rate, reverse=True)
+
+
 class _Bill:
     """Running payable amounts while rules are applied, plus every deduction made."""
 

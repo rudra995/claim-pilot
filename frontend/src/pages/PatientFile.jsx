@@ -201,7 +201,7 @@ function EstimateTab({ claimId }) {
       <Card className="overflow-hidden">
         <div className="grid gap-6 p-6 md:grid-cols-[1fr_auto]">
           <div>
-            <p className="text-xs font-medium uppercase tracking-[0.08em] text-ink-muted">For the patient</p>
+            <p className="text-xs font-medium uppercase tracking-[0.08em] text-ink-muted">For the patient · {n.basis === 'final_bill' ? 'on the final bill' : 'estimate at admission'}</p>
             <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-ink-soft">{n.note}</p>
             {note.data.output.next === 'human_review' && <p className="mt-3 text-[13px] text-amber-700">A member of staff should talk this through before it&apos;s shared.</p>}
           </div>
@@ -222,7 +222,7 @@ function EstimateTab({ claimId }) {
       </Card>
       {n.options.length > 0 && (
         <div>
-          <h2 className="mb-3 text-[15px] font-semibold">The same stay, room by room</h2>
+          <h2 className="mb-3 text-[15px] font-semibold">The same stay, room by room <span className="text-[13px] font-normal text-ink-muted">· tariff scenarios, not live availability</span></h2>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {n.options.map((o, i) => {
               const best = n.recommended?.room === o.room
@@ -244,6 +244,10 @@ function EstimateTab({ claimId }) {
             })}
           </div>
           <p className="mt-3 text-xs text-ink-faint">Every amount is calculated by the rules engine from this patient&apos;s policy. None is written by AI.</p>
+          {n.clause && <p className="mt-2 text-xs text-ink-muted">Why the room matters: {n.clause}</p>}
+          {n.assumptions?.length > 0 && (
+            <ul className="mt-2 list-disc space-y-0.5 pl-4 text-xs text-ink-faint">{n.assumptions.map((a) => <li key={a}>{a}</li>)}</ul>
+          )}
         </div>
       )}
     </div>

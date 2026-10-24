@@ -1,0 +1,22 @@
+# One command for the whole demo:  docker compose up --build
+# Frontend: http://localhost:8080   API: http://localhost:8000/api/ready
+services:
+  api:
+    build: .
+    environment:
+      CLAIMPILOT_LLM: ${CLAIMPILOT_LLM:-off}
+      CLAIMPILOT_SIMULATOR: ${CLAIMPILOT_SIMULATOR:-standard}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+    volumes:
+      - claimpilot-state:/state
+    ports:
+      - "8000:8000"
+  web:
+    build: ./frontend
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+volumes:
+  claimpilot-state:

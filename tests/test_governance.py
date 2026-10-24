@@ -58,7 +58,7 @@ def test_unverified_extracted_rules_are_never_used_silently() -> None:
 
 @pytest.mark.parametrize("folder", ["backend/agents", "backend/api"])
 def test_no_rupee_arithmetic_outside_the_engine(folder: str) -> None:
-    pattern = re.compile(r"sum\([^)]*\.amount|\.amount\s*[-+]\s*\w|\w\s*[-+]\s*\w+\.amount|min\(assessment\.payable")
+    pattern = re.compile(r"patient_share\s*-\s*\w|sum\([^)]*\.amount|\.amount\s*[-+]\s*\w|\w\s*[-+]\s*\w+\.amount|min\(assessment\.payable")
     for path in Path(folder).rglob("*.py"):
         for number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
             assert not pattern.search(line), f"{path}:{number}: {line.strip()}"

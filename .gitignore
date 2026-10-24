@@ -12,3 +12,4 @@ models/*.ubj
 *.egg-info/
 data/uploads/
 data/imports/
+.env

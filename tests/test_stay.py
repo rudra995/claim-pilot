@@ -96,7 +96,11 @@ def test_case2_room_advisor_says_the_3000_room_saves_47200() -> None:
     current = next(o for o in note.options if o.current)
     assert (current.rate, current.patient_pays) == (5_000, 54_200)
     assert "saving about ₹47,200" in note.note and "₹54,200" in note.note
-    assert all(f.source.startswith("Rules engine (what_if_room)") for f in result.output.findings)
+    assert all(f.source.startswith("Rules engine (what_if_room)") for f in result.output.findings if f.issue != "Room clause")
+    assert any(f.source == "Policy clause 4.2" for f in result.output.findings)  # the clause behind the advice
+    assert note.basis == "admission_estimate" and "4.2" in note.clause
+    assert any("not live bed availability" in a for a in note.assumptions)
+    assert "only the days after the move change" in note.note  # no promise to reprice days already spent
     assert result.output.next == "human_approval"  # staff check the note before the patient gets it
 
 

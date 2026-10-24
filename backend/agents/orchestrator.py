@@ -845,8 +845,10 @@ def reconcile(db_path: Path | str, claim_id: str, case: Case) -> RunResult:
 
 def advise_patient(db_path: Path | str, claim_id: str, case: Case) -> AgentResult | None:
     """The patient's cost note and room advice, logged for staff to check before it is handed over."""
-    claim_state(db_path, claim_id)  # the claim must exist
-    return call_agent(db_path, claim_id, patient.AGENT, patient.run, case, masker=Masker.for_case(case))
+    state = claim_state(db_path, claim_id)  # the claim must exist
+    basis = "final_bill" if state in (ClaimState.FINAL_APPROVED, ClaimState.SETTLED, ClaimState.CLOSED) or any(
+        m.stage == Stage.DISCHARGE for m in exchange.thread(db_path, claim_id)) else "admission_estimate"
+    return call_agent(db_path, claim_id, patient.AGENT, patient.run, case, basis, masker=Masker.for_case(case))
 
 
 def _risk_check_and_queue(

@@ -1,0 +1,13 @@
+.venv
+.git
+**/__pycache__
+*.db
+*.egg-info
+frontend/node_modules
+frontend/dist
+data/generated
+data/documents
+data/uploads
+data/imports
+data/chroma
+reports
