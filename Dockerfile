@@ -10,7 +10,7 @@ COPY data ./data
 RUN pip install --no-cache-dir .
 COPY fixtures ./fixtures
 COPY models ./models
-RUN python -m backend.models.train_denial && python -m backend.models.train_cost
+RUN python -m backend.models.train_denial && python -m backend.models.train_cost && python -m backend.rag.ingest
 VOLUME /state
 EXPOSE 8000
 HEALTHCHECK --interval=10s --timeout=3s --retries=12 CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health')"

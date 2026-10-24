@@ -13,6 +13,8 @@ command -v "$PYTHON" >/dev/null || { echo "Python 3.11 is needed (set PYTHON=/pa
 # The models are trained from the seeded synthetic data, so every machine gets the same ones.
 [ -f models/denial.ubj ] || .venv/bin/python -m backend.models.train_denial
 [ -f models/cost_bill_p50.ubj ] || .venv/bin/python -m backend.models.train_cost
+# Policy search (and the assistant's reference wordings): index the sample policy PDFs in ChromaDB.
+[ -d data/chroma ] || .venv/bin/python -m backend.rag.ingest
 
 command -v npm >/dev/null || { echo "Node 20+ and npm are needed for the frontend"; exit 1; }
 (cd frontend && npm ci --silent)
