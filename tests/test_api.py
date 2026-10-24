@@ -206,3 +206,14 @@ def test_lists_queue_and_dashboard(client: TestClient) -> None:
     assert numbers["claims"] == 2 and numbers["awaiting_human"] == 1
     assert numbers["first_pass_rate"] == 1.0
     assert numbers["approved_total"] > 0
+
+
+def test_claim_opened_by_the_cli_can_be_viewed(client: TestClient, db: Path) -> None:
+    """run_case opens claims without the API's case file; the API falls back to the fixture."""
+    from backend.agents.orchestrator import run_admission
+    from backend.api.store import fixture_cases
+
+    claim_id = run_admission(fixture_cases()["case1"], db).claim_id
+    detail = client.get(f"/api/claims/{claim_id}")
+    assert detail.status_code == 200
+    assert detail.json()["case_id"] == "case1" and detail.json()["title"]

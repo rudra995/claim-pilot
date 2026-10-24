@@ -1,6 +1,9 @@
 """The ClaimPilot API (design sections 11 and 12): REST for the screens, a WebSocket for the live trace.
 
-    uvicorn backend.api.main:app --reload        (CLAIMPILOT_DB picks the database, default claimpilot.db)
+    python -m uvicorn backend.api.main:app        (CLAIMPILOT_DB picks the database, default claimpilot.db)
+
+On Windows, uvicorn's --reload hangs on the first reload (the old worker never stops), so restart
+by hand after a code change.
 
 Anything that runs agents (starting a case, sending an approved message, a new bill line, discharge,
 reconciliation) runs in the background and returns 202 at once; watch it on /ws/trace. Every agent
@@ -120,7 +123,9 @@ def create_app(db_path: Path | str = DEFAULT_DB_PATH) -> FastAPI:
     def claim(claim_id: str) -> dict[str, Any]:
         existing(claim_id)
         events = audit.events(db_path, claim_id)
-        case = store.load(db_path, claim_id)
+        case = store.from_events(events)
+        if case is None:
+            raise HTTPException(status.HTTP_404_NOT_FOUND, f"No case file for {claim_id}")
         return {
             **_summary(db_path, _claim_rows(db_path, claim_id)[0], runner, events),
             "case": case.model_dump(mode="json"),
@@ -269,13 +274,13 @@ def _claim_rows(db_path: Path | str, claim_id: str | None = None) -> list[dict[s
 
 def _summary(db_path: Path | str, row: dict[str, Any], runner: Runner, events: list[dict[str, Any]] | None = None) -> dict[str, Any]:
     events = audit.events(db_path, row["claim_id"]) if events is None else events
-    case_files = [e["output"] for e in events if e["action"] == "case_file"]
+    case = store.from_events(events)
     risk = _latest_outputs(events).get("denial_risk")
     transitions = [e for e in events if e["action"] == "transition"]
     return {
         **row,
-        "title": case_files[0]["case"]["title"] if case_files else None,
-        "case_id": case_files[0]["case"]["case_id"] if case_files else None,
+        "title": case.title if case else None,
+        "case_id": case.case_id if case else None,
         "risk": risk["data"]["risk"] if risk else None,
         "flags": _flags(events),
         "last_reason": transitions[-1]["output"]["reason"] if transitions else None,
