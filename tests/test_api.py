@@ -193,7 +193,9 @@ def test_lists_queue_and_dashboard(client: TestClient) -> None:
     ids = [start(client, case_id) for case_id in ("case1", "case2")]
     for claim_id in ids:
         wait(client, claim_id)
-    assert {c["case_id"] for c in client.get("/api/cases").json()} == {"case1", "case2", "case3"}
+    cases = client.get("/api/cases").json()
+    assert {"case1", "case2", "case3"} <= {c["case_id"] for c in cases}
+    assert sum(not c["demo"] for c in cases) >= 10  # preset patients, mostly clean claims
     claims = client.get("/api/claims").json()
     assert [c["claim_id"] for c in claims] == ids and all(c["title"] for c in claims)
     queue = client.get("/api/queue").json()
@@ -217,3 +219,24 @@ def test_claim_opened_by_the_cli_can_be_viewed(client: TestClient, db: Path) -> 
     detail = client.get(f"/api/claims/{claim_id}")
     assert detail.status_code == 200
     assert detail.json()["case_id"] == "case1" and detail.json()["title"]
+
+
+def test_sent_back_preauth_can_be_redrafted(client: TestClient) -> None:
+    claim_id = start(client, "case2")
+    wait(client, claim_id)
+    decide(client, claim_id, decision="reject", reason="Check the room first")
+    assert "redraft" in client.get(f"/api/claims/{claim_id}").json()["actions"]
+    assert client.post(f"/api/claims/{claim_id}/redraft").status_code == 202
+    detail = wait(client, claim_id)
+    assert detail["state"] == ClaimState.AWAITING_HUMAN
+    assert detail["pending_draft"]["message"]["type"] == "SUBMIT"
+
+
+def test_every_preset_patient_admits_cleanly(client: TestClient) -> None:
+    """Each preset reaches the human gate with its documents read and a pre-auth drafted."""
+    presets = [c["case_id"] for c in client.get("/api/cases").json() if not c["demo"]]
+    for case_id in presets:
+        claim_id = start(client, case_id)
+        detail = wait(client, claim_id)
+        assert detail["state"] == ClaimState.AWAITING_HUMAN, (case_id, detail["last_reason"], detail["errors"])
+        assert detail["pending_draft"]["message"]["type"] == "SUBMIT", case_id

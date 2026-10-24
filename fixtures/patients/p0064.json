@@ -1,0 +1,335 @@
+{
+  "case_id": "p0064",
+  "title": "Senile cataract",
+  "patient": {
+    "patient_id": "PRE-PAT-0064",
+    "name": "Sanjay Reddy",
+    "age": 76,
+    "gender": "M",
+    "city": "Pune"
+  },
+  "policy": {
+    "policy_id": "PRE-POL-0064",
+    "insurer": "Demo Insurer A",
+    "product": "Health Secure Individual",
+    "sum_insured": 500000,
+    "start_date": "2024-08-03",
+    "rules": [
+      {
+        "rule_id": "PRE-POL-0064-R1",
+        "type": "room_rent_cap",
+        "value": {
+          "percent_of_sum_insured": 1.0,
+          "amount": null,
+          "per": "day"
+        },
+        "clause_id": "4.2",
+        "clause_text": "Room rent is payable up to 1% of the sum insured per day. If a higher room is chosen, associated medical expenses are paid in the same proportion.",
+        "proportionate": true,
+        "linked_charges": [
+          "doctor_fees",
+          "nursing",
+          "ot_charges"
+        ],
+        "excluded_from_proportionate": [
+          "implants",
+          "pharmacy"
+        ],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0064-R2",
+        "type": "non_payable",
+        "value": {
+          "categories": [
+            "consumables"
+          ],
+          "items": [
+            "gloves",
+            "mask",
+            "admission kit"
+          ]
+        },
+        "clause_id": "Annexure II",
+        "clause_text": "Items listed in Annexure II, including gloves, masks and admission kits, are not payable.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0064-R3",
+        "type": "sub_limit",
+        "value": {
+          "percent_of_sum_insured": null,
+          "amount": 40000,
+          "procedure": "cataract_surgery"
+        },
+        "clause_id": "4.5",
+        "clause_text": "Claims for cataract surgery are payable up to ₹40,000.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0064-R4",
+        "type": "sub_limit",
+        "value": {
+          "percent_of_sum_insured": null,
+          "amount": 30000,
+          "procedure": "tonsillectomy"
+        },
+        "clause_id": "4.5",
+        "clause_text": "Claims for tonsillectomy are payable up to ₹30,000.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0064-R5",
+        "type": "sub_limit",
+        "value": {
+          "percent_of_sum_insured": null,
+          "amount": 50000,
+          "procedure": "lithotripsy"
+        },
+        "clause_id": "4.5",
+        "clause_text": "Claims for lithotripsy are payable up to ₹50,000.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0064-R6",
+        "type": "sub_limit",
+        "value": {
+          "percent_of_sum_insured": null,
+          "amount": 60000,
+          "procedure": "hernia_repair"
+        },
+        "clause_id": "4.5",
+        "clause_text": "Claims for hernia repair are payable up to ₹60,000.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0064-R7",
+        "type": "waiting_period",
+        "value": {
+          "procedures": [
+            "total_knee_replacement",
+            "total_hip_replacement",
+            "cataract_surgery",
+            "hernia_repair",
+            "hysterectomy",
+            "turp"
+          ],
+          "months": 24
+        },
+        "clause_id": "5.3",
+        "clause_text": "Joint replacement, cataract, hernia, hysterectomy and prostate surgery are covered only after 24 months of continuous coverage.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0064-R8",
+        "type": "exclusion",
+        "value": {
+          "procedures": [
+            "cosmetic_surgery",
+            "bariatric_surgery"
+          ]
+        },
+        "clause_id": "6.2",
+        "clause_text": "Cosmetic and weight-loss surgery are not covered.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      }
+    ]
+  },
+  "admission": {
+    "admission_id": "PRE-ADM-0064",
+    "patient_id": "PRE-PAT-0064",
+    "policy_id": "PRE-POL-0064",
+    "procedure": "cataract_surgery",
+    "icd10": "H25.9",
+    "room_category": "general_ward",
+    "admit_date": "2026-02-03",
+    "discharge_date": "2026-02-04",
+    "tpa_id": "TPA-B",
+    "emergency": false
+  },
+  "bill_lines": [
+    {
+      "line_id": "PRE-ADM-0064-L1",
+      "category": "room",
+      "description": "General ward, 1 days x 1,500",
+      "quantity": 1,
+      "amount": 1500
+    },
+    {
+      "line_id": "PRE-ADM-0064-L2",
+      "category": "implants",
+      "description": "Intraocular lens",
+      "quantity": 1,
+      "amount": 9830
+    },
+    {
+      "line_id": "PRE-ADM-0064-L3",
+      "category": "doctor_fees",
+      "description": "Surgeon fee",
+      "quantity": 1,
+      "amount": 3220
+    },
+    {
+      "line_id": "PRE-ADM-0064-L4",
+      "category": "doctor_fees",
+      "description": "Anaesthetist fee",
+      "quantity": 1,
+      "amount": 1070
+    },
+    {
+      "line_id": "PRE-ADM-0064-L5",
+      "category": "doctor_fees",
+      "description": "Resident doctor visits",
+      "quantity": 1,
+      "amount": 740
+    },
+    {
+      "line_id": "PRE-ADM-0064-L6",
+      "category": "ot_charges",
+      "description": "Operation theatre charges",
+      "quantity": 1,
+      "amount": 2930
+    },
+    {
+      "line_id": "PRE-ADM-0064-L7",
+      "category": "ot_charges",
+      "description": "Recovery room charges",
+      "quantity": 1,
+      "amount": 650
+    },
+    {
+      "line_id": "PRE-ADM-0064-L8",
+      "category": "nursing",
+      "description": "Nursing charges",
+      "quantity": 1,
+      "amount": 1110
+    },
+    {
+      "line_id": "PRE-ADM-0064-L9",
+      "category": "pharmacy",
+      "description": "Medicines",
+      "quantity": 1,
+      "amount": 1150
+    },
+    {
+      "line_id": "PRE-ADM-0064-L10",
+      "category": "pharmacy",
+      "description": "IV fluids",
+      "quantity": 1,
+      "amount": 350
+    },
+    {
+      "line_id": "PRE-ADM-0064-L11",
+      "category": "pharmacy",
+      "description": "Antibiotics",
+      "quantity": 1,
+      "amount": 680
+    },
+    {
+      "line_id": "PRE-ADM-0064-L12",
+      "category": "investigations",
+      "description": "Blood tests",
+      "quantity": 1,
+      "amount": 670
+    },
+    {
+      "line_id": "PRE-ADM-0064-L13",
+      "category": "investigations",
+      "description": "Imaging",
+      "quantity": 1,
+      "amount": 520
+    },
+    {
+      "line_id": "PRE-ADM-0064-L14",
+      "category": "investigations",
+      "description": "ECG",
+      "quantity": 1,
+      "amount": 140
+    },
+    {
+      "line_id": "PRE-ADM-0064-L15",
+      "category": "other",
+      "description": "Diet charges",
+      "quantity": 1,
+      "amount": 480
+    },
+    {
+      "line_id": "PRE-ADM-0064-L16",
+      "category": "other",
+      "description": "Registration and medical records",
+      "quantity": 1,
+      "amount": 250
+    }
+  ],
+  "documents": [
+    {
+      "doc_id": "PRE-ADM-0064-D1",
+      "type": "admission_note",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0064/PRE-ADM-0064-D1.pdf",
+      "fields": {
+        "chief_complaint": "Gradual blurring of vision in one eye",
+        "provisional_diagnosis": "Senile cataract",
+        "planned_treatment": "Phacoemulsification with intraocular lens"
+      }
+    },
+    {
+      "doc_id": "PRE-ADM-0064-D2",
+      "type": "lab_report",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0064/PRE-ADM-0064-D2.pdf",
+      "fields": {
+        "finding": "Blood sugar and blood pressure controlled for surgery"
+      }
+    },
+    {
+      "doc_id": "PRE-ADM-0064-D3",
+      "type": "operative_note",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0064/PRE-ADM-0064-D3.pdf",
+      "fields": {
+        "procedure": "Phacoemulsification with intraocular lens",
+        "implant": "Intraocular lens"
+      }
+    },
+    {
+      "doc_id": "PRE-ADM-0064-D4",
+      "type": "discharge_summary",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0064/PRE-ADM-0064-D4.pdf",
+      "fields": {
+        "diagnosis": "Senile cataract",
+        "icd10": "H25.9",
+        "reason_for_admission": "Mature cataract impairing daily vision, needing lens replacement",
+        "treatment_given": "Phacoemulsification with intraocular lens",
+        "length_of_stay_days": 1,
+        "condition_at_discharge": "Stable"
+      }
+    },
+    {
+      "doc_id": "PRE-ADM-0064-D5",
+      "type": "final_bill",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0064/PRE-ADM-0064-D5.pdf",
+      "fields": {
+        "total_billed": 25290
+      }
+    }
+  ]
+}

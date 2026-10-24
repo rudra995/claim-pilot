@@ -1,0 +1,328 @@
+{
+  "case_id": "p0024",
+  "title": "Chronic tonsillitis",
+  "patient": {
+    "patient_id": "PRE-PAT-0024",
+    "name": "Joseph Pillai",
+    "age": 22,
+    "gender": "M",
+    "city": "Pune"
+  },
+  "policy": {
+    "policy_id": "PRE-POL-0024",
+    "insurer": "Demo Insurer A",
+    "product": "Health Secure Individual",
+    "sum_insured": 1500000,
+    "start_date": "2020-01-08",
+    "rules": [
+      {
+        "rule_id": "PRE-POL-0024-R1",
+        "type": "room_rent_cap",
+        "value": {
+          "percent_of_sum_insured": 1.0,
+          "amount": null,
+          "per": "day"
+        },
+        "clause_id": "4.2",
+        "clause_text": "Room rent is payable up to 1% of the sum insured per day. If a higher room is chosen, associated medical expenses are paid in the same proportion.",
+        "proportionate": true,
+        "linked_charges": [
+          "doctor_fees",
+          "nursing",
+          "ot_charges"
+        ],
+        "excluded_from_proportionate": [
+          "implants",
+          "pharmacy"
+        ],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0024-R2",
+        "type": "non_payable",
+        "value": {
+          "categories": [
+            "consumables"
+          ],
+          "items": [
+            "gloves",
+            "mask",
+            "admission kit"
+          ]
+        },
+        "clause_id": "Annexure II",
+        "clause_text": "Items listed in Annexure II, including gloves, masks and admission kits, are not payable.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0024-R3",
+        "type": "sub_limit",
+        "value": {
+          "percent_of_sum_insured": null,
+          "amount": 40000,
+          "procedure": "cataract_surgery"
+        },
+        "clause_id": "4.5",
+        "clause_text": "Claims for cataract surgery are payable up to ₹40,000.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0024-R4",
+        "type": "sub_limit",
+        "value": {
+          "percent_of_sum_insured": null,
+          "amount": 30000,
+          "procedure": "tonsillectomy"
+        },
+        "clause_id": "4.5",
+        "clause_text": "Claims for tonsillectomy are payable up to ₹30,000.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0024-R5",
+        "type": "sub_limit",
+        "value": {
+          "percent_of_sum_insured": null,
+          "amount": 50000,
+          "procedure": "lithotripsy"
+        },
+        "clause_id": "4.5",
+        "clause_text": "Claims for lithotripsy are payable up to ₹50,000.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0024-R6",
+        "type": "sub_limit",
+        "value": {
+          "percent_of_sum_insured": null,
+          "amount": 60000,
+          "procedure": "hernia_repair"
+        },
+        "clause_id": "4.5",
+        "clause_text": "Claims for hernia repair are payable up to ₹60,000.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0024-R7",
+        "type": "waiting_period",
+        "value": {
+          "procedures": [
+            "total_knee_replacement",
+            "total_hip_replacement",
+            "cataract_surgery",
+            "hernia_repair",
+            "hysterectomy",
+            "turp"
+          ],
+          "months": 24
+        },
+        "clause_id": "5.3",
+        "clause_text": "Joint replacement, cataract, hernia, hysterectomy and prostate surgery are covered only after 24 months of continuous coverage.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0024-R8",
+        "type": "exclusion",
+        "value": {
+          "procedures": [
+            "cosmetic_surgery",
+            "bariatric_surgery"
+          ]
+        },
+        "clause_id": "6.2",
+        "clause_text": "Cosmetic and weight-loss surgery are not covered.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      }
+    ]
+  },
+  "admission": {
+    "admission_id": "PRE-ADM-0024",
+    "patient_id": "PRE-PAT-0024",
+    "policy_id": "PRE-POL-0024",
+    "procedure": "tonsillectomy",
+    "icd10": "J35.0",
+    "room_category": "single_ac",
+    "admit_date": "2025-02-08",
+    "discharge_date": "2025-02-10",
+    "tpa_id": "TPA-A",
+    "emergency": false
+  },
+  "bill_lines": [
+    {
+      "line_id": "PRE-ADM-0024-L1",
+      "category": "room",
+      "description": "Single AC room, 2 days x 4,000",
+      "quantity": 2,
+      "amount": 8000
+    },
+    {
+      "line_id": "PRE-ADM-0024-L2",
+      "category": "doctor_fees",
+      "description": "Surgeon fee",
+      "quantity": 1,
+      "amount": 3510
+    },
+    {
+      "line_id": "PRE-ADM-0024-L3",
+      "category": "doctor_fees",
+      "description": "Anaesthetist fee",
+      "quantity": 1,
+      "amount": 1730
+    },
+    {
+      "line_id": "PRE-ADM-0024-L4",
+      "category": "doctor_fees",
+      "description": "Resident doctor visits",
+      "quantity": 1,
+      "amount": 860
+    },
+    {
+      "line_id": "PRE-ADM-0024-L5",
+      "category": "ot_charges",
+      "description": "Operation theatre charges",
+      "quantity": 1,
+      "amount": 3670
+    },
+    {
+      "line_id": "PRE-ADM-0024-L6",
+      "category": "ot_charges",
+      "description": "Recovery room charges",
+      "quantity": 1,
+      "amount": 840
+    },
+    {
+      "line_id": "PRE-ADM-0024-L7",
+      "category": "nursing",
+      "description": "Nursing charges",
+      "quantity": 1,
+      "amount": 1620
+    },
+    {
+      "line_id": "PRE-ADM-0024-L8",
+      "category": "pharmacy",
+      "description": "Medicines",
+      "quantity": 1,
+      "amount": 1430
+    },
+    {
+      "line_id": "PRE-ADM-0024-L9",
+      "category": "pharmacy",
+      "description": "IV fluids",
+      "quantity": 1,
+      "amount": 470
+    },
+    {
+      "line_id": "PRE-ADM-0024-L10",
+      "category": "pharmacy",
+      "description": "Antibiotics",
+      "quantity": 1,
+      "amount": 1080
+    },
+    {
+      "line_id": "PRE-ADM-0024-L11",
+      "category": "investigations",
+      "description": "Blood tests",
+      "quantity": 1,
+      "amount": 1080
+    },
+    {
+      "line_id": "PRE-ADM-0024-L12",
+      "category": "investigations",
+      "description": "Imaging",
+      "quantity": 1,
+      "amount": 890
+    },
+    {
+      "line_id": "PRE-ADM-0024-L13",
+      "category": "investigations",
+      "description": "ECG",
+      "quantity": 1,
+      "amount": 200
+    },
+    {
+      "line_id": "PRE-ADM-0024-L14",
+      "category": "other",
+      "description": "Diet charges",
+      "quantity": 1,
+      "amount": 530
+    },
+    {
+      "line_id": "PRE-ADM-0024-L15",
+      "category": "other",
+      "description": "Registration and medical records",
+      "quantity": 1,
+      "amount": 330
+    }
+  ],
+  "documents": [
+    {
+      "doc_id": "PRE-ADM-0024-D1",
+      "type": "admission_note",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0024/PRE-ADM-0024-D1.pdf",
+      "fields": {
+        "chief_complaint": "Repeated sore throat infections",
+        "provisional_diagnosis": "Chronic tonsillitis",
+        "planned_treatment": "Tonsillectomy"
+      }
+    },
+    {
+      "doc_id": "PRE-ADM-0024-D2",
+      "type": "lab_report",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0024/PRE-ADM-0024-D2.pdf",
+      "fields": {
+        "finding": "Blood counts and clotting normal"
+      }
+    },
+    {
+      "doc_id": "PRE-ADM-0024-D3",
+      "type": "operative_note",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0024/PRE-ADM-0024-D3.pdf",
+      "fields": {
+        "procedure": "Tonsillectomy",
+        "implant": null
+      }
+    },
+    {
+      "doc_id": "PRE-ADM-0024-D4",
+      "type": "discharge_summary",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0024/PRE-ADM-0024-D4.pdf",
+      "fields": {
+        "diagnosis": "Chronic tonsillitis",
+        "icd10": "J35.0",
+        "reason_for_admission": "Recurrent tonsillitis despite antibiotics, needing tonsil removal",
+        "treatment_given": "Tonsillectomy",
+        "length_of_stay_days": 2,
+        "condition_at_discharge": "Stable"
+      }
+    },
+    {
+      "doc_id": "PRE-ADM-0024-D5",
+      "type": "final_bill",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0024/PRE-ADM-0024-D5.pdf",
+      "fields": {
+        "total_billed": 26240
+      }
+    }
+  ]
+}

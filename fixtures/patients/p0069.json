@@ -1,0 +1,343 @@
+{
+  "case_id": "p0069",
+  "title": "Lumbar disc disorder",
+  "patient": {
+    "patient_id": "PRE-PAT-0069",
+    "name": "Lakshmi Verma",
+    "age": 65,
+    "gender": "F",
+    "city": "Mysuru"
+  },
+  "policy": {
+    "policy_id": "PRE-POL-0069",
+    "insurer": "Demo Insurer A",
+    "product": "Health Secure Individual",
+    "sum_insured": 750000,
+    "start_date": "2018-06-27",
+    "rules": [
+      {
+        "rule_id": "PRE-POL-0069-R1",
+        "type": "room_rent_cap",
+        "value": {
+          "percent_of_sum_insured": 1.0,
+          "amount": null,
+          "per": "day"
+        },
+        "clause_id": "4.2",
+        "clause_text": "Room rent is payable up to 1% of the sum insured per day. If a higher room is chosen, associated medical expenses are paid in the same proportion.",
+        "proportionate": true,
+        "linked_charges": [
+          "doctor_fees",
+          "nursing",
+          "ot_charges"
+        ],
+        "excluded_from_proportionate": [
+          "implants",
+          "pharmacy"
+        ],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0069-R2",
+        "type": "non_payable",
+        "value": {
+          "categories": [
+            "consumables"
+          ],
+          "items": [
+            "gloves",
+            "mask",
+            "admission kit"
+          ]
+        },
+        "clause_id": "Annexure II",
+        "clause_text": "Items listed in Annexure II, including gloves, masks and admission kits, are not payable.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0069-R3",
+        "type": "sub_limit",
+        "value": {
+          "percent_of_sum_insured": null,
+          "amount": 40000,
+          "procedure": "cataract_surgery"
+        },
+        "clause_id": "4.5",
+        "clause_text": "Claims for cataract surgery are payable up to ₹40,000.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0069-R4",
+        "type": "sub_limit",
+        "value": {
+          "percent_of_sum_insured": null,
+          "amount": 30000,
+          "procedure": "tonsillectomy"
+        },
+        "clause_id": "4.5",
+        "clause_text": "Claims for tonsillectomy are payable up to ₹30,000.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0069-R5",
+        "type": "sub_limit",
+        "value": {
+          "percent_of_sum_insured": null,
+          "amount": 50000,
+          "procedure": "lithotripsy"
+        },
+        "clause_id": "4.5",
+        "clause_text": "Claims for lithotripsy are payable up to ₹50,000.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0069-R6",
+        "type": "sub_limit",
+        "value": {
+          "percent_of_sum_insured": null,
+          "amount": 60000,
+          "procedure": "hernia_repair"
+        },
+        "clause_id": "4.5",
+        "clause_text": "Claims for hernia repair are payable up to ₹60,000.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0069-R7",
+        "type": "waiting_period",
+        "value": {
+          "procedures": [
+            "total_knee_replacement",
+            "total_hip_replacement",
+            "cataract_surgery",
+            "hernia_repair",
+            "hysterectomy",
+            "turp"
+          ],
+          "months": 24
+        },
+        "clause_id": "5.3",
+        "clause_text": "Joint replacement, cataract, hernia, hysterectomy and prostate surgery are covered only after 24 months of continuous coverage.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0069-R8",
+        "type": "exclusion",
+        "value": {
+          "procedures": [
+            "cosmetic_surgery",
+            "bariatric_surgery"
+          ]
+        },
+        "clause_id": "6.2",
+        "clause_text": "Cosmetic and weight-loss surgery are not covered.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      }
+    ]
+  },
+  "admission": {
+    "admission_id": "PRE-ADM-0069",
+    "patient_id": "PRE-PAT-0069",
+    "policy_id": "PRE-POL-0069",
+    "procedure": "spinal_fusion",
+    "icd10": "M51.1",
+    "room_category": "single_standard",
+    "admit_date": "2024-01-27",
+    "discharge_date": "2024-01-31",
+    "tpa_id": "TPA-B",
+    "emergency": false
+  },
+  "bill_lines": [
+    {
+      "line_id": "PRE-ADM-0069-L1",
+      "category": "room",
+      "description": "Single standard room, 4 days x 3,000",
+      "quantity": 4,
+      "amount": 12000
+    },
+    {
+      "line_id": "PRE-ADM-0069-L2",
+      "category": "implants",
+      "description": "Pedicle screws and rods",
+      "quantity": 1,
+      "amount": 125350
+    },
+    {
+      "line_id": "PRE-ADM-0069-L3",
+      "category": "doctor_fees",
+      "description": "Surgeon fee",
+      "quantity": 1,
+      "amount": 32310
+    },
+    {
+      "line_id": "PRE-ADM-0069-L4",
+      "category": "doctor_fees",
+      "description": "Anaesthetist fee",
+      "quantity": 1,
+      "amount": 9190
+    },
+    {
+      "line_id": "PRE-ADM-0069-L5",
+      "category": "doctor_fees",
+      "description": "Resident doctor visits",
+      "quantity": 1,
+      "amount": 5130
+    },
+    {
+      "line_id": "PRE-ADM-0069-L6",
+      "category": "ot_charges",
+      "description": "Operation theatre charges",
+      "quantity": 1,
+      "amount": 24980
+    },
+    {
+      "line_id": "PRE-ADM-0069-L7",
+      "category": "ot_charges",
+      "description": "Recovery room charges",
+      "quantity": 1,
+      "amount": 7000
+    },
+    {
+      "line_id": "PRE-ADM-0069-L8",
+      "category": "nursing",
+      "description": "Nursing charges",
+      "quantity": 1,
+      "amount": 9160
+    },
+    {
+      "line_id": "PRE-ADM-0069-L9",
+      "category": "pharmacy",
+      "description": "Medicines",
+      "quantity": 1,
+      "amount": 13210
+    },
+    {
+      "line_id": "PRE-ADM-0069-L10",
+      "category": "pharmacy",
+      "description": "IV fluids",
+      "quantity": 1,
+      "amount": 3950
+    },
+    {
+      "line_id": "PRE-ADM-0069-L11",
+      "category": "pharmacy",
+      "description": "Antibiotics",
+      "quantity": 1,
+      "amount": 5130
+    },
+    {
+      "line_id": "PRE-ADM-0069-L12",
+      "category": "investigations",
+      "description": "Blood tests",
+      "quantity": 1,
+      "amount": 6490
+    },
+    {
+      "line_id": "PRE-ADM-0069-L13",
+      "category": "investigations",
+      "description": "Imaging",
+      "quantity": 1,
+      "amount": 5860
+    },
+    {
+      "line_id": "PRE-ADM-0069-L14",
+      "category": "investigations",
+      "description": "ECG",
+      "quantity": 1,
+      "amount": 1060
+    },
+    {
+      "line_id": "PRE-ADM-0069-L15",
+      "category": "other",
+      "description": "Diet charges",
+      "quantity": 1,
+      "amount": 3890
+    },
+    {
+      "line_id": "PRE-ADM-0069-L16",
+      "category": "other",
+      "description": "Registration and medical records",
+      "quantity": 1,
+      "amount": 2340
+    }
+  ],
+  "documents": [
+    {
+      "doc_id": "PRE-ADM-0069-D1",
+      "type": "admission_note",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0069/PRE-ADM-0069-D1.pdf",
+      "fields": {
+        "chief_complaint": "Back pain radiating down the leg with numbness",
+        "provisional_diagnosis": "Lumbar disc disorder",
+        "planned_treatment": "Lumbar spinal fusion"
+      }
+    },
+    {
+      "doc_id": "PRE-ADM-0069-D2",
+      "type": "lab_report",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0069/PRE-ADM-0069-D2.pdf",
+      "fields": {
+        "finding": "Pre-operative blood work within normal limits"
+      }
+    },
+    {
+      "doc_id": "PRE-ADM-0069-D3",
+      "type": "xray_report",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0069/PRE-ADM-0069-D3.pdf",
+      "fields": {
+        "finding": "Disc space narrowing at L4-L5 with instability"
+      }
+    },
+    {
+      "doc_id": "PRE-ADM-0069-D4",
+      "type": "operative_note",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0069/PRE-ADM-0069-D4.pdf",
+      "fields": {
+        "procedure": "Lumbar spinal fusion",
+        "implant": "Pedicle screws and rods"
+      }
+    },
+    {
+      "doc_id": "PRE-ADM-0069-D5",
+      "type": "discharge_summary",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0069/PRE-ADM-0069-D5.pdf",
+      "fields": {
+        "diagnosis": "Lumbar disc disorder",
+        "icd10": "M51.1",
+        "reason_for_admission": "Disc disease with nerve compression not relieved by treatment, needing fusion",
+        "treatment_given": "Lumbar spinal fusion",
+        "length_of_stay_days": 4,
+        "condition_at_discharge": "Stable"
+      }
+    },
+    {
+      "doc_id": "PRE-ADM-0069-D6",
+      "type": "final_bill",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0069/PRE-ADM-0069-D6.pdf",
+      "fields": {
+        "total_billed": 267050
+      }
+    }
+  ]
+}

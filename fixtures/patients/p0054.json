@@ -1,0 +1,335 @@
+{
+  "case_id": "p0054",
+  "title": "Inguinal hernia",
+  "patient": {
+    "patient_id": "PRE-PAT-0054",
+    "name": "Arjun Verma",
+    "age": 66,
+    "gender": "M",
+    "city": "Chennai"
+  },
+  "policy": {
+    "policy_id": "PRE-POL-0054",
+    "insurer": "Demo Insurer A",
+    "product": "Health Secure Individual",
+    "sum_insured": 300000,
+    "start_date": "2020-02-16",
+    "rules": [
+      {
+        "rule_id": "PRE-POL-0054-R1",
+        "type": "room_rent_cap",
+        "value": {
+          "percent_of_sum_insured": 1.0,
+          "amount": null,
+          "per": "day"
+        },
+        "clause_id": "4.2",
+        "clause_text": "Room rent is payable up to 1% of the sum insured per day. If a higher room is chosen, associated medical expenses are paid in the same proportion.",
+        "proportionate": true,
+        "linked_charges": [
+          "doctor_fees",
+          "nursing",
+          "ot_charges"
+        ],
+        "excluded_from_proportionate": [
+          "implants",
+          "pharmacy"
+        ],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0054-R2",
+        "type": "non_payable",
+        "value": {
+          "categories": [
+            "consumables"
+          ],
+          "items": [
+            "gloves",
+            "mask",
+            "admission kit"
+          ]
+        },
+        "clause_id": "Annexure II",
+        "clause_text": "Items listed in Annexure II, including gloves, masks and admission kits, are not payable.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0054-R3",
+        "type": "sub_limit",
+        "value": {
+          "percent_of_sum_insured": null,
+          "amount": 40000,
+          "procedure": "cataract_surgery"
+        },
+        "clause_id": "4.5",
+        "clause_text": "Claims for cataract surgery are payable up to ₹40,000.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0054-R4",
+        "type": "sub_limit",
+        "value": {
+          "percent_of_sum_insured": null,
+          "amount": 30000,
+          "procedure": "tonsillectomy"
+        },
+        "clause_id": "4.5",
+        "clause_text": "Claims for tonsillectomy are payable up to ₹30,000.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0054-R5",
+        "type": "sub_limit",
+        "value": {
+          "percent_of_sum_insured": null,
+          "amount": 50000,
+          "procedure": "lithotripsy"
+        },
+        "clause_id": "4.5",
+        "clause_text": "Claims for lithotripsy are payable up to ₹50,000.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0054-R6",
+        "type": "sub_limit",
+        "value": {
+          "percent_of_sum_insured": null,
+          "amount": 60000,
+          "procedure": "hernia_repair"
+        },
+        "clause_id": "4.5",
+        "clause_text": "Claims for hernia repair are payable up to ₹60,000.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0054-R7",
+        "type": "waiting_period",
+        "value": {
+          "procedures": [
+            "total_knee_replacement",
+            "total_hip_replacement",
+            "cataract_surgery",
+            "hernia_repair",
+            "hysterectomy",
+            "turp"
+          ],
+          "months": 24
+        },
+        "clause_id": "5.3",
+        "clause_text": "Joint replacement, cataract, hernia, hysterectomy and prostate surgery are covered only after 24 months of continuous coverage.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0054-R8",
+        "type": "exclusion",
+        "value": {
+          "procedures": [
+            "cosmetic_surgery",
+            "bariatric_surgery"
+          ]
+        },
+        "clause_id": "6.2",
+        "clause_text": "Cosmetic and weight-loss surgery are not covered.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      }
+    ]
+  },
+  "admission": {
+    "admission_id": "PRE-ADM-0054",
+    "patient_id": "PRE-PAT-0054",
+    "policy_id": "PRE-POL-0054",
+    "procedure": "hernia_repair",
+    "icd10": "K40.9",
+    "room_category": "single_standard",
+    "admit_date": "2025-03-16",
+    "discharge_date": "2025-03-18",
+    "tpa_id": "TPA-A",
+    "emergency": false
+  },
+  "bill_lines": [
+    {
+      "line_id": "PRE-ADM-0054-L1",
+      "category": "room",
+      "description": "Single standard room, 2 days x 3,000",
+      "quantity": 2,
+      "amount": 6000
+    },
+    {
+      "line_id": "PRE-ADM-0054-L2",
+      "category": "implants",
+      "description": "Hernia mesh",
+      "quantity": 1,
+      "amount": 8800
+    },
+    {
+      "line_id": "PRE-ADM-0054-L3",
+      "category": "doctor_fees",
+      "description": "Surgeon fee",
+      "quantity": 1,
+      "amount": 15760
+    },
+    {
+      "line_id": "PRE-ADM-0054-L4",
+      "category": "doctor_fees",
+      "description": "Anaesthetist fee",
+      "quantity": 1,
+      "amount": 4880
+    },
+    {
+      "line_id": "PRE-ADM-0054-L5",
+      "category": "doctor_fees",
+      "description": "Resident doctor visits",
+      "quantity": 1,
+      "amount": 3200
+    },
+    {
+      "line_id": "PRE-ADM-0054-L6",
+      "category": "ot_charges",
+      "description": "Operation theatre charges",
+      "quantity": 1,
+      "amount": 15940
+    },
+    {
+      "line_id": "PRE-ADM-0054-L7",
+      "category": "ot_charges",
+      "description": "Recovery room charges",
+      "quantity": 1,
+      "amount": 3100
+    },
+    {
+      "line_id": "PRE-ADM-0054-L8",
+      "category": "nursing",
+      "description": "Nursing charges",
+      "quantity": 1,
+      "amount": 6500
+    },
+    {
+      "line_id": "PRE-ADM-0054-L9",
+      "category": "pharmacy",
+      "description": "Medicines",
+      "quantity": 1,
+      "amount": 6540
+    },
+    {
+      "line_id": "PRE-ADM-0054-L10",
+      "category": "pharmacy",
+      "description": "IV fluids",
+      "quantity": 1,
+      "amount": 2140
+    },
+    {
+      "line_id": "PRE-ADM-0054-L11",
+      "category": "pharmacy",
+      "description": "Antibiotics",
+      "quantity": 1,
+      "amount": 3790
+    },
+    {
+      "line_id": "PRE-ADM-0054-L12",
+      "category": "investigations",
+      "description": "Blood tests",
+      "quantity": 1,
+      "amount": 3990
+    },
+    {
+      "line_id": "PRE-ADM-0054-L13",
+      "category": "investigations",
+      "description": "Imaging",
+      "quantity": 1,
+      "amount": 2330
+    },
+    {
+      "line_id": "PRE-ADM-0054-L14",
+      "category": "investigations",
+      "description": "ECG",
+      "quantity": 1,
+      "amount": 650
+    },
+    {
+      "line_id": "PRE-ADM-0054-L15",
+      "category": "other",
+      "description": "Diet charges",
+      "quantity": 1,
+      "amount": 2460
+    },
+    {
+      "line_id": "PRE-ADM-0054-L16",
+      "category": "other",
+      "description": "Registration and medical records",
+      "quantity": 1,
+      "amount": 1290
+    }
+  ],
+  "documents": [
+    {
+      "doc_id": "PRE-ADM-0054-D1",
+      "type": "admission_note",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0054/PRE-ADM-0054-D1.pdf",
+      "fields": {
+        "chief_complaint": "Groin swelling with pain on lifting",
+        "provisional_diagnosis": "Inguinal hernia",
+        "planned_treatment": "Laparoscopic hernia repair with mesh"
+      }
+    },
+    {
+      "doc_id": "PRE-ADM-0054-D2",
+      "type": "lab_report",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0054/PRE-ADM-0054-D2.pdf",
+      "fields": {
+        "finding": "Pre-operative blood work within normal limits"
+      }
+    },
+    {
+      "doc_id": "PRE-ADM-0054-D3",
+      "type": "operative_note",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0054/PRE-ADM-0054-D3.pdf",
+      "fields": {
+        "procedure": "Laparoscopic hernia repair with mesh",
+        "implant": "Hernia mesh"
+      }
+    },
+    {
+      "doc_id": "PRE-ADM-0054-D4",
+      "type": "discharge_summary",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0054/PRE-ADM-0054-D4.pdf",
+      "fields": {
+        "diagnosis": "Inguinal hernia",
+        "icd10": "K40.9",
+        "reason_for_admission": "Symptomatic inguinal hernia at risk of obstruction, needing repair",
+        "treatment_given": "Laparoscopic hernia repair with mesh",
+        "length_of_stay_days": 2,
+        "condition_at_discharge": "Stable"
+      }
+    },
+    {
+      "doc_id": "PRE-ADM-0054-D5",
+      "type": "final_bill",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0054/PRE-ADM-0054-D5.pdf",
+      "fields": {
+        "total_billed": 87370
+      }
+    }
+  ]
+}

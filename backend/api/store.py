@@ -17,9 +17,15 @@ ACTOR = "api"
 
 
 def fixture_cases() -> dict[str, Case]:
-    """The demo cases shipped in fixtures/, by case_id."""
-    cases = [Case.model_validate_json(path.read_text(encoding="utf-8")) for path in sorted(FIXTURES.glob("case*.json"))]
+    """The three scripted demo cases, then the preset patients (fixtures/patients), by case_id."""
+    paths = [*sorted(FIXTURES.glob("case*.json")), *sorted((FIXTURES / "patients").glob("*.json"))]
+    cases = [Case.model_validate_json(path.read_text(encoding="utf-8")) for path in paths]
     return {case.case_id: case for case in cases}
+
+
+def is_demo(case: Case) -> bool:
+    """The scripted demo cases (case1-3), as opposed to the preset patients."""
+    return case.case_id.startswith("case")
 
 
 def save(db_path: Path | str, claim_id: str, case: Case, reason: str) -> None:

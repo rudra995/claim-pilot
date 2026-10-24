@@ -24,8 +24,10 @@ export const api = {
   decide: (id, decision) => request('POST', `/api/claims/${id}/decision`, decision),
   addBill: (id, lines) => request('POST', `/api/claims/${id}/bill`, { lines }),
   discharge: (id) => request('POST', `/api/claims/${id}/discharge`),
+  redraft: (id) => request('POST', `/api/claims/${id}/redraft`),
   pay: (id, paid, reference) => request('POST', `/api/claims/${id}/payment`, { paid, reference }),
   patientNote: (id) => request('POST', `/api/claims/${id}/patient-note`),
+  dashboard: () => request('GET', '/api/dashboard'),
 }
 
 // Streams audit events from /ws/trace as they are written. `claimId` narrows it to one claim;
@@ -68,7 +70,21 @@ export function useTrace({ claimId, after = -1, onEvent }) {
 }
 
 // Loads `load()` now and again whenever `refresh()` is called; calls close together are merged.
+// While agents are busy on what was loaded, it checks again every second: a job's last audit
+// event arrives a moment before the job itself is marked done.
 export function useLoad(load, deps = []) {
+  const result = useLoadOnce(load, deps)
+  const data = result.data
+  const busy = Array.isArray(data) ? data.some((item) => item?.busy) : Boolean(data?.busy)
+  useEffect(() => {
+    if (!busy) return undefined
+    const timer = setInterval(result.reload, 1000)
+    return () => clearInterval(timer)
+  }, [busy]) // eslint-disable-line react-hooks/exhaustive-deps
+  return result
+}
+
+function useLoadOnce(load, deps) {
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
   const timer = useRef(null)

@@ -101,8 +101,27 @@ def create_app(db_path: Path | str = DEFAULT_DB_PATH) -> FastAPI:
 
     @app.get("/api/cases")
     def cases() -> list[dict[str, Any]]:
+        """Patients ready to admit: the scripted demo cases and the preset patients."""
         return [
-            {"case_id": c.case_id, "title": c.title, "patient": c.patient.name, "procedure": c.admission.procedure, "tpa_id": c.admission.tpa_id}
+            {
+                "case_id": c.case_id,
+                "title": c.title,
+                "demo": store.is_demo(c),
+                "patient": c.patient.name,
+                "age": c.patient.age,
+                "gender": c.patient.gender,
+                "city": c.patient.city,
+                "procedure": c.admission.procedure,
+                "emergency": c.admission.emergency,
+                "room_category": c.admission.room_category,
+                "stay_days": (c.admission.discharge_date - c.admission.admit_date).days,
+                "tpa_id": c.admission.tpa_id,
+                "insurer": c.policy.insurer,
+                "product": c.policy.product,
+                "sum_insured": c.policy.sum_insured,
+                "documents": len(c.documents),
+                "estimated_bill": sum(line.amount for line in c.bill_lines),
+            }
             for c in store.fixture_cases().values()
         ]
 
@@ -192,6 +211,12 @@ def create_app(db_path: Path | str = DEFAULT_DB_PATH) -> FastAPI:
             raise HTTPException(status.HTTP_422_UNPROCESSABLE_ENTITY, error.errors(include_url=False, include_context=False))
         store.save(db_path, claim_id, case, f"{len(body.lines)} bill line(s) added")
         return schedule(claim_id, "enhancement", lambda: orchestrator.watch_bill(db_path, claim_id, case))
+
+    @app.post("/api/claims/{claim_id}/redraft", status_code=status.HTTP_202_ACCEPTED)
+    def redraft(claim_id: str) -> dict[str, Any]:
+        """A pre-auth sent back by a person: the agents prepare it again."""
+        _require(existing(claim_id), ClaimState.PREAUTH_DRAFT)
+        return schedule(claim_id, "redraft", lambda: orchestrator.redraft(db_path, claim_id, store.load(db_path, claim_id)))
 
     @app.post("/api/claims/{claim_id}/discharge", status_code=status.HTTP_202_ACCEPTED)
     def start_discharge(claim_id: str) -> dict[str, Any]:
@@ -325,6 +350,8 @@ def _actions(db_path: Path | str, claim_id: str) -> list[str]:
         actions += ["bill", "discharge"]
     elif state == ClaimState.FINAL_APPROVED:
         actions.append("payment")
+    elif state == ClaimState.PREAUTH_DRAFT:
+        actions.append("redraft")
     if state != ClaimState.CLOSED:
         actions.append("patient_note")
     return actions

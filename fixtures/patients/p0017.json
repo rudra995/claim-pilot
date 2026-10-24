@@ -1,0 +1,342 @@
+{
+  "case_id": "p0017",
+  "title": "Delivery by caesarean section",
+  "patient": {
+    "patient_id": "PRE-PAT-0017",
+    "name": "Zara Pillai",
+    "age": 21,
+    "gender": "F",
+    "city": "Mysuru"
+  },
+  "policy": {
+    "policy_id": "PRE-POL-0017",
+    "insurer": "Demo Insurer B",
+    "product": "Senior Care Plus",
+    "sum_insured": 300000,
+    "start_date": "2019-01-15",
+    "rules": [
+      {
+        "rule_id": "PRE-POL-0017-R1",
+        "type": "room_rent_cap",
+        "value": {
+          "percent_of_sum_insured": 1.0,
+          "amount": null,
+          "per": "day"
+        },
+        "clause_id": "2.4",
+        "clause_text": "Room rent is payable up to 1% of the sum insured per day. If a higher room is chosen, associated medical expenses are paid in the same proportion.",
+        "proportionate": true,
+        "linked_charges": [
+          "doctor_fees",
+          "nursing",
+          "ot_charges"
+        ],
+        "excluded_from_proportionate": [
+          "implants",
+          "pharmacy"
+        ],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0017-R2",
+        "type": "non_payable",
+        "value": {
+          "categories": [
+            "consumables"
+          ],
+          "items": [
+            "gloves",
+            "mask",
+            "admission kit"
+          ]
+        },
+        "clause_id": "Annexure III",
+        "clause_text": "Items listed in Annexure III, including gloves, masks and admission kits, are not payable.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0017-R3",
+        "type": "sub_limit",
+        "value": {
+          "percent_of_sum_insured": null,
+          "amount": 40000,
+          "procedure": "cataract_surgery"
+        },
+        "clause_id": "3.6",
+        "clause_text": "Claims for cataract surgery are payable up to ₹40,000.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0017-R4",
+        "type": "sub_limit",
+        "value": {
+          "percent_of_sum_insured": null,
+          "amount": 30000,
+          "procedure": "tonsillectomy"
+        },
+        "clause_id": "3.6",
+        "clause_text": "Claims for tonsillectomy are payable up to ₹30,000.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0017-R5",
+        "type": "sub_limit",
+        "value": {
+          "percent_of_sum_insured": null,
+          "amount": 50000,
+          "procedure": "lithotripsy"
+        },
+        "clause_id": "3.6",
+        "clause_text": "Claims for lithotripsy are payable up to ₹50,000.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0017-R6",
+        "type": "sub_limit",
+        "value": {
+          "percent_of_sum_insured": null,
+          "amount": 60000,
+          "procedure": "hernia_repair"
+        },
+        "clause_id": "3.6",
+        "clause_text": "Claims for hernia repair are payable up to ₹60,000.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0017-R7",
+        "type": "waiting_period",
+        "value": {
+          "procedures": [
+            "total_knee_replacement",
+            "total_hip_replacement",
+            "cataract_surgery",
+            "hernia_repair",
+            "hysterectomy",
+            "turp"
+          ],
+          "months": 24
+        },
+        "clause_id": "4.1",
+        "clause_text": "Joint replacement, cataract, hernia, hysterectomy and prostate surgery are covered only after 24 months of continuous coverage.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0017-R8",
+        "type": "exclusion",
+        "value": {
+          "procedures": [
+            "cosmetic_surgery",
+            "bariatric_surgery"
+          ]
+        },
+        "clause_id": "5.4",
+        "clause_text": "Cosmetic and weight-loss surgery are not covered.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0017-R9",
+        "type": "co_pay",
+        "value": {
+          "percent": 10.0,
+          "min_age": 60
+        },
+        "clause_id": "6.1",
+        "clause_text": "A co-payment of 10% of every admissible claim applies to insured persons aged 60 or above.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      }
+    ]
+  },
+  "admission": {
+    "admission_id": "PRE-ADM-0017",
+    "patient_id": "PRE-PAT-0017",
+    "policy_id": "PRE-POL-0017",
+    "procedure": "caesarean_section",
+    "icd10": "O82.9",
+    "room_category": "single_ac",
+    "admit_date": "2026-09-15",
+    "discharge_date": "2026-09-20",
+    "tpa_id": "TPA-A",
+    "emergency": false
+  },
+  "bill_lines": [
+    {
+      "line_id": "PRE-ADM-0017-L1",
+      "category": "room",
+      "description": "Single AC room, 5 days x 4,000",
+      "quantity": 5,
+      "amount": 20000
+    },
+    {
+      "line_id": "PRE-ADM-0017-L2",
+      "category": "doctor_fees",
+      "description": "Surgeon fee",
+      "quantity": 1,
+      "amount": 17450
+    },
+    {
+      "line_id": "PRE-ADM-0017-L3",
+      "category": "doctor_fees",
+      "description": "Anaesthetist fee",
+      "quantity": 1,
+      "amount": 6850
+    },
+    {
+      "line_id": "PRE-ADM-0017-L4",
+      "category": "doctor_fees",
+      "description": "Resident doctor visits",
+      "quantity": 1,
+      "amount": 4520
+    },
+    {
+      "line_id": "PRE-ADM-0017-L5",
+      "category": "ot_charges",
+      "description": "Operation theatre charges",
+      "quantity": 1,
+      "amount": 14860
+    },
+    {
+      "line_id": "PRE-ADM-0017-L6",
+      "category": "ot_charges",
+      "description": "Recovery room charges",
+      "quantity": 1,
+      "amount": 4520
+    },
+    {
+      "line_id": "PRE-ADM-0017-L7",
+      "category": "nursing",
+      "description": "Nursing charges",
+      "quantity": 1,
+      "amount": 7270
+    },
+    {
+      "line_id": "PRE-ADM-0017-L8",
+      "category": "pharmacy",
+      "description": "Medicines",
+      "quantity": 1,
+      "amount": 7100
+    },
+    {
+      "line_id": "PRE-ADM-0017-L9",
+      "category": "pharmacy",
+      "description": "IV fluids",
+      "quantity": 1,
+      "amount": 2210
+    },
+    {
+      "line_id": "PRE-ADM-0017-L10",
+      "category": "pharmacy",
+      "description": "Antibiotics",
+      "quantity": 1,
+      "amount": 4450
+    },
+    {
+      "line_id": "PRE-ADM-0017-L11",
+      "category": "investigations",
+      "description": "Blood tests",
+      "quantity": 1,
+      "amount": 4100
+    },
+    {
+      "line_id": "PRE-ADM-0017-L12",
+      "category": "investigations",
+      "description": "Imaging",
+      "quantity": 1,
+      "amount": 2790
+    },
+    {
+      "line_id": "PRE-ADM-0017-L13",
+      "category": "investigations",
+      "description": "ECG",
+      "quantity": 1,
+      "amount": 750
+    },
+    {
+      "line_id": "PRE-ADM-0017-L14",
+      "category": "other",
+      "description": "Diet charges",
+      "quantity": 1,
+      "amount": 2690
+    },
+    {
+      "line_id": "PRE-ADM-0017-L15",
+      "category": "other",
+      "description": "Registration and medical records",
+      "quantity": 1,
+      "amount": 1750
+    }
+  ],
+  "documents": [
+    {
+      "doc_id": "PRE-ADM-0017-D1",
+      "type": "admission_note",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0017/PRE-ADM-0017-D1.pdf",
+      "fields": {
+        "chief_complaint": "Term pregnancy in labour",
+        "provisional_diagnosis": "Delivery by caesarean section",
+        "planned_treatment": "Lower segment caesarean section"
+      }
+    },
+    {
+      "doc_id": "PRE-ADM-0017-D2",
+      "type": "lab_report",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0017/PRE-ADM-0017-D2.pdf",
+      "fields": {
+        "finding": "Haemoglobin and blood group checked before surgery"
+      }
+    },
+    {
+      "doc_id": "PRE-ADM-0017-D3",
+      "type": "operative_note",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0017/PRE-ADM-0017-D3.pdf",
+      "fields": {
+        "procedure": "Lower segment caesarean section",
+        "implant": null
+      }
+    },
+    {
+      "doc_id": "PRE-ADM-0017-D4",
+      "type": "discharge_summary",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0017/PRE-ADM-0017-D4.pdf",
+      "fields": {
+        "diagnosis": "Delivery by caesarean section",
+        "icd10": "O82.9",
+        "reason_for_admission": "Obstructed labour needing caesarean delivery",
+        "treatment_given": "Lower segment caesarean section",
+        "length_of_stay_days": 5,
+        "condition_at_discharge": "Stable"
+      }
+    },
+    {
+      "doc_id": "PRE-ADM-0017-D5",
+      "type": "final_bill",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0017/PRE-ADM-0017-D5.pdf",
+      "fields": {
+        "total_billed": 101310
+      }
+    }
+  ]
+}

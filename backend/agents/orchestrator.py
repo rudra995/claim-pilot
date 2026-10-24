@@ -328,18 +328,21 @@ def _draft_preauth(state: _Run) -> dict[str, Any]:
         state["review_flags"],
     )
     if preauth.AGENT in update.get("results", {}):
-        package = update["results"][preauth.AGENT].data
-        _save_requested(state["db_path"], state["claim_id"], package.requested_amount)
-        submit = Submit(
-            claim_id=state["claim_id"],
-            stage=Stage.PREAUTH,
-            round=1,
-            package=package.model_dump(mode="json"),
-            documents=package.documents,
-            requested_amount=package.requested_amount,
-        )
-        draft(state["db_path"], state["claim_id"], submit, ClaimState.PREAUTH_DRAFT)
+        _draft_submit(state["db_path"], state["claim_id"], update["results"][preauth.AGENT].data)
     return update
+
+
+def _draft_submit(db_path: Path | str, claim_id: str, package: preauth.PreAuthPackage) -> None:
+    _save_requested(str(db_path), claim_id, package.requested_amount)
+    submit = Submit(
+        claim_id=claim_id,
+        stage=Stage.PREAUTH,
+        round=1,
+        package=package.model_dump(mode="json"),
+        documents=package.documents,
+        requested_amount=package.requested_amount,
+    )
+    draft(db_path, claim_id, submit, ClaimState.PREAUTH_DRAFT)
 
 
 def _risk_check(state: _Run) -> dict[str, Any]:
@@ -613,6 +616,31 @@ def discharge(db_path: Path | str, claim_id: str, case: Case) -> RunResult:
     _save_requested(str(db_path), claim_id, result.data.submit.requested_amount)
     draft(db_path, claim_id, result.data.submit, ClaimState.DISCHARGE_DRAFT)
     return _risk_check_and_queue(db_path, claim_id, case, {discharge_agent.AGENT: result}, "Final package drafted")
+
+
+def redraft(db_path: Path | str, claim_id: str, case: Case) -> RunResult:
+    """A pre-auth a person sent back: code, price and draft it again from the case as it now stands."""
+    _require(db_path, claim_id, ClaimState.PREAUTH_DRAFT)
+    masker = Masker.for_case(case)
+    reading = _reading(db_path, case)
+    results: dict[str, AgentResult] = {}
+    for name, run, args in [
+        (coder.AGENT, coder.run, (reading, case.admission)),
+        (policy.AGENT, policy.run, (case,)),
+        (estimator.AGENT, estimator.run, (case,)),
+    ]:
+        if (result := call_agent(db_path, claim_id, name, run, *args, masker=masker)) is None:
+            return _queue_for_person(db_path, claim_id, results, [name], f"{name} failed twice")
+        results[name] = result
+    flags = [f"{name}: {r.output.decision}" for name, r in results.items() if r.wants_human]
+    package = call_agent(
+        db_path, claim_id, preauth.AGENT, preauth.run, case.admission, reading,
+        results[coder.AGENT].data, results[policy.AGENT].data, results[estimator.AGENT].data, flags, masker=masker,
+    )
+    if package is None:
+        return _queue_for_person(db_path, claim_id, results, [preauth.AGENT], "Pre-auth agent failed twice")
+    _draft_submit(db_path, claim_id, package.data)
+    return _risk_check_and_queue(db_path, claim_id, case, {**results, preauth.AGENT: package}, "Pre-auth redrafted")
 
 
 def settle(db_path: Path | str, claim_id: str, paid: int, reference: str) -> None:

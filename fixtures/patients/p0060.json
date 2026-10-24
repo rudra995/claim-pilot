@@ -1,0 +1,342 @@
+{
+  "case_id": "p0060",
+  "title": "Coronary artery disease",
+  "patient": {
+    "patient_id": "PRE-PAT-0060",
+    "name": "Rohan Menon",
+    "age": 45,
+    "gender": "M",
+    "city": "Chennai"
+  },
+  "policy": {
+    "policy_id": "PRE-POL-0060",
+    "insurer": "Demo Insurer C",
+    "product": "Family Health Shield",
+    "sum_insured": 1500000,
+    "start_date": "2020-05-19",
+    "rules": [
+      {
+        "rule_id": "PRE-POL-0060-R1",
+        "type": "room_rent_cap",
+        "value": {
+          "percent_of_sum_insured": 1.0,
+          "amount": null,
+          "per": "day"
+        },
+        "clause_id": "3.1",
+        "clause_text": "Room rent is payable up to 1% of the sum insured per day. If a higher room is chosen, associated medical expenses are paid in the same proportion.",
+        "proportionate": true,
+        "linked_charges": [
+          "doctor_fees",
+          "nursing",
+          "ot_charges",
+          "pharmacy"
+        ],
+        "excluded_from_proportionate": [
+          "implants"
+        ],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0060-R2",
+        "type": "non_payable",
+        "value": {
+          "categories": [
+            "consumables"
+          ],
+          "items": [
+            "gloves",
+            "mask",
+            "admission kit"
+          ]
+        },
+        "clause_id": "Annexure I",
+        "clause_text": "Items listed in Annexure I, including gloves, masks and admission kits, are not payable.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0060-R3",
+        "type": "sub_limit",
+        "value": {
+          "percent_of_sum_insured": null,
+          "amount": 40000,
+          "procedure": "cataract_surgery"
+        },
+        "clause_id": "3.8",
+        "clause_text": "Claims for cataract surgery are payable up to ₹40,000.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0060-R4",
+        "type": "sub_limit",
+        "value": {
+          "percent_of_sum_insured": null,
+          "amount": 30000,
+          "procedure": "tonsillectomy"
+        },
+        "clause_id": "3.8",
+        "clause_text": "Claims for tonsillectomy are payable up to ₹30,000.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0060-R5",
+        "type": "sub_limit",
+        "value": {
+          "percent_of_sum_insured": null,
+          "amount": 50000,
+          "procedure": "lithotripsy"
+        },
+        "clause_id": "3.8",
+        "clause_text": "Claims for lithotripsy are payable up to ₹50,000.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0060-R6",
+        "type": "sub_limit",
+        "value": {
+          "percent_of_sum_insured": null,
+          "amount": 60000,
+          "procedure": "hernia_repair"
+        },
+        "clause_id": "3.8",
+        "clause_text": "Claims for hernia repair are payable up to ₹60,000.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0060-R7",
+        "type": "waiting_period",
+        "value": {
+          "procedures": [
+            "total_knee_replacement",
+            "total_hip_replacement",
+            "cataract_surgery",
+            "hernia_repair",
+            "hysterectomy",
+            "turp"
+          ],
+          "months": 24
+        },
+        "clause_id": "4.4",
+        "clause_text": "Joint replacement, cataract, hernia, hysterectomy and prostate surgery are covered only after 24 months of continuous coverage.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      },
+      {
+        "rule_id": "PRE-POL-0060-R8",
+        "type": "exclusion",
+        "value": {
+          "procedures": [
+            "cosmetic_surgery",
+            "bariatric_surgery"
+          ]
+        },
+        "clause_id": "5.1",
+        "clause_text": "Cosmetic and weight-loss surgery are not covered.",
+        "proportionate": false,
+        "linked_charges": [],
+        "excluded_from_proportionate": [],
+        "verified_by_human": true
+      }
+    ]
+  },
+  "admission": {
+    "admission_id": "PRE-ADM-0060",
+    "patient_id": "PRE-PAT-0060",
+    "policy_id": "PRE-POL-0060",
+    "procedure": "coronary_angioplasty",
+    "icd10": "I25.1",
+    "room_category": "suite",
+    "admit_date": "2026-09-19",
+    "discharge_date": "2026-09-21",
+    "tpa_id": "TPA-B",
+    "emergency": true
+  },
+  "bill_lines": [
+    {
+      "line_id": "PRE-ADM-0060-L1",
+      "category": "room",
+      "description": "Suite, 1 days x 8,000",
+      "quantity": 1,
+      "amount": 8000
+    },
+    {
+      "line_id": "PRE-ADM-0060-L2",
+      "category": "icu",
+      "description": "ICU, 1 days x 13,000",
+      "quantity": 1,
+      "amount": 13000
+    },
+    {
+      "line_id": "PRE-ADM-0060-L3",
+      "category": "implants",
+      "description": "Drug-eluting stent",
+      "quantity": 1,
+      "amount": 45160
+    },
+    {
+      "line_id": "PRE-ADM-0060-L4",
+      "category": "doctor_fees",
+      "description": "Surgeon fee",
+      "quantity": 1,
+      "amount": 25390
+    },
+    {
+      "line_id": "PRE-ADM-0060-L5",
+      "category": "doctor_fees",
+      "description": "Anaesthetist fee",
+      "quantity": 1,
+      "amount": 9230
+    },
+    {
+      "line_id": "PRE-ADM-0060-L6",
+      "category": "doctor_fees",
+      "description": "Resident doctor visits",
+      "quantity": 1,
+      "amount": 6700
+    },
+    {
+      "line_id": "PRE-ADM-0060-L7",
+      "category": "ot_charges",
+      "description": "Operation theatre charges",
+      "quantity": 1,
+      "amount": 21540
+    },
+    {
+      "line_id": "PRE-ADM-0060-L8",
+      "category": "ot_charges",
+      "description": "Recovery room charges",
+      "quantity": 1,
+      "amount": 6170
+    },
+    {
+      "line_id": "PRE-ADM-0060-L9",
+      "category": "nursing",
+      "description": "Nursing charges",
+      "quantity": 1,
+      "amount": 9490
+    },
+    {
+      "line_id": "PRE-ADM-0060-L10",
+      "category": "pharmacy",
+      "description": "Medicines",
+      "quantity": 1,
+      "amount": 10110
+    },
+    {
+      "line_id": "PRE-ADM-0060-L11",
+      "category": "pharmacy",
+      "description": "IV fluids",
+      "quantity": 1,
+      "amount": 3110
+    },
+    {
+      "line_id": "PRE-ADM-0060-L12",
+      "category": "pharmacy",
+      "description": "Antibiotics",
+      "quantity": 1,
+      "amount": 6060
+    },
+    {
+      "line_id": "PRE-ADM-0060-L13",
+      "category": "investigations",
+      "description": "Blood tests",
+      "quantity": 1,
+      "amount": 6090
+    },
+    {
+      "line_id": "PRE-ADM-0060-L14",
+      "category": "investigations",
+      "description": "Imaging",
+      "quantity": 1,
+      "amount": 6030
+    },
+    {
+      "line_id": "PRE-ADM-0060-L15",
+      "category": "investigations",
+      "description": "ECG",
+      "quantity": 1,
+      "amount": 1130
+    },
+    {
+      "line_id": "PRE-ADM-0060-L16",
+      "category": "other",
+      "description": "Diet charges",
+      "quantity": 1,
+      "amount": 4320
+    },
+    {
+      "line_id": "PRE-ADM-0060-L17",
+      "category": "other",
+      "description": "Registration and medical records",
+      "quantity": 1,
+      "amount": 2650
+    }
+  ],
+  "documents": [
+    {
+      "doc_id": "PRE-ADM-0060-D1",
+      "type": "admission_note",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0060/PRE-ADM-0060-D1.pdf",
+      "fields": {
+        "chief_complaint": "Chest pain on exertion",
+        "provisional_diagnosis": "Coronary artery disease",
+        "planned_treatment": "Coronary angioplasty with stent"
+      }
+    },
+    {
+      "doc_id": "PRE-ADM-0060-D2",
+      "type": "lab_report",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0060/PRE-ADM-0060-D2.pdf",
+      "fields": {
+        "finding": "Raised troponin; lipid profile abnormal"
+      }
+    },
+    {
+      "doc_id": "PRE-ADM-0060-D3",
+      "type": "operative_note",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0060/PRE-ADM-0060-D3.pdf",
+      "fields": {
+        "procedure": "Coronary angioplasty with stent",
+        "implant": "Drug-eluting stent"
+      }
+    },
+    {
+      "doc_id": "PRE-ADM-0060-D4",
+      "type": "discharge_summary",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0060/PRE-ADM-0060-D4.pdf",
+      "fields": {
+        "diagnosis": "Coronary artery disease",
+        "icd10": "I25.1",
+        "reason_for_admission": "Significant coronary blockage on angiography needing stenting",
+        "treatment_given": "Coronary angioplasty with stent",
+        "length_of_stay_days": 2,
+        "condition_at_discharge": "Stable"
+      }
+    },
+    {
+      "doc_id": "PRE-ADM-0060-D5",
+      "type": "final_bill",
+      "file_path": "fixtures/patients/documents/PRE-ADM-0060/PRE-ADM-0060-D5.pdf",
+      "fields": {
+        "total_billed": 184180
+      }
+    }
+  ]
+}
