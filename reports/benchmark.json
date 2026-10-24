@@ -448,8 +448,8 @@
     }
   },
   "run": {
-    "started": "2026-10-24T08:42:12+00:00",
-    "seconds": 107.5,
+    "started": "2026-10-24T09:10:40+00:00",
+    "seconds": 116.3,
     "python": "3.11.17",
     "llm": {
       "mode": "fallback",
@@ -561,7 +561,7 @@
       "simulated_recovered_rupees": 0,
       "approved_rupees": 8229720,
       "denied_stages": 15,
-      "preauth_prep_seconds_median": 0.088,
+      "preauth_prep_seconds_median": 0.093,
       "llm_calls": 55,
       "llm_unavailable": 55,
       "extraction": {
@@ -597,7 +597,7 @@
       "simulated_recovered_rupees": 0,
       "approved_rupees": 8229720,
       "denied_stages": 15,
-      "preauth_prep_seconds_median": 0.089,
+      "preauth_prep_seconds_median": 0.09,
       "llm_calls": 56,
       "llm_unavailable": 56,
       "extraction": {
@@ -633,7 +633,7 @@
       "simulated_recovered_rupees": 0,
       "approved_rupees": 8229720,
       "denied_stages": 15,
-      "preauth_prep_seconds_median": 0.087,
+      "preauth_prep_seconds_median": 0.1,
       "llm_calls": 56,
       "llm_unavailable": 56,
       "extraction": {
@@ -669,13 +669,13 @@
       "simulated_recovered_rupees": 0,
       "approved_rupees": 610300,
       "denied_stages": 0,
-      "preauth_prep_seconds_median": 0.093,
+      "preauth_prep_seconds_median": 0.092,
       "llm_calls": 4,
       "llm_unavailable": 4,
       "extraction": {
         "correct": 18,
-        "invented": 10,
-        "correctly_blank": 2
+        "invented": 11,
+        "correctly_blank": 1
       },
       "assumed_staff_minutes": {
         "fetching_records": 10,
@@ -706,13 +706,13 @@
       "simulated_recovered_rupees": 0,
       "approved_rupees": 610300,
       "denied_stages": 0,
-      "preauth_prep_seconds_median": 0.083,
+      "preauth_prep_seconds_median": 0.09,
       "llm_calls": 5,
       "llm_unavailable": 5,
       "extraction": {
         "correct": 18,
-        "invented": 10,
-        "correctly_blank": 2
+        "invented": 11,
+        "correctly_blank": 1
       },
       "assumed_staff_minutes": {
         "fetching_records": 10,
@@ -743,13 +743,13 @@
       "simulated_recovered_rupees": 12150,
       "approved_rupees": 622450,
       "denied_stages": 0,
-      "preauth_prep_seconds_median": 0.073,
+      "preauth_prep_seconds_median": 0.095,
       "llm_calls": 5,
       "llm_unavailable": 5,
       "extraction": {
         "correct": 18,
-        "invented": 10,
-        "correctly_blank": 2
+        "invented": 11,
+        "correctly_blank": 1
       },
       "assumed_staff_minutes": {
         "fetching_records": 10,
@@ -780,7 +780,7 @@
       "simulated_recovered_rupees": 0,
       "approved_rupees": 120600,
       "denied_stages": 0,
-      "preauth_prep_seconds_median": 0.082,
+      "preauth_prep_seconds_median": 0.084,
       "llm_calls": 2,
       "llm_unavailable": 2,
       "extraction": {
@@ -816,7 +816,7 @@
       "simulated_recovered_rupees": 0,
       "approved_rupees": 120600,
       "denied_stages": 0,
-      "preauth_prep_seconds_median": 0.077,
+      "preauth_prep_seconds_median": 0.098,
       "llm_calls": 2,
       "llm_unavailable": 2,
       "extraction": {
@@ -852,7 +852,7 @@
       "simulated_recovered_rupees": 0,
       "approved_rupees": 120600,
       "denied_stages": 0,
-      "preauth_prep_seconds_median": 0.077,
+      "preauth_prep_seconds_median": 0.09,
       "llm_calls": 2,
       "llm_unavailable": 2,
       "extraction": {
@@ -888,7 +888,7 @@
       "simulated_recovered_rupees": 0,
       "approved_rupees": 8198514,
       "denied_stages": 15,
-      "preauth_prep_seconds_median": 0.092,
+      "preauth_prep_seconds_median": 0.094,
       "llm_calls": 56,
       "llm_unavailable": 56,
       "extraction": {
@@ -924,7 +924,7 @@
       "simulated_recovered_rupees": 0,
       "approved_rupees": 8198514,
       "denied_stages": 15,
-      "preauth_prep_seconds_median": 0.09,
+      "preauth_prep_seconds_median": 0.096,
       "llm_calls": 57,
       "llm_unavailable": 57,
       "extraction": {
@@ -960,7 +960,7 @@
       "simulated_recovered_rupees": 20690,
       "approved_rupees": 8219204,
       "denied_stages": 15,
-      "preauth_prep_seconds_median": 0.087,
+      "preauth_prep_seconds_median": 0.09,
       "llm_calls": 57,
       "llm_unavailable": 57,
       "extraction": {
@@ -996,13 +996,13 @@
       "simulated_recovered_rupees": 0,
       "approved_rupees": 622450,
       "denied_stages": 0,
-      "preauth_prep_seconds_median": 0.093,
+      "preauth_prep_seconds_median": 0.089,
       "llm_calls": 3,
       "llm_unavailable": 3,
       "extraction": {
         "correct": 18,
-        "invented": 10,
-        "correctly_blank": 2
+        "invented": 11,
+        "correctly_blank": 1
       },
       "assumed_staff_minutes": {
         "fetching_records": 10,
@@ -1033,13 +1033,13 @@
       "simulated_recovered_rupees": 0,
       "approved_rupees": 622450,
       "denied_stages": 0,
-      "preauth_prep_seconds_median": 0.081,
+      "preauth_prep_seconds_median": 0.098,
       "llm_calls": 4,
       "llm_unavailable": 4,
       "extraction": {
         "correct": 18,
-        "invented": 10,
-        "correctly_blank": 2
+        "invented": 11,
+        "correctly_blank": 1
       },
       "assumed_staff_minutes": {
         "fetching_records": 10,
@@ -1070,13 +1070,13 @@
       "simulated_recovered_rupees": 0,
       "approved_rupees": 622450,
       "denied_stages": 0,
-      "preauth_prep_seconds_median": 0.091,
+      "preauth_prep_seconds_median": 0.095,
       "llm_calls": 4,
       "llm_unavailable": 4,
       "extraction": {
         "correct": 18,
-        "invented": 10,
-        "correctly_blank": 2
+        "invented": 11,
+        "correctly_blank": 1
       },
       "assumed_staff_minutes": {
         "fetching_records": 10,
@@ -1107,7 +1107,7 @@
       "simulated_recovered_rupees": 0,
       "approved_rupees": 144900,
       "denied_stages": 0,
-      "preauth_prep_seconds_median": 0.102,
+      "preauth_prep_seconds_median": 0.084,
       "llm_calls": 2,
       "llm_unavailable": 2,
       "extraction": {
@@ -1143,7 +1143,7 @@
       "simulated_recovered_rupees": 0,
       "approved_rupees": 144900,
       "denied_stages": 0,
-      "preauth_prep_seconds_median": 0.081,
+      "preauth_prep_seconds_median": 0.087,
       "llm_calls": 2,
       "llm_unavailable": 2,
       "extraction": {
@@ -1179,7 +1179,7 @@
       "simulated_recovered_rupees": 0,
       "approved_rupees": 144900,
       "denied_stages": 0,
-      "preauth_prep_seconds_median": 0.087,
+      "preauth_prep_seconds_median": 0.08,
       "llm_calls": 2,
       "llm_unavailable": 2,
       "extraction": {
@@ -1237,7 +1237,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.193,
+        "preauth": 0.178,
         "discharge": 0.044
       },
       "llm_calls": 1,
@@ -1291,8 +1291,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.075,
-        "discharge": 0.05
+        "preauth": 0.08,
+        "discharge": 0.079
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -1349,8 +1349,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.091,
-        "discharge": 0.058
+        "preauth": 0.088,
+        "discharge": 0.084
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -1398,7 +1398,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.074
+        "preauth": 0.085
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -1455,8 +1455,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.085,
-        "discharge": 0.059
+        "preauth": 0.108,
+        "discharge": 0.064
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -1513,8 +1513,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.098,
-        "discharge": 0.049
+        "preauth": 0.091,
+        "discharge": 0.053
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -1573,8 +1573,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.095,
-        "discharge": 0.055
+        "preauth": 0.113,
+        "discharge": 0.051
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -1627,8 +1627,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.09,
-        "discharge": 0.051
+        "preauth": 0.104,
+        "discharge": 0.065
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -1681,8 +1681,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.103,
-        "discharge": 0.05
+        "preauth": 0.11,
+        "discharge": 0.109
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -1741,8 +1741,8 @@
         "Evidence unsupported: The cited records name the condition but record no finding that needed admission"
       ],
       "prep_seconds": {
-        "preauth": 0.078,
-        "discharge": 0.043
+        "preauth": 0.105,
+        "discharge": 0.073
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -1790,7 +1790,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.066
+        "preauth": 0.088
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -1847,8 +1847,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.087,
-        "discharge": 0.047
+        "preauth": 0.088,
+        "discharge": 0.07
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -1901,8 +1901,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.074,
-        "discharge": 0.048
+        "preauth": 0.086,
+        "discharge": 0.06
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -1950,7 +1950,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.089
+        "preauth": 0.081
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -2003,8 +2003,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.067,
-        "discharge": 0.067
+        "preauth": 0.089,
+        "discharge": 0.054
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -2057,8 +2057,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.084,
-        "discharge": 0.046
+        "preauth": 0.079,
+        "discharge": 0.047
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -2115,8 +2115,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.073,
-        "discharge": 0.053
+        "preauth": 0.088,
+        "discharge": 0.042
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -2173,8 +2173,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.079,
-        "discharge": 0.048
+        "preauth": 0.101,
+        "discharge": 0.063
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -2227,8 +2227,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.074,
-        "discharge": 0.056
+        "preauth": 0.089,
+        "discharge": 0.053
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -2285,8 +2285,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.091,
-        "discharge": 0.054
+        "preauth": 0.101,
+        "discharge": 0.057
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -2343,8 +2343,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.075,
-        "discharge": 0.05
+        "preauth": 0.091,
+        "discharge": 0.053
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -2401,8 +2401,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.082,
-        "discharge": 0.049
+        "preauth": 0.1,
+        "discharge": 0.059
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -2461,8 +2461,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.085,
-        "discharge": 0.053
+        "preauth": 0.101,
+        "discharge": 0.063
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -2519,8 +2519,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.077,
-        "discharge": 0.047
+        "preauth": 0.083,
+        "discharge": 0.057
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -2568,7 +2568,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.095
+        "preauth": 0.085
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -2616,7 +2616,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.097
+        "preauth": 0.101
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -2673,8 +2673,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.083,
-        "discharge": 0.066
+        "preauth": 0.112,
+        "discharge": 0.078
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -2731,8 +2731,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.088,
-        "discharge": 0.059
+        "preauth": 0.13,
+        "discharge": 0.121
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -2789,8 +2789,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.073,
-        "discharge": 0.07
+        "preauth": 0.103,
+        "discharge": 0.067
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -2847,8 +2847,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.078,
-        "discharge": 0.045
+        "preauth": 0.106,
+        "discharge": 0.072
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -2896,7 +2896,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.102
+        "preauth": 0.113
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -2955,8 +2955,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.088,
-        "discharge": 0.057
+        "preauth": 0.089,
+        "discharge": 0.07
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -3013,8 +3013,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.096,
-        "discharge": 0.061
+        "preauth": 0.111,
+        "discharge": 0.048
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -3071,7 +3071,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.098,
+        "preauth": 0.093,
         "discharge": 0.051
       },
       "llm_calls": 1,
@@ -3129,8 +3129,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.094,
-        "discharge": 0.056
+        "preauth": 0.099,
+        "discharge": 0.049
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -3187,8 +3187,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.088,
-        "discharge": 0.062
+        "preauth": 0.093,
+        "discharge": 0.05
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -3245,8 +3245,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.072,
-        "discharge": 0.052
+        "preauth": 0.091,
+        "discharge": 0.067
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -3303,8 +3303,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.088,
-        "discharge": 0.053
+        "preauth": 0.103,
+        "discharge": 0.07
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -3363,8 +3363,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.089,
-        "discharge": 0.047
+        "preauth": 0.079,
+        "discharge": 0.05
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -3421,7 +3421,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.084,
+        "preauth": 0.087,
         "discharge": 0.054
       },
       "llm_calls": 1,
@@ -3481,8 +3481,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.098,
-        "discharge": 0.056
+        "preauth": 0.099,
+        "discharge": 0.06
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -3530,7 +3530,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.092
+        "preauth": 0.083
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -3587,8 +3587,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.088,
-        "discharge": 0.081
+        "preauth": 0.103,
+        "discharge": 0.075
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -3645,8 +3645,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.102,
-        "discharge": 0.058
+        "preauth": 0.092,
+        "discharge": 0.055
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -3694,7 +3694,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.106
+        "preauth": 0.094
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -3742,7 +3742,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.106
+        "preauth": 0.088
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -3799,8 +3799,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.093,
-        "discharge": 0.053
+        "preauth": 0.09,
+        "discharge": 0.045
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -3857,8 +3857,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.105,
-        "discharge": 0.052
+        "preauth": 0.076,
+        "discharge": 0.06
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -3906,7 +3906,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.102
+        "preauth": 0.083
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -3963,8 +3963,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.083,
-        "discharge": 0.05
+        "preauth": 0.109,
+        "discharge": 0.065
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -4012,7 +4012,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.09
+        "preauth": 0.103
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -4060,7 +4060,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.089
+        "preauth": 0.092
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -4108,7 +4108,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.089
+        "preauth": 0.105
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -4156,7 +4156,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.085
+        "preauth": 0.098
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -4204,7 +4204,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.236
+        "preauth": 0.275
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -4257,8 +4257,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.093,
-        "discharge": 0.069
+        "preauth": 0.108,
+        "discharge": 0.07
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -4320,14 +4320,13 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.091,
-        "discharge": 0.079
+        "preauth": 0.082,
+        "discharge": 0.069
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
       "extraction": {
-        "invented": 10,
-        "correctly_blank": 1
+        "invented": 11
       },
       "insurer": "standard"
     },
@@ -4378,8 +4377,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.096,
-        "discharge": 0.054
+        "preauth": 0.092,
+        "discharge": 0.048
       },
       "llm_calls": 2,
       "llm_unavailable": 2,
@@ -4438,8 +4437,8 @@
         "Evidence unsupported: The cited records name the condition but record no finding that needed admission"
       ],
       "prep_seconds": {
-        "preauth": 0.081,
-        "discharge": 0.05
+        "preauth": 0.082,
+        "discharge": 0.052
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -4498,7 +4497,7 @@
         "Evidence contradictory: The records also argue against admission: Could be treated as outpatient; No dehydration; Stable vitals on arrival"
       ],
       "prep_seconds": {
-        "preauth": 0.083,
+        "preauth": 0.085,
         "discharge": 0.051
       },
       "llm_calls": 1,
@@ -4552,8 +4551,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.096,
-        "discharge": 0.042
+        "preauth": 0.129,
+        "discharge": 0.058
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -4606,8 +4605,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.082,
-        "discharge": 0.045
+        "preauth": 0.101,
+        "discharge": 0.073
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -4666,8 +4665,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.075,
-        "discharge": 0.048
+        "preauth": 0.096,
+        "discharge": 0.053
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -4717,7 +4716,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.076
+        "preauth": 0.087
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -4784,8 +4783,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.081,
-        "discharge": 0.056
+        "preauth": 0.08,
+        "discharge": 0.072
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -4844,8 +4843,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.07,
-        "discharge": 0.061
+        "preauth": 0.08,
+        "discharge": 0.048
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -4906,8 +4905,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.099,
-        "discharge": 0.064
+        "preauth": 0.106,
+        "discharge": 0.067
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -4960,8 +4959,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.078,
-        "discharge": 0.057
+        "preauth": 0.093,
+        "discharge": 0.06
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -5014,8 +5013,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.103,
-        "discharge": 0.076
+        "preauth": 0.106,
+        "discharge": 0.053
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -5076,8 +5075,8 @@
         "Evidence unsupported: The cited records name the condition but record no finding that needed admission"
       ],
       "prep_seconds": {
-        "preauth": 0.08,
-        "discharge": 0.066
+        "preauth": 0.076,
+        "discharge": 0.067
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -5127,7 +5126,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.083
+        "preauth": 0.09
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -5186,8 +5185,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.073,
-        "discharge": 0.058
+        "preauth": 0.09,
+        "discharge": 0.062
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -5240,8 +5239,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.092,
-        "discharge": 0.053
+        "preauth": 0.107,
+        "discharge": 0.049
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -5291,7 +5290,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.085
+        "preauth": 0.086
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -5344,8 +5343,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.083,
-        "discharge": 0.047
+        "preauth": 0.092,
+        "discharge": 0.044
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -5399,7 +5398,7 @@
       "held_back_why": [],
       "prep_seconds": {
         "preauth": 0.075,
-        "discharge": 0.044
+        "discharge": 0.069
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -5458,8 +5457,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.081,
-        "discharge": 0.043
+        "preauth": 0.094,
+        "discharge": 0.044
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -5518,8 +5517,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.098,
-        "discharge": 0.052
+        "preauth": 0.085,
+        "discharge": 0.07
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -5572,8 +5571,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.09,
-        "discharge": 0.061
+        "preauth": 0.096,
+        "discharge": 0.054
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -5632,8 +5631,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.106,
-        "discharge": 0.083
+        "preauth": 0.095,
+        "discharge": 0.059
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -5692,8 +5691,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.083,
-        "discharge": 0.06
+        "preauth": 0.095,
+        "discharge": 0.064
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -5752,8 +5751,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.096,
-        "discharge": 0.046
+        "preauth": 0.081,
+        "discharge": 0.047
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -5814,8 +5813,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.087,
-        "discharge": 0.061
+        "preauth": 0.104,
+        "discharge": 0.077
       },
       "llm_calls": 2,
       "llm_unavailable": 2,
@@ -5874,8 +5873,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.092,
-        "discharge": 0.07
+        "preauth": 0.11,
+        "discharge": 0.064
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -5925,7 +5924,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.081
+        "preauth": 0.107
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -5938,6 +5937,1130 @@
     {
       "case_id": "SYN-ADM-0123",
       "admission_id": "SYN-ADM-0123",
+      "group": "eval",
+      "problem": "coding_mismatch",
+      "tpa": "TPA-C",
+      "mode": "rules",
+      "state": "DENIED",
+      "stages": {
+        "preauth": {
+          "first_answer": "DENY",
+          "queries": 0,
+          "rounds": 1,
+          "final": "DENY",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 0
+        }
+      },
+      "expected_flags": [
+        "coding_mismatch"
+      ],
+      "flags_raised": [
+        "coding_mismatch"
+      ],
+      "found": [
+        "coding_mismatch"
+      ],
+      "missed": [],
+      "false_flags": [],
+      "retrievals": [],
+      "gates": 2,
+      "escalations": 1,
+      "appeals": [],
+      "appeals_correct": 0,
+      "appeals_incorrect": 0,
+      "necessity_appeals": 0,
+      "necessity_held_back": 0,
+      "held_back_why": [],
+      "prep_seconds": {
+        "preauth": 0.093
+      },
+      "llm_calls": 1,
+      "llm_unavailable": 1,
+      "extraction": {
+        "correct": 3,
+        "correctly_blank": 1
+      },
+      "insurer": "standard"
+    },
+    {
+      "case_id": "SYN-ADM-0131",
+      "admission_id": "SYN-ADM-0131",
+      "group": "eval",
+      "problem": "sub_limit_exceeded",
+      "tpa": "TPA-B",
+      "mode": "rules",
+      "state": "FINAL_APPROVED",
+      "stages": {
+        "preauth": {
+          "first_answer": "PARTIAL_APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "PARTIAL_APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 36900
+        },
+        "discharge": {
+          "first_answer": "PARTIAL_APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "PARTIAL_APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 40000
+        }
+      },
+      "expected_flags": [
+        "sub_limit_exceeded"
+      ],
+      "flags_raised": [
+        "sub_limit_exceeded"
+      ],
+      "found": [
+        "sub_limit_exceeded"
+      ],
+      "missed": [],
+      "false_flags": [],
+      "retrievals": [],
+      "gates": 2,
+      "escalations": 0,
+      "appeals": [],
+      "appeals_correct": 0,
+      "appeals_incorrect": 0,
+      "necessity_appeals": 0,
+      "necessity_held_back": 0,
+      "held_back_why": [],
+      "prep_seconds": {
+        "preauth": 0.097,
+        "discharge": 0.066
+      },
+      "llm_calls": 1,
+      "llm_unavailable": 1,
+      "extraction": {
+        "correct": 9,
+        "correctly_blank": 1
+      },
+      "insurer": "standard"
+    },
+    {
+      "case_id": "SYN-ADM-0147",
+      "admission_id": "SYN-ADM-0147",
+      "group": "eval",
+      "problem": "sub_limit_exceeded",
+      "tpa": "TPA-A",
+      "mode": "rules",
+      "state": "FINAL_APPROVED",
+      "stages": {
+        "preauth": {
+          "first_answer": "PARTIAL_APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "PARTIAL_APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 45200
+        },
+        "discharge": {
+          "first_answer": "PARTIAL_APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "PARTIAL_APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 60000
+        }
+      },
+      "expected_flags": [
+        "sub_limit_exceeded"
+      ],
+      "flags_raised": [
+        "sub_limit_exceeded"
+      ],
+      "found": [
+        "sub_limit_exceeded"
+      ],
+      "missed": [],
+      "false_flags": [],
+      "retrievals": [],
+      "gates": 2,
+      "escalations": 0,
+      "appeals": [],
+      "appeals_correct": 0,
+      "appeals_incorrect": 0,
+      "necessity_appeals": 0,
+      "necessity_held_back": 0,
+      "held_back_why": [],
+      "prep_seconds": {
+        "preauth": 0.067,
+        "discharge": 0.05
+      },
+      "llm_calls": 1,
+      "llm_unavailable": 1,
+      "extraction": {
+        "correct": 9,
+        "correctly_blank": 1
+      },
+      "insurer": "standard"
+    },
+    {
+      "case_id": "SYN-ADM-0153",
+      "admission_id": "SYN-ADM-0153",
+      "group": "eval",
+      "problem": "non_payables",
+      "tpa": "TPA-A",
+      "mode": "rules",
+      "state": "FINAL_APPROVED",
+      "stages": {
+        "preauth": {
+          "first_answer": "PARTIAL_APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "PARTIAL_APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 147700
+        },
+        "discharge": {
+          "first_answer": "PARTIAL_APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "PARTIAL_APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 147700
+        }
+      },
+      "expected_flags": [
+        "non_payables_billed"
+      ],
+      "flags_raised": [
+        "non_payables_billed"
+      ],
+      "found": [
+        "non_payables_billed"
+      ],
+      "missed": [],
+      "false_flags": [],
+      "retrievals": [],
+      "gates": 2,
+      "escalations": 0,
+      "appeals": [],
+      "appeals_correct": 0,
+      "appeals_incorrect": 0,
+      "necessity_appeals": 0,
+      "necessity_held_back": 0,
+      "held_back_why": [],
+      "prep_seconds": {
+        "preauth": 0.099,
+        "discharge": 0.062
+      },
+      "llm_calls": 1,
+      "llm_unavailable": 1,
+      "extraction": {
+        "correct": 8,
+        "correctly_blank": 1
+      },
+      "insurer": "standard"
+    },
+    {
+      "case_id": "SYN-ADM-0161",
+      "admission_id": "SYN-ADM-0161",
+      "group": "eval",
+      "problem": "sub_limit_exceeded",
+      "tpa": "TPA-C",
+      "mode": "rules",
+      "state": "FINAL_APPROVED",
+      "stages": {
+        "preauth": {
+          "first_answer": "PARTIAL_APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "PARTIAL_APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 28400
+        },
+        "discharge": {
+          "first_answer": "PARTIAL_APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "PARTIAL_APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 30000
+        }
+      },
+      "expected_flags": [
+        "sub_limit_exceeded"
+      ],
+      "flags_raised": [
+        "sub_limit_exceeded"
+      ],
+      "found": [
+        "sub_limit_exceeded"
+      ],
+      "missed": [],
+      "false_flags": [],
+      "retrievals": [],
+      "gates": 2,
+      "escalations": 0,
+      "appeals": [],
+      "appeals_correct": 0,
+      "appeals_incorrect": 0,
+      "necessity_appeals": 0,
+      "necessity_held_back": 0,
+      "held_back_why": [],
+      "prep_seconds": {
+        "preauth": 0.09,
+        "discharge": 0.057
+      },
+      "llm_calls": 1,
+      "llm_unavailable": 1,
+      "extraction": {
+        "correct": 9,
+        "correctly_blank": 1
+      },
+      "insurer": "standard"
+    },
+    {
+      "case_id": "SYN-ADM-0182",
+      "admission_id": "SYN-ADM-0182",
+      "group": "eval",
+      "problem": "waiting_period_breached",
+      "tpa": "TPA-C",
+      "mode": "rules",
+      "state": "DENIED",
+      "stages": {
+        "preauth": {
+          "first_answer": "DENY",
+          "queries": 0,
+          "rounds": 1,
+          "final": "DENY",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 0
+        }
+      },
+      "expected_flags": [
+        "waiting_period_breached"
+      ],
+      "flags_raised": [
+        "waiting_period_breached"
+      ],
+      "found": [
+        "waiting_period_breached"
+      ],
+      "missed": [],
+      "false_flags": [],
+      "retrievals": [],
+      "gates": 1,
+      "escalations": 0,
+      "appeals": [],
+      "appeals_correct": 0,
+      "appeals_incorrect": 0,
+      "necessity_appeals": 0,
+      "necessity_held_back": 0,
+      "held_back_why": [],
+      "prep_seconds": {
+        "preauth": 0.101
+      },
+      "llm_calls": 1,
+      "llm_unavailable": 1,
+      "extraction": {
+        "correct": 4,
+        "correctly_blank": 1
+      },
+      "insurer": "standard"
+    },
+    {
+      "case_id": "SYN-ADM-0205",
+      "admission_id": "SYN-ADM-0205",
+      "group": "eval",
+      "problem": "missing_document",
+      "tpa": "TPA-B",
+      "mode": "rules",
+      "state": "FINAL_APPROVED",
+      "stages": {
+        "preauth": {
+          "first_answer": "APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 100030
+        },
+        "discharge": {
+          "first_answer": "APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 100030
+        }
+      },
+      "expected_flags": [
+        "missing_discharge_summary"
+      ],
+      "flags_raised": [
+        "missing_discharge_summary"
+      ],
+      "found": [
+        "missing_discharge_summary"
+      ],
+      "missed": [],
+      "false_flags": [],
+      "retrievals": [
+        "discharge_summary"
+      ],
+      "gates": 2,
+      "escalations": 0,
+      "appeals": [],
+      "appeals_correct": 0,
+      "appeals_incorrect": 0,
+      "necessity_appeals": 0,
+      "necessity_held_back": 0,
+      "held_back_why": [],
+      "prep_seconds": {
+        "preauth": 0.088,
+        "discharge": 0.069
+      },
+      "llm_calls": 1,
+      "llm_unavailable": 1,
+      "extraction": {
+        "correct": 9,
+        "correctly_blank": 1
+      },
+      "insurer": "standard"
+    },
+    {
+      "case_id": "SYN-ADM-0214",
+      "admission_id": "SYN-ADM-0214",
+      "group": "eval",
+      "problem": "room_over_cap",
+      "tpa": "TPA-B",
+      "mode": "rules",
+      "state": "FINAL_APPROVED",
+      "stages": {
+        "preauth": {
+          "first_answer": "PARTIAL_APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "PARTIAL_APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 30308
+        },
+        "discharge": {
+          "first_answer": "PARTIAL_APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "PARTIAL_APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 30308
+        }
+      },
+      "expected_flags": [
+        "room_over_cap"
+      ],
+      "flags_raised": [
+        "room_over_cap"
+      ],
+      "found": [
+        "room_over_cap"
+      ],
+      "missed": [],
+      "false_flags": [],
+      "retrievals": [],
+      "gates": 2,
+      "escalations": 0,
+      "appeals": [],
+      "appeals_correct": 0,
+      "appeals_incorrect": 0,
+      "necessity_appeals": 0,
+      "necessity_held_back": 0,
+      "held_back_why": [],
+      "prep_seconds": {
+        "preauth": 0.093,
+        "discharge": 0.065
+      },
+      "llm_calls": 1,
+      "llm_unavailable": 1,
+      "extraction": {
+        "correct": 8,
+        "correctly_blank": 1
+      },
+      "insurer": "standard"
+    },
+    {
+      "case_id": "SYN-ADM-0216",
+      "admission_id": "SYN-ADM-0216",
+      "group": "eval",
+      "problem": "sub_limit_exceeded",
+      "tpa": "TPA-B",
+      "mode": "rules",
+      "state": "FINAL_APPROVED",
+      "stages": {
+        "preauth": {
+          "first_answer": "PARTIAL_APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "PARTIAL_APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 28000
+        },
+        "discharge": {
+          "first_answer": "PARTIAL_APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "PARTIAL_APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 36000
+        }
+      },
+      "expected_flags": [
+        "sub_limit_exceeded"
+      ],
+      "flags_raised": [
+        "sub_limit_exceeded"
+      ],
+      "found": [
+        "sub_limit_exceeded"
+      ],
+      "missed": [],
+      "false_flags": [],
+      "retrievals": [],
+      "gates": 2,
+      "escalations": 0,
+      "appeals": [],
+      "appeals_correct": 0,
+      "appeals_incorrect": 0,
+      "necessity_appeals": 0,
+      "necessity_held_back": 0,
+      "held_back_why": [],
+      "prep_seconds": {
+        "preauth": 0.076,
+        "discharge": 0.065
+      },
+      "llm_calls": 1,
+      "llm_unavailable": 1,
+      "extraction": {
+        "correct": 9,
+        "correctly_blank": 1
+      },
+      "insurer": "standard"
+    },
+    {
+      "case_id": "SYN-ADM-0219",
+      "admission_id": "SYN-ADM-0219",
+      "group": "eval",
+      "problem": "sub_limit_exceeded",
+      "tpa": "TPA-C",
+      "mode": "rules",
+      "state": "FINAL_APPROVED",
+      "stages": {
+        "preauth": {
+          "first_answer": "PARTIAL_APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "PARTIAL_APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 37400
+        },
+        "discharge": {
+          "first_answer": "PARTIAL_APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "PARTIAL_APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 50000
+        }
+      },
+      "expected_flags": [
+        "sub_limit_exceeded"
+      ],
+      "flags_raised": [
+        "sub_limit_exceeded"
+      ],
+      "found": [
+        "sub_limit_exceeded"
+      ],
+      "missed": [],
+      "false_flags": [],
+      "retrievals": [],
+      "gates": 2,
+      "escalations": 0,
+      "appeals": [],
+      "appeals_correct": 0,
+      "appeals_incorrect": 0,
+      "necessity_appeals": 0,
+      "necessity_held_back": 0,
+      "held_back_why": [],
+      "prep_seconds": {
+        "preauth": 0.086,
+        "discharge": 0.055
+      },
+      "llm_calls": 1,
+      "llm_unavailable": 1,
+      "extraction": {
+        "correct": 9,
+        "correctly_blank": 1
+      },
+      "insurer": "standard"
+    },
+    {
+      "case_id": "SYN-ADM-0237",
+      "admission_id": "SYN-ADM-0237",
+      "group": "eval",
+      "problem": "room_over_cap",
+      "tpa": "TPA-C",
+      "mode": "rules",
+      "state": "FINAL_APPROVED",
+      "stages": {
+        "preauth": {
+          "first_answer": "PARTIAL_APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "PARTIAL_APPROVE",
+          "eligible_disputed": 838,
+          "recovered": 0,
+          "approved": 95800
+        },
+        "discharge": {
+          "first_answer": "PARTIAL_APPROVE",
+          "queries": 0,
+          "rounds": 2,
+          "final": "PARTIAL_APPROVE",
+          "eligible_disputed": 838,
+          "recovered": 0,
+          "approved": 99959
+        }
+      },
+      "expected_flags": [
+        "room_over_cap"
+      ],
+      "flags_raised": [
+        "room_over_cap"
+      ],
+      "found": [
+        "room_over_cap"
+      ],
+      "missed": [],
+      "false_flags": [],
+      "retrievals": [],
+      "gates": 4,
+      "escalations": 1,
+      "appeals": [
+        {
+          "stage": "discharge",
+          "kinds": [
+            "policy"
+          ],
+          "disputed": 838
+        }
+      ],
+      "appeals_correct": 1,
+      "appeals_incorrect": 0,
+      "necessity_appeals": 0,
+      "necessity_held_back": 0,
+      "held_back_why": [],
+      "prep_seconds": {
+        "preauth": 0.074,
+        "discharge": 0.067
+      },
+      "llm_calls": 1,
+      "llm_unavailable": 1,
+      "extraction": {
+        "correct": 9,
+        "correctly_blank": 1
+      },
+      "insurer": "standard"
+    },
+    {
+      "case_id": "SYN-ADM-0242",
+      "admission_id": "SYN-ADM-0242",
+      "group": "eval",
+      "problem": "room_over_cap",
+      "tpa": "TPA-B",
+      "mode": "rules",
+      "state": "FINAL_APPROVED",
+      "stages": {
+        "preauth": {
+          "first_answer": "PARTIAL_APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "PARTIAL_APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 215223
+        },
+        "discharge": {
+          "first_answer": "PARTIAL_APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "PARTIAL_APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 215223
+        }
+      },
+      "expected_flags": [
+        "room_over_cap"
+      ],
+      "flags_raised": [
+        "room_over_cap"
+      ],
+      "found": [
+        "room_over_cap"
+      ],
+      "missed": [],
+      "false_flags": [],
+      "retrievals": [],
+      "gates": 2,
+      "escalations": 0,
+      "appeals": [],
+      "appeals_correct": 0,
+      "appeals_incorrect": 0,
+      "necessity_appeals": 0,
+      "necessity_held_back": 0,
+      "held_back_why": [],
+      "prep_seconds": {
+        "preauth": 0.101,
+        "discharge": 0.06
+      },
+      "llm_calls": 1,
+      "llm_unavailable": 1,
+      "extraction": {
+        "correct": 10,
+        "correctly_blank": 1
+      },
+      "insurer": "standard"
+    },
+    {
+      "case_id": "SYN-ADM-0271",
+      "admission_id": "SYN-ADM-0271",
+      "group": "eval",
+      "problem": "non_payables",
+      "tpa": "TPA-C",
+      "mode": "rules",
+      "state": "FINAL_APPROVED",
+      "stages": {
+        "preauth": {
+          "first_answer": "PARTIAL_APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "PARTIAL_APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 110410
+        },
+        "discharge": {
+          "first_answer": "PARTIAL_APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "PARTIAL_APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 110410
+        }
+      },
+      "expected_flags": [
+        "non_payables_billed"
+      ],
+      "flags_raised": [
+        "non_payables_billed"
+      ],
+      "found": [
+        "non_payables_billed"
+      ],
+      "missed": [],
+      "false_flags": [],
+      "retrievals": [],
+      "gates": 2,
+      "escalations": 0,
+      "appeals": [],
+      "appeals_correct": 0,
+      "appeals_incorrect": 0,
+      "necessity_appeals": 0,
+      "necessity_held_back": 0,
+      "held_back_why": [],
+      "prep_seconds": {
+        "preauth": 0.094,
+        "discharge": 0.067
+      },
+      "llm_calls": 1,
+      "llm_unavailable": 1,
+      "extraction": {
+        "correct": 10,
+        "correctly_blank": 1
+      },
+      "insurer": "standard"
+    },
+    {
+      "case_id": "SYN-ADM-0276",
+      "admission_id": "SYN-ADM-0276",
+      "group": "eval",
+      "problem": "missing_document",
+      "tpa": "TPA-A",
+      "mode": "rules",
+      "state": "FINAL_APPROVED",
+      "stages": {
+        "preauth": {
+          "first_answer": "APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 24200
+        },
+        "discharge": {
+          "first_answer": "APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 26390
+        }
+      },
+      "expected_flags": [
+        "missing_operative_note"
+      ],
+      "flags_raised": [
+        "missing_operative_note"
+      ],
+      "found": [
+        "missing_operative_note"
+      ],
+      "missed": [],
+      "false_flags": [],
+      "retrievals": [
+        "operative_note"
+      ],
+      "gates": 2,
+      "escalations": 0,
+      "appeals": [],
+      "appeals_correct": 0,
+      "appeals_incorrect": 0,
+      "necessity_appeals": 0,
+      "necessity_held_back": 0,
+      "held_back_why": [],
+      "prep_seconds": {
+        "preauth": 0.078,
+        "discharge": 0.042
+      },
+      "llm_calls": 1,
+      "llm_unavailable": 1,
+      "extraction": {
+        "correct": 9,
+        "correctly_blank": 1
+      },
+      "insurer": "standard"
+    },
+    {
+      "case_id": "SYN-ADM-0277",
+      "admission_id": "SYN-ADM-0277",
+      "group": "eval",
+      "problem": "non_payables",
+      "tpa": "TPA-C",
+      "mode": "rules",
+      "state": "FINAL_APPROVED",
+      "stages": {
+        "preauth": {
+          "first_answer": "PARTIAL_APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "PARTIAL_APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 20880
+        },
+        "discharge": {
+          "first_answer": "PARTIAL_APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "PARTIAL_APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 20880
+        }
+      },
+      "expected_flags": [
+        "non_payables_billed"
+      ],
+      "flags_raised": [
+        "non_payables_billed"
+      ],
+      "found": [
+        "non_payables_billed"
+      ],
+      "missed": [],
+      "false_flags": [],
+      "retrievals": [],
+      "gates": 2,
+      "escalations": 0,
+      "appeals": [],
+      "appeals_correct": 0,
+      "appeals_incorrect": 0,
+      "necessity_appeals": 0,
+      "necessity_held_back": 0,
+      "held_back_why": [],
+      "prep_seconds": {
+        "preauth": 0.076,
+        "discharge": 0.064
+      },
+      "llm_calls": 1,
+      "llm_unavailable": 1,
+      "extraction": {
+        "correct": 8,
+        "correctly_blank": 1
+      },
+      "insurer": "standard"
+    },
+    {
+      "case_id": "SYN-ADM-0296",
+      "admission_id": "SYN-ADM-0296",
+      "group": "eval",
+      "problem": "missing_document",
+      "tpa": "TPA-B",
+      "mode": "rules",
+      "state": "FINAL_APPROVED",
+      "stages": {
+        "preauth": {
+          "first_answer": "APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 230240
+        },
+        "discharge": {
+          "first_answer": "APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 230240
+        }
+      },
+      "expected_flags": [
+        "missing_operative_note"
+      ],
+      "flags_raised": [
+        "missing_operative_note"
+      ],
+      "found": [
+        "missing_operative_note"
+      ],
+      "missed": [],
+      "false_flags": [],
+      "retrievals": [
+        "operative_note"
+      ],
+      "gates": 2,
+      "escalations": 0,
+      "appeals": [],
+      "appeals_correct": 0,
+      "appeals_incorrect": 0,
+      "necessity_appeals": 0,
+      "necessity_held_back": 0,
+      "held_back_why": [],
+      "prep_seconds": {
+        "preauth": 0.089,
+        "discharge": 0.068
+      },
+      "llm_calls": 1,
+      "llm_unavailable": 1,
+      "extraction": {
+        "correct": 10,
+        "correctly_blank": 1
+      },
+      "insurer": "standard"
+    },
+    {
+      "case_id": "SYN-ADM-0308",
+      "admission_id": "SYN-ADM-0308",
+      "group": "eval",
+      "problem": "coding_mismatch",
+      "tpa": "TPA-C",
+      "mode": "rules",
+      "state": "DENIED",
+      "stages": {
+        "preauth": {
+          "first_answer": "DENY",
+          "queries": 0,
+          "rounds": 1,
+          "final": "DENY",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 0
+        }
+      },
+      "expected_flags": [
+        "coding_mismatch"
+      ],
+      "flags_raised": [
+        "coding_mismatch"
+      ],
+      "found": [
+        "coding_mismatch"
+      ],
+      "missed": [],
+      "false_flags": [],
+      "retrievals": [],
+      "gates": 2,
+      "escalations": 1,
+      "appeals": [],
+      "appeals_correct": 0,
+      "appeals_incorrect": 0,
+      "necessity_appeals": 0,
+      "necessity_held_back": 0,
+      "held_back_why": [],
+      "prep_seconds": {
+        "preauth": 0.092
+      },
+      "llm_calls": 1,
+      "llm_unavailable": 1,
+      "extraction": {
+        "correct": 3,
+        "correctly_blank": 1
+      },
+      "insurer": "standard"
+    },
+    {
+      "case_id": "SYN-ADM-0323",
+      "admission_id": "SYN-ADM-0323",
+      "group": "eval",
+      "problem": "non_payables",
+      "tpa": "TPA-B",
+      "mode": "rules",
+      "state": "FINAL_APPROVED",
+      "stages": {
+        "preauth": {
+          "first_answer": "PARTIAL_APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "PARTIAL_APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 117910
+        },
+        "discharge": {
+          "first_answer": "PARTIAL_APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "PARTIAL_APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 117910
+        }
+      },
+      "expected_flags": [
+        "non_payables_billed"
+      ],
+      "flags_raised": [
+        "non_payables_billed"
+      ],
+      "found": [
+        "non_payables_billed"
+      ],
+      "missed": [],
+      "false_flags": [],
+      "retrievals": [],
+      "gates": 2,
+      "escalations": 0,
+      "appeals": [],
+      "appeals_correct": 0,
+      "appeals_incorrect": 0,
+      "necessity_appeals": 0,
+      "necessity_held_back": 0,
+      "held_back_why": [],
+      "prep_seconds": {
+        "preauth": 0.08,
+        "discharge": 0.073
+      },
+      "llm_calls": 1,
+      "llm_unavailable": 1,
+      "extraction": {
+        "correct": 10,
+        "correctly_blank": 1
+      },
+      "insurer": "standard"
+    },
+    {
+      "case_id": "SYN-ADM-0360",
+      "admission_id": "SYN-ADM-0360",
+      "group": "eval",
+      "problem": "non_payables",
+      "tpa": "TPA-A",
+      "mode": "rules",
+      "state": "FINAL_APPROVED",
+      "stages": {
+        "preauth": {
+          "first_answer": "PARTIAL_APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "PARTIAL_APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 26380
+        },
+        "discharge": {
+          "first_answer": "PARTIAL_APPROVE",
+          "queries": 0,
+          "rounds": 1,
+          "final": "PARTIAL_APPROVE",
+          "eligible_disputed": 0,
+          "recovered": 0,
+          "approved": 26380
+        }
+      },
+      "expected_flags": [
+        "non_payables_billed"
+      ],
+      "flags_raised": [
+        "non_payables_billed"
+      ],
+      "found": [
+        "non_payables_billed"
+      ],
+      "missed": [],
+      "false_flags": [],
+      "retrievals": [],
+      "gates": 2,
+      "escalations": 0,
+      "appeals": [],
+      "appeals_correct": 0,
+      "appeals_incorrect": 0,
+      "necessity_appeals": 0,
+      "necessity_held_back": 0,
+      "held_back_why": [],
+      "prep_seconds": {
+        "preauth": 0.091,
+        "discharge": 0.053
+      },
+      "llm_calls": 1,
+      "llm_unavailable": 1,
+      "extraction": {
+        "correct": 9,
+        "correctly_blank": 1
+      },
+      "insurer": "standard"
+    },
+    {
+      "case_id": "SYN-ADM-0370",
+      "admission_id": "SYN-ADM-0370",
       "group": "eval",
       "problem": "coding_mismatch",
       "tpa": "TPA-C",
@@ -5986,1130 +7109,6 @@
       "insurer": "standard"
     },
     {
-      "case_id": "SYN-ADM-0131",
-      "admission_id": "SYN-ADM-0131",
-      "group": "eval",
-      "problem": "sub_limit_exceeded",
-      "tpa": "TPA-B",
-      "mode": "rules",
-      "state": "FINAL_APPROVED",
-      "stages": {
-        "preauth": {
-          "first_answer": "PARTIAL_APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "PARTIAL_APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 36900
-        },
-        "discharge": {
-          "first_answer": "PARTIAL_APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "PARTIAL_APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 40000
-        }
-      },
-      "expected_flags": [
-        "sub_limit_exceeded"
-      ],
-      "flags_raised": [
-        "sub_limit_exceeded"
-      ],
-      "found": [
-        "sub_limit_exceeded"
-      ],
-      "missed": [],
-      "false_flags": [],
-      "retrievals": [],
-      "gates": 2,
-      "escalations": 0,
-      "appeals": [],
-      "appeals_correct": 0,
-      "appeals_incorrect": 0,
-      "necessity_appeals": 0,
-      "necessity_held_back": 0,
-      "held_back_why": [],
-      "prep_seconds": {
-        "preauth": 0.089,
-        "discharge": 0.065
-      },
-      "llm_calls": 1,
-      "llm_unavailable": 1,
-      "extraction": {
-        "correct": 9,
-        "correctly_blank": 1
-      },
-      "insurer": "standard"
-    },
-    {
-      "case_id": "SYN-ADM-0147",
-      "admission_id": "SYN-ADM-0147",
-      "group": "eval",
-      "problem": "sub_limit_exceeded",
-      "tpa": "TPA-A",
-      "mode": "rules",
-      "state": "FINAL_APPROVED",
-      "stages": {
-        "preauth": {
-          "first_answer": "PARTIAL_APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "PARTIAL_APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 45200
-        },
-        "discharge": {
-          "first_answer": "PARTIAL_APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "PARTIAL_APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 60000
-        }
-      },
-      "expected_flags": [
-        "sub_limit_exceeded"
-      ],
-      "flags_raised": [
-        "sub_limit_exceeded"
-      ],
-      "found": [
-        "sub_limit_exceeded"
-      ],
-      "missed": [],
-      "false_flags": [],
-      "retrievals": [],
-      "gates": 2,
-      "escalations": 0,
-      "appeals": [],
-      "appeals_correct": 0,
-      "appeals_incorrect": 0,
-      "necessity_appeals": 0,
-      "necessity_held_back": 0,
-      "held_back_why": [],
-      "prep_seconds": {
-        "preauth": 0.1,
-        "discharge": 0.057
-      },
-      "llm_calls": 1,
-      "llm_unavailable": 1,
-      "extraction": {
-        "correct": 9,
-        "correctly_blank": 1
-      },
-      "insurer": "standard"
-    },
-    {
-      "case_id": "SYN-ADM-0153",
-      "admission_id": "SYN-ADM-0153",
-      "group": "eval",
-      "problem": "non_payables",
-      "tpa": "TPA-A",
-      "mode": "rules",
-      "state": "FINAL_APPROVED",
-      "stages": {
-        "preauth": {
-          "first_answer": "PARTIAL_APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "PARTIAL_APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 147700
-        },
-        "discharge": {
-          "first_answer": "PARTIAL_APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "PARTIAL_APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 147700
-        }
-      },
-      "expected_flags": [
-        "non_payables_billed"
-      ],
-      "flags_raised": [
-        "non_payables_billed"
-      ],
-      "found": [
-        "non_payables_billed"
-      ],
-      "missed": [],
-      "false_flags": [],
-      "retrievals": [],
-      "gates": 2,
-      "escalations": 0,
-      "appeals": [],
-      "appeals_correct": 0,
-      "appeals_incorrect": 0,
-      "necessity_appeals": 0,
-      "necessity_held_back": 0,
-      "held_back_why": [],
-      "prep_seconds": {
-        "preauth": 0.085,
-        "discharge": 0.067
-      },
-      "llm_calls": 1,
-      "llm_unavailable": 1,
-      "extraction": {
-        "correct": 8,
-        "correctly_blank": 1
-      },
-      "insurer": "standard"
-    },
-    {
-      "case_id": "SYN-ADM-0161",
-      "admission_id": "SYN-ADM-0161",
-      "group": "eval",
-      "problem": "sub_limit_exceeded",
-      "tpa": "TPA-C",
-      "mode": "rules",
-      "state": "FINAL_APPROVED",
-      "stages": {
-        "preauth": {
-          "first_answer": "PARTIAL_APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "PARTIAL_APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 28400
-        },
-        "discharge": {
-          "first_answer": "PARTIAL_APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "PARTIAL_APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 30000
-        }
-      },
-      "expected_flags": [
-        "sub_limit_exceeded"
-      ],
-      "flags_raised": [
-        "sub_limit_exceeded"
-      ],
-      "found": [
-        "sub_limit_exceeded"
-      ],
-      "missed": [],
-      "false_flags": [],
-      "retrievals": [],
-      "gates": 2,
-      "escalations": 0,
-      "appeals": [],
-      "appeals_correct": 0,
-      "appeals_incorrect": 0,
-      "necessity_appeals": 0,
-      "necessity_held_back": 0,
-      "held_back_why": [],
-      "prep_seconds": {
-        "preauth": 0.093,
-        "discharge": 0.048
-      },
-      "llm_calls": 1,
-      "llm_unavailable": 1,
-      "extraction": {
-        "correct": 9,
-        "correctly_blank": 1
-      },
-      "insurer": "standard"
-    },
-    {
-      "case_id": "SYN-ADM-0182",
-      "admission_id": "SYN-ADM-0182",
-      "group": "eval",
-      "problem": "waiting_period_breached",
-      "tpa": "TPA-C",
-      "mode": "rules",
-      "state": "DENIED",
-      "stages": {
-        "preauth": {
-          "first_answer": "DENY",
-          "queries": 0,
-          "rounds": 1,
-          "final": "DENY",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 0
-        }
-      },
-      "expected_flags": [
-        "waiting_period_breached"
-      ],
-      "flags_raised": [
-        "waiting_period_breached"
-      ],
-      "found": [
-        "waiting_period_breached"
-      ],
-      "missed": [],
-      "false_flags": [],
-      "retrievals": [],
-      "gates": 1,
-      "escalations": 0,
-      "appeals": [],
-      "appeals_correct": 0,
-      "appeals_incorrect": 0,
-      "necessity_appeals": 0,
-      "necessity_held_back": 0,
-      "held_back_why": [],
-      "prep_seconds": {
-        "preauth": 0.094
-      },
-      "llm_calls": 1,
-      "llm_unavailable": 1,
-      "extraction": {
-        "correct": 4,
-        "correctly_blank": 1
-      },
-      "insurer": "standard"
-    },
-    {
-      "case_id": "SYN-ADM-0205",
-      "admission_id": "SYN-ADM-0205",
-      "group": "eval",
-      "problem": "missing_document",
-      "tpa": "TPA-B",
-      "mode": "rules",
-      "state": "FINAL_APPROVED",
-      "stages": {
-        "preauth": {
-          "first_answer": "APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 100030
-        },
-        "discharge": {
-          "first_answer": "APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 100030
-        }
-      },
-      "expected_flags": [
-        "missing_discharge_summary"
-      ],
-      "flags_raised": [
-        "missing_discharge_summary"
-      ],
-      "found": [
-        "missing_discharge_summary"
-      ],
-      "missed": [],
-      "false_flags": [],
-      "retrievals": [
-        "discharge_summary"
-      ],
-      "gates": 2,
-      "escalations": 0,
-      "appeals": [],
-      "appeals_correct": 0,
-      "appeals_incorrect": 0,
-      "necessity_appeals": 0,
-      "necessity_held_back": 0,
-      "held_back_why": [],
-      "prep_seconds": {
-        "preauth": 0.091,
-        "discharge": 0.041
-      },
-      "llm_calls": 1,
-      "llm_unavailable": 1,
-      "extraction": {
-        "correct": 9,
-        "correctly_blank": 1
-      },
-      "insurer": "standard"
-    },
-    {
-      "case_id": "SYN-ADM-0214",
-      "admission_id": "SYN-ADM-0214",
-      "group": "eval",
-      "problem": "room_over_cap",
-      "tpa": "TPA-B",
-      "mode": "rules",
-      "state": "FINAL_APPROVED",
-      "stages": {
-        "preauth": {
-          "first_answer": "PARTIAL_APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "PARTIAL_APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 30308
-        },
-        "discharge": {
-          "first_answer": "PARTIAL_APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "PARTIAL_APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 30308
-        }
-      },
-      "expected_flags": [
-        "room_over_cap"
-      ],
-      "flags_raised": [
-        "room_over_cap"
-      ],
-      "found": [
-        "room_over_cap"
-      ],
-      "missed": [],
-      "false_flags": [],
-      "retrievals": [],
-      "gates": 2,
-      "escalations": 0,
-      "appeals": [],
-      "appeals_correct": 0,
-      "appeals_incorrect": 0,
-      "necessity_appeals": 0,
-      "necessity_held_back": 0,
-      "held_back_why": [],
-      "prep_seconds": {
-        "preauth": 0.097,
-        "discharge": 0.072
-      },
-      "llm_calls": 1,
-      "llm_unavailable": 1,
-      "extraction": {
-        "correct": 8,
-        "correctly_blank": 1
-      },
-      "insurer": "standard"
-    },
-    {
-      "case_id": "SYN-ADM-0216",
-      "admission_id": "SYN-ADM-0216",
-      "group": "eval",
-      "problem": "sub_limit_exceeded",
-      "tpa": "TPA-B",
-      "mode": "rules",
-      "state": "FINAL_APPROVED",
-      "stages": {
-        "preauth": {
-          "first_answer": "PARTIAL_APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "PARTIAL_APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 28000
-        },
-        "discharge": {
-          "first_answer": "PARTIAL_APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "PARTIAL_APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 36000
-        }
-      },
-      "expected_flags": [
-        "sub_limit_exceeded"
-      ],
-      "flags_raised": [
-        "sub_limit_exceeded"
-      ],
-      "found": [
-        "sub_limit_exceeded"
-      ],
-      "missed": [],
-      "false_flags": [],
-      "retrievals": [],
-      "gates": 2,
-      "escalations": 0,
-      "appeals": [],
-      "appeals_correct": 0,
-      "appeals_incorrect": 0,
-      "necessity_appeals": 0,
-      "necessity_held_back": 0,
-      "held_back_why": [],
-      "prep_seconds": {
-        "preauth": 0.083,
-        "discharge": 0.047
-      },
-      "llm_calls": 1,
-      "llm_unavailable": 1,
-      "extraction": {
-        "correct": 9,
-        "correctly_blank": 1
-      },
-      "insurer": "standard"
-    },
-    {
-      "case_id": "SYN-ADM-0219",
-      "admission_id": "SYN-ADM-0219",
-      "group": "eval",
-      "problem": "sub_limit_exceeded",
-      "tpa": "TPA-C",
-      "mode": "rules",
-      "state": "FINAL_APPROVED",
-      "stages": {
-        "preauth": {
-          "first_answer": "PARTIAL_APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "PARTIAL_APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 37400
-        },
-        "discharge": {
-          "first_answer": "PARTIAL_APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "PARTIAL_APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 50000
-        }
-      },
-      "expected_flags": [
-        "sub_limit_exceeded"
-      ],
-      "flags_raised": [
-        "sub_limit_exceeded"
-      ],
-      "found": [
-        "sub_limit_exceeded"
-      ],
-      "missed": [],
-      "false_flags": [],
-      "retrievals": [],
-      "gates": 2,
-      "escalations": 0,
-      "appeals": [],
-      "appeals_correct": 0,
-      "appeals_incorrect": 0,
-      "necessity_appeals": 0,
-      "necessity_held_back": 0,
-      "held_back_why": [],
-      "prep_seconds": {
-        "preauth": 0.097,
-        "discharge": 0.047
-      },
-      "llm_calls": 1,
-      "llm_unavailable": 1,
-      "extraction": {
-        "correct": 9,
-        "correctly_blank": 1
-      },
-      "insurer": "standard"
-    },
-    {
-      "case_id": "SYN-ADM-0237",
-      "admission_id": "SYN-ADM-0237",
-      "group": "eval",
-      "problem": "room_over_cap",
-      "tpa": "TPA-C",
-      "mode": "rules",
-      "state": "FINAL_APPROVED",
-      "stages": {
-        "preauth": {
-          "first_answer": "PARTIAL_APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "PARTIAL_APPROVE",
-          "eligible_disputed": 838,
-          "recovered": 0,
-          "approved": 95800
-        },
-        "discharge": {
-          "first_answer": "PARTIAL_APPROVE",
-          "queries": 0,
-          "rounds": 2,
-          "final": "PARTIAL_APPROVE",
-          "eligible_disputed": 838,
-          "recovered": 0,
-          "approved": 99959
-        }
-      },
-      "expected_flags": [
-        "room_over_cap"
-      ],
-      "flags_raised": [
-        "room_over_cap"
-      ],
-      "found": [
-        "room_over_cap"
-      ],
-      "missed": [],
-      "false_flags": [],
-      "retrievals": [],
-      "gates": 4,
-      "escalations": 1,
-      "appeals": [
-        {
-          "stage": "discharge",
-          "kinds": [
-            "policy"
-          ],
-          "disputed": 838
-        }
-      ],
-      "appeals_correct": 1,
-      "appeals_incorrect": 0,
-      "necessity_appeals": 0,
-      "necessity_held_back": 0,
-      "held_back_why": [],
-      "prep_seconds": {
-        "preauth": 0.092,
-        "discharge": 0.044
-      },
-      "llm_calls": 1,
-      "llm_unavailable": 1,
-      "extraction": {
-        "correct": 9,
-        "correctly_blank": 1
-      },
-      "insurer": "standard"
-    },
-    {
-      "case_id": "SYN-ADM-0242",
-      "admission_id": "SYN-ADM-0242",
-      "group": "eval",
-      "problem": "room_over_cap",
-      "tpa": "TPA-B",
-      "mode": "rules",
-      "state": "FINAL_APPROVED",
-      "stages": {
-        "preauth": {
-          "first_answer": "PARTIAL_APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "PARTIAL_APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 215223
-        },
-        "discharge": {
-          "first_answer": "PARTIAL_APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "PARTIAL_APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 215223
-        }
-      },
-      "expected_flags": [
-        "room_over_cap"
-      ],
-      "flags_raised": [
-        "room_over_cap"
-      ],
-      "found": [
-        "room_over_cap"
-      ],
-      "missed": [],
-      "false_flags": [],
-      "retrievals": [],
-      "gates": 2,
-      "escalations": 0,
-      "appeals": [],
-      "appeals_correct": 0,
-      "appeals_incorrect": 0,
-      "necessity_appeals": 0,
-      "necessity_held_back": 0,
-      "held_back_why": [],
-      "prep_seconds": {
-        "preauth": 0.09,
-        "discharge": 0.07
-      },
-      "llm_calls": 1,
-      "llm_unavailable": 1,
-      "extraction": {
-        "correct": 10,
-        "correctly_blank": 1
-      },
-      "insurer": "standard"
-    },
-    {
-      "case_id": "SYN-ADM-0271",
-      "admission_id": "SYN-ADM-0271",
-      "group": "eval",
-      "problem": "non_payables",
-      "tpa": "TPA-C",
-      "mode": "rules",
-      "state": "FINAL_APPROVED",
-      "stages": {
-        "preauth": {
-          "first_answer": "PARTIAL_APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "PARTIAL_APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 110410
-        },
-        "discharge": {
-          "first_answer": "PARTIAL_APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "PARTIAL_APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 110410
-        }
-      },
-      "expected_flags": [
-        "non_payables_billed"
-      ],
-      "flags_raised": [
-        "non_payables_billed"
-      ],
-      "found": [
-        "non_payables_billed"
-      ],
-      "missed": [],
-      "false_flags": [],
-      "retrievals": [],
-      "gates": 2,
-      "escalations": 0,
-      "appeals": [],
-      "appeals_correct": 0,
-      "appeals_incorrect": 0,
-      "necessity_appeals": 0,
-      "necessity_held_back": 0,
-      "held_back_why": [],
-      "prep_seconds": {
-        "preauth": 0.101,
-        "discharge": 0.078
-      },
-      "llm_calls": 1,
-      "llm_unavailable": 1,
-      "extraction": {
-        "correct": 10,
-        "correctly_blank": 1
-      },
-      "insurer": "standard"
-    },
-    {
-      "case_id": "SYN-ADM-0276",
-      "admission_id": "SYN-ADM-0276",
-      "group": "eval",
-      "problem": "missing_document",
-      "tpa": "TPA-A",
-      "mode": "rules",
-      "state": "FINAL_APPROVED",
-      "stages": {
-        "preauth": {
-          "first_answer": "APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 24200
-        },
-        "discharge": {
-          "first_answer": "APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 26390
-        }
-      },
-      "expected_flags": [
-        "missing_operative_note"
-      ],
-      "flags_raised": [
-        "missing_operative_note"
-      ],
-      "found": [
-        "missing_operative_note"
-      ],
-      "missed": [],
-      "false_flags": [],
-      "retrievals": [
-        "operative_note"
-      ],
-      "gates": 2,
-      "escalations": 0,
-      "appeals": [],
-      "appeals_correct": 0,
-      "appeals_incorrect": 0,
-      "necessity_appeals": 0,
-      "necessity_held_back": 0,
-      "held_back_why": [],
-      "prep_seconds": {
-        "preauth": 0.109,
-        "discharge": 0.048
-      },
-      "llm_calls": 1,
-      "llm_unavailable": 1,
-      "extraction": {
-        "correct": 9,
-        "correctly_blank": 1
-      },
-      "insurer": "standard"
-    },
-    {
-      "case_id": "SYN-ADM-0277",
-      "admission_id": "SYN-ADM-0277",
-      "group": "eval",
-      "problem": "non_payables",
-      "tpa": "TPA-C",
-      "mode": "rules",
-      "state": "FINAL_APPROVED",
-      "stages": {
-        "preauth": {
-          "first_answer": "PARTIAL_APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "PARTIAL_APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 20880
-        },
-        "discharge": {
-          "first_answer": "PARTIAL_APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "PARTIAL_APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 20880
-        }
-      },
-      "expected_flags": [
-        "non_payables_billed"
-      ],
-      "flags_raised": [
-        "non_payables_billed"
-      ],
-      "found": [
-        "non_payables_billed"
-      ],
-      "missed": [],
-      "false_flags": [],
-      "retrievals": [],
-      "gates": 2,
-      "escalations": 0,
-      "appeals": [],
-      "appeals_correct": 0,
-      "appeals_incorrect": 0,
-      "necessity_appeals": 0,
-      "necessity_held_back": 0,
-      "held_back_why": [],
-      "prep_seconds": {
-        "preauth": 0.085,
-        "discharge": 0.049
-      },
-      "llm_calls": 1,
-      "llm_unavailable": 1,
-      "extraction": {
-        "correct": 8,
-        "correctly_blank": 1
-      },
-      "insurer": "standard"
-    },
-    {
-      "case_id": "SYN-ADM-0296",
-      "admission_id": "SYN-ADM-0296",
-      "group": "eval",
-      "problem": "missing_document",
-      "tpa": "TPA-B",
-      "mode": "rules",
-      "state": "FINAL_APPROVED",
-      "stages": {
-        "preauth": {
-          "first_answer": "APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 230240
-        },
-        "discharge": {
-          "first_answer": "APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 230240
-        }
-      },
-      "expected_flags": [
-        "missing_operative_note"
-      ],
-      "flags_raised": [
-        "missing_operative_note"
-      ],
-      "found": [
-        "missing_operative_note"
-      ],
-      "missed": [],
-      "false_flags": [],
-      "retrievals": [
-        "operative_note"
-      ],
-      "gates": 2,
-      "escalations": 0,
-      "appeals": [],
-      "appeals_correct": 0,
-      "appeals_incorrect": 0,
-      "necessity_appeals": 0,
-      "necessity_held_back": 0,
-      "held_back_why": [],
-      "prep_seconds": {
-        "preauth": 0.093,
-        "discharge": 0.065
-      },
-      "llm_calls": 1,
-      "llm_unavailable": 1,
-      "extraction": {
-        "correct": 10,
-        "correctly_blank": 1
-      },
-      "insurer": "standard"
-    },
-    {
-      "case_id": "SYN-ADM-0308",
-      "admission_id": "SYN-ADM-0308",
-      "group": "eval",
-      "problem": "coding_mismatch",
-      "tpa": "TPA-C",
-      "mode": "rules",
-      "state": "DENIED",
-      "stages": {
-        "preauth": {
-          "first_answer": "DENY",
-          "queries": 0,
-          "rounds": 1,
-          "final": "DENY",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 0
-        }
-      },
-      "expected_flags": [
-        "coding_mismatch"
-      ],
-      "flags_raised": [
-        "coding_mismatch"
-      ],
-      "found": [
-        "coding_mismatch"
-      ],
-      "missed": [],
-      "false_flags": [],
-      "retrievals": [],
-      "gates": 2,
-      "escalations": 1,
-      "appeals": [],
-      "appeals_correct": 0,
-      "appeals_incorrect": 0,
-      "necessity_appeals": 0,
-      "necessity_held_back": 0,
-      "held_back_why": [],
-      "prep_seconds": {
-        "preauth": 0.116
-      },
-      "llm_calls": 1,
-      "llm_unavailable": 1,
-      "extraction": {
-        "correct": 3,
-        "correctly_blank": 1
-      },
-      "insurer": "standard"
-    },
-    {
-      "case_id": "SYN-ADM-0323",
-      "admission_id": "SYN-ADM-0323",
-      "group": "eval",
-      "problem": "non_payables",
-      "tpa": "TPA-B",
-      "mode": "rules",
-      "state": "FINAL_APPROVED",
-      "stages": {
-        "preauth": {
-          "first_answer": "PARTIAL_APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "PARTIAL_APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 117910
-        },
-        "discharge": {
-          "first_answer": "PARTIAL_APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "PARTIAL_APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 117910
-        }
-      },
-      "expected_flags": [
-        "non_payables_billed"
-      ],
-      "flags_raised": [
-        "non_payables_billed"
-      ],
-      "found": [
-        "non_payables_billed"
-      ],
-      "missed": [],
-      "false_flags": [],
-      "retrievals": [],
-      "gates": 2,
-      "escalations": 0,
-      "appeals": [],
-      "appeals_correct": 0,
-      "appeals_incorrect": 0,
-      "necessity_appeals": 0,
-      "necessity_held_back": 0,
-      "held_back_why": [],
-      "prep_seconds": {
-        "preauth": 0.086,
-        "discharge": 0.052
-      },
-      "llm_calls": 1,
-      "llm_unavailable": 1,
-      "extraction": {
-        "correct": 10,
-        "correctly_blank": 1
-      },
-      "insurer": "standard"
-    },
-    {
-      "case_id": "SYN-ADM-0360",
-      "admission_id": "SYN-ADM-0360",
-      "group": "eval",
-      "problem": "non_payables",
-      "tpa": "TPA-A",
-      "mode": "rules",
-      "state": "FINAL_APPROVED",
-      "stages": {
-        "preauth": {
-          "first_answer": "PARTIAL_APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "PARTIAL_APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 26380
-        },
-        "discharge": {
-          "first_answer": "PARTIAL_APPROVE",
-          "queries": 0,
-          "rounds": 1,
-          "final": "PARTIAL_APPROVE",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 26380
-        }
-      },
-      "expected_flags": [
-        "non_payables_billed"
-      ],
-      "flags_raised": [
-        "non_payables_billed"
-      ],
-      "found": [
-        "non_payables_billed"
-      ],
-      "missed": [],
-      "false_flags": [],
-      "retrievals": [],
-      "gates": 2,
-      "escalations": 0,
-      "appeals": [],
-      "appeals_correct": 0,
-      "appeals_incorrect": 0,
-      "necessity_appeals": 0,
-      "necessity_held_back": 0,
-      "held_back_why": [],
-      "prep_seconds": {
-        "preauth": 0.096,
-        "discharge": 0.072
-      },
-      "llm_calls": 1,
-      "llm_unavailable": 1,
-      "extraction": {
-        "correct": 9,
-        "correctly_blank": 1
-      },
-      "insurer": "standard"
-    },
-    {
-      "case_id": "SYN-ADM-0370",
-      "admission_id": "SYN-ADM-0370",
-      "group": "eval",
-      "problem": "coding_mismatch",
-      "tpa": "TPA-C",
-      "mode": "rules",
-      "state": "DENIED",
-      "stages": {
-        "preauth": {
-          "first_answer": "DENY",
-          "queries": 0,
-          "rounds": 1,
-          "final": "DENY",
-          "eligible_disputed": 0,
-          "recovered": 0,
-          "approved": 0
-        }
-      },
-      "expected_flags": [
-        "coding_mismatch"
-      ],
-      "flags_raised": [
-        "coding_mismatch"
-      ],
-      "found": [
-        "coding_mismatch"
-      ],
-      "missed": [],
-      "false_flags": [],
-      "retrievals": [],
-      "gates": 2,
-      "escalations": 1,
-      "appeals": [],
-      "appeals_correct": 0,
-      "appeals_incorrect": 0,
-      "necessity_appeals": 0,
-      "necessity_held_back": 0,
-      "held_back_why": [],
-      "prep_seconds": {
-        "preauth": 0.084
-      },
-      "llm_calls": 1,
-      "llm_unavailable": 1,
-      "extraction": {
-        "correct": 3,
-        "correctly_blank": 1
-      },
-      "insurer": "standard"
-    },
-    {
       "case_id": "SYN-ADM-0383",
       "admission_id": "SYN-ADM-0383",
       "group": "eval",
@@ -7149,7 +7148,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.116
+        "preauth": 0.081
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -7208,8 +7207,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.094,
-        "discharge": 0.055
+        "preauth": 0.089,
+        "discharge": 0.05
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -7268,8 +7267,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.102,
-        "discharge": 0.072
+        "preauth": 0.077,
+        "discharge": 0.05
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -7319,7 +7318,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.085
+        "preauth": 0.086
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -7378,8 +7377,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.08,
-        "discharge": 0.057
+        "preauth": 0.083,
+        "discharge": 0.056
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -7429,7 +7428,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.087
+        "preauth": 0.085
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -7479,7 +7478,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.089
+        "preauth": 0.079
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -7529,7 +7528,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.09
+        "preauth": 0.118
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -7579,7 +7578,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.089
+        "preauth": 0.093
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -7629,7 +7628,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.089
+        "preauth": 0.075
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -7682,8 +7681,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.083,
-        "discharge": 0.06
+        "preauth": 0.074,
+        "discharge": 0.054
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -7749,14 +7748,13 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.081,
-        "discharge": 0.054
+        "preauth": 0.09,
+        "discharge": 0.07
       },
       "llm_calls": 2,
       "llm_unavailable": 2,
       "extraction": {
-        "invented": 10,
-        "correctly_blank": 1
+        "invented": 11
       },
       "insurer": "standard"
     },
@@ -7809,8 +7807,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.088,
-        "discharge": 0.054
+        "preauth": 0.092,
+        "discharge": 0.055
       },
       "llm_calls": 2,
       "llm_unavailable": 2,
@@ -7871,8 +7869,8 @@
         "Evidence unsupported: The cited records name the condition but record no finding that needed admission"
       ],
       "prep_seconds": {
-        "preauth": 0.075,
-        "discharge": 0.059
+        "preauth": 0.098,
+        "discharge": 0.062
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -7933,8 +7931,8 @@
         "Evidence contradictory: The records also argue against admission: Could be treated as outpatient; No dehydration; Stable vitals on arrival"
       ],
       "prep_seconds": {
-        "preauth": 0.08,
-        "discharge": 0.05
+        "preauth": 0.097,
+        "discharge": 0.058
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -7987,8 +7985,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.109,
-        "discharge": 0.046
+        "preauth": 0.1,
+        "discharge": 0.053
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -8041,8 +8039,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.097,
-        "discharge": 0.048
+        "preauth": 0.103,
+        "discharge": 0.077
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -8101,8 +8099,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.089,
-        "discharge": 0.049
+        "preauth": 0.11,
+        "discharge": 0.069
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -8152,7 +8150,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.087
+        "preauth": 0.105
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -8219,8 +8217,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.097,
-        "discharge": 0.057
+        "preauth": 0.096,
+        "discharge": 0.055
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -8279,8 +8277,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.093,
-        "discharge": 0.065
+        "preauth": 0.105,
+        "discharge": 0.057
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -8341,8 +8339,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.102,
-        "discharge": 0.06
+        "preauth": 0.104,
+        "discharge": 0.069
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -8395,8 +8393,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.086,
-        "discharge": 0.046
+        "preauth": 0.092,
+        "discharge": 0.061
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -8449,8 +8447,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.092,
-        "discharge": 0.066
+        "preauth": 0.116,
+        "discharge": 0.078
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -8511,8 +8509,8 @@
         "Evidence unsupported: The cited records name the condition but record no finding that needed admission"
       ],
       "prep_seconds": {
-        "preauth": 0.079,
-        "discharge": 0.058
+        "preauth": 0.08,
+        "discharge": 0.047
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -8562,7 +8560,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.081
+        "preauth": 0.099
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -8621,8 +8619,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.096,
-        "discharge": 0.068
+        "preauth": 0.092,
+        "discharge": 0.072
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -8675,8 +8673,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.097,
-        "discharge": 0.063
+        "preauth": 0.08,
+        "discharge": 0.065
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -8726,7 +8724,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.075
+        "preauth": 0.091
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -8779,8 +8777,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.073,
-        "discharge": 0.05
+        "preauth": 0.106,
+        "discharge": 0.064
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -8833,8 +8831,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.085,
-        "discharge": 0.048
+        "preauth": 0.093,
+        "discharge": 0.054
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -8893,8 +8891,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.08,
-        "discharge": 0.047
+        "preauth": 0.104,
+        "discharge": 0.053
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -8954,7 +8952,7 @@
       "held_back_why": [],
       "prep_seconds": {
         "preauth": 0.081,
-        "discharge": 0.057
+        "discharge": 0.051
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -9007,8 +9005,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.098,
-        "discharge": 0.054
+        "preauth": 0.076,
+        "discharge": 0.049
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -9067,8 +9065,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.077,
-        "discharge": 0.068
+        "preauth": 0.085,
+        "discharge": 0.069
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -9127,8 +9125,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.079,
-        "discharge": 0.052
+        "preauth": 0.092,
+        "discharge": 0.061
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -9187,8 +9185,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.073,
-        "discharge": 0.046
+        "preauth": 0.075,
+        "discharge": 0.055
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -9249,7 +9247,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.069,
+        "preauth": 0.078,
         "discharge": 0.072
       },
       "llm_calls": 2,
@@ -9309,8 +9307,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.071,
-        "discharge": 0.056
+        "preauth": 0.097,
+        "discharge": 0.07
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -9360,7 +9358,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.095
+        "preauth": 0.103
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -9410,7 +9408,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.089
+        "preauth": 0.092
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -9469,8 +9467,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.084,
-        "discharge": 0.058
+        "preauth": 0.102,
+        "discharge": 0.072
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -9529,8 +9527,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.081,
-        "discharge": 0.077
+        "preauth": 0.118,
+        "discharge": 0.078
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -9589,8 +9587,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.078,
-        "discharge": 0.053
+        "preauth": 0.098,
+        "discharge": 0.07
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -9649,8 +9647,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.104,
-        "discharge": 0.085
+        "preauth": 0.101,
+        "discharge": 0.071
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -9700,7 +9698,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.119
+        "preauth": 0.124
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -9761,8 +9759,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.089,
-        "discharge": 0.051
+        "preauth": 0.083,
+        "discharge": 0.062
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -9821,8 +9819,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.073,
-        "discharge": 0.047
+        "preauth": 0.1,
+        "discharge": 0.054
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -9881,8 +9879,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.088,
-        "discharge": 0.067
+        "preauth": 0.091,
+        "discharge": 0.053
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -9941,8 +9939,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.087,
-        "discharge": 0.066
+        "preauth": 0.108,
+        "discharge": 0.07
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -10009,8 +10007,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.096,
-        "discharge": 0.054
+        "preauth": 0.091,
+        "discharge": 0.078
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -10069,8 +10067,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.077,
-        "discharge": 0.052
+        "preauth": 0.121,
+        "discharge": 0.069
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -10129,8 +10127,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.095,
-        "discharge": 0.059
+        "preauth": 0.105,
+        "discharge": 0.085
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -10191,8 +10189,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.095,
-        "discharge": 0.047
+        "preauth": 0.101,
+        "discharge": 0.061
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -10251,8 +10249,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.084,
-        "discharge": 0.051
+        "preauth": 0.092,
+        "discharge": 0.08
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -10313,8 +10311,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.108,
-        "discharge": 0.053
+        "preauth": 0.095,
+        "discharge": 0.055
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -10423,8 +10421,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.095,
-        "discharge": 0.05
+        "preauth": 0.107,
+        "discharge": 0.068
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -10483,8 +10481,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.085,
-        "discharge": 0.049
+        "preauth": 0.109,
+        "discharge": 0.074
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -10534,7 +10532,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.081
+        "preauth": 0.083
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -10584,7 +10582,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.078
+        "preauth": 0.085
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -10643,8 +10641,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.076,
-        "discharge": 0.055
+        "preauth": 0.107,
+        "discharge": 0.066
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -10703,8 +10701,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.095,
-        "discharge": 0.047
+        "preauth": 0.107,
+        "discharge": 0.054
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -10754,7 +10752,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.082
+        "preauth": 0.108
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -10813,8 +10811,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.073,
-        "discharge": 0.05
+        "preauth": 0.103,
+        "discharge": 0.051
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -10864,7 +10862,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.091
+        "preauth": 0.092
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -10914,7 +10912,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.104
+        "preauth": 0.113
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -10964,7 +10962,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.098
+        "preauth": 0.11
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -11014,7 +11012,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.089
+        "preauth": 0.115
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -11064,7 +11062,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.073
+        "preauth": 0.104
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -11117,8 +11115,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.073,
-        "discharge": 0.061
+        "preauth": 0.099,
+        "discharge": 0.077
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -11184,14 +11182,13 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.081,
-        "discharge": 0.052
+        "preauth": 0.095,
+        "discharge": 0.075
       },
       "llm_calls": 2,
       "llm_unavailable": 2,
       "extraction": {
-        "invented": 10,
-        "correctly_blank": 1
+        "invented": 11
       },
       "insurer": "standard"
     },
@@ -11252,8 +11249,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.072,
-        "discharge": 0.047
+        "preauth": 0.095,
+        "discharge": 0.062
       },
       "llm_calls": 2,
       "llm_unavailable": 2,
@@ -11314,8 +11311,8 @@
         "Evidence unsupported: The cited records name the condition but record no finding that needed admission"
       ],
       "prep_seconds": {
-        "preauth": 0.077,
-        "discharge": 0.044
+        "preauth": 0.097,
+        "discharge": 0.059
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -11376,8 +11373,8 @@
         "Evidence contradictory: The records also argue against admission: Could be treated as outpatient; No dehydration; Stable vitals on arrival"
       ],
       "prep_seconds": {
-        "preauth": 0.077,
-        "discharge": 0.051
+        "preauth": 0.083,
+        "discharge": 0.067
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -11430,8 +11427,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.117,
-        "discharge": 0.056
+        "preauth": 0.123,
+        "discharge": 0.052
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -11484,8 +11481,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.092,
-        "discharge": 0.067
+        "preauth": 0.114,
+        "discharge": 0.063
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -11542,8 +11539,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.093,
-        "discharge": 0.072
+        "preauth": 0.084,
+        "discharge": 0.055
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -11591,7 +11588,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.113
+        "preauth": 0.127
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -11648,8 +11645,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.099,
-        "discharge": 0.074
+        "preauth": 0.101,
+        "discharge": 0.059
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -11706,8 +11703,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.079,
-        "discharge": 0.046
+        "preauth": 0.094,
+        "discharge": 0.055
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -11766,8 +11763,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.079,
-        "discharge": 0.065
+        "preauth": 0.102,
+        "discharge": 0.079
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -11820,8 +11817,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.086,
-        "discharge": 0.042
+        "preauth": 0.111,
+        "discharge": 0.067
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -11874,8 +11871,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.078,
-        "discharge": 0.073
+        "preauth": 0.082,
+        "discharge": 0.051
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -11932,8 +11929,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.085,
-        "discharge": 0.047
+        "preauth": 0.083,
+        "discharge": 0.063
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -11981,7 +11978,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.115
+        "preauth": 0.101
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -12038,8 +12035,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.099,
-        "discharge": 0.071
+        "preauth": 0.1,
+        "discharge": 0.046
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -12092,7 +12089,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.082,
+        "preauth": 0.088,
         "discharge": 0.062
       },
       "llm_calls": 1,
@@ -12141,7 +12138,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.09
+        "preauth": 0.101
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -12194,8 +12191,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.099,
-        "discharge": 0.041
+        "preauth": 0.105,
+        "discharge": 0.064
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -12248,8 +12245,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.069,
-        "discharge": 0.05
+        "preauth": 0.094,
+        "discharge": 0.072
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -12306,8 +12303,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.082,
-        "discharge": 0.044
+        "preauth": 0.088,
+        "discharge": 0.069
       },
       "llm_calls": 2,
       "llm_unavailable": 2,
@@ -12364,8 +12361,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.087,
-        "discharge": 0.063
+        "preauth": 0.094,
+        "discharge": 0.116
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -12418,8 +12415,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.094,
-        "discharge": 0.062
+        "preauth": 0.09,
+        "discharge": 0.055
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -12476,8 +12473,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.089,
-        "discharge": 0.066
+        "preauth": 0.093,
+        "discharge": 0.054
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -12534,8 +12531,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.102,
-        "discharge": 0.048
+        "preauth": 0.087,
+        "discharge": 0.074
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -12592,8 +12589,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.098,
-        "discharge": 0.066
+        "preauth": 0.113,
+        "discharge": 0.058
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -12652,8 +12649,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.102,
-        "discharge": 0.082
+        "preauth": 0.086,
+        "discharge": 0.069
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -12712,8 +12709,8 @@
         "Evidence unsupported: The cited records name the condition but record no finding that needed admission"
       ],
       "prep_seconds": {
-        "preauth": 0.092,
-        "discharge": 0.054
+        "preauth": 0.078,
+        "discharge": 0.051
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -12761,7 +12758,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.084
+        "preauth": 0.092
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -12809,7 +12806,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.092
+        "preauth": 0.096
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -12866,8 +12863,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.095,
-        "discharge": 0.064
+        "preauth": 0.097,
+        "discharge": 0.065
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -12924,8 +12921,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.106,
-        "discharge": 0.065
+        "preauth": 0.083,
+        "discharge": 0.06
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -12982,8 +12979,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.098,
-        "discharge": 0.073
+        "preauth": 0.097,
+        "discharge": 0.061
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -13040,8 +13037,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.083,
-        "discharge": 0.066
+        "preauth": 0.079,
+        "discharge": 0.071
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -13089,7 +13086,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.079
+        "preauth": 0.084
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -13148,8 +13145,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.095,
-        "discharge": 0.047
+        "preauth": 0.082,
+        "discharge": 0.049
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -13207,7 +13204,7 @@
       "held_back_why": [],
       "prep_seconds": {
         "preauth": 0.089,
-        "discharge": 0.052
+        "discharge": 0.047
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -13264,8 +13261,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.074,
-        "discharge": 0.056
+        "preauth": 0.096,
+        "discharge": 0.062
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -13322,8 +13319,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.1,
-        "discharge": 0.052
+        "preauth": 0.087,
+        "discharge": 0.071
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -13380,8 +13377,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.093,
-        "discharge": 0.075
+        "preauth": 0.092,
+        "discharge": 0.065
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -13438,7 +13435,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.089,
+        "preauth": 0.101,
         "discharge": 0.057
       },
       "llm_calls": 1,
@@ -13496,8 +13493,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.084,
-        "discharge": 0.051
+        "preauth": 0.093,
+        "discharge": 0.047
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -13556,8 +13553,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.097,
-        "discharge": 0.048
+        "preauth": 0.08,
+        "discharge": 0.054
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -13614,8 +13611,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.081,
-        "discharge": 0.044
+        "preauth": 0.084,
+        "discharge": 0.059
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -13674,8 +13671,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.081,
-        "discharge": 0.057
+        "preauth": 0.104,
+        "discharge": 0.062
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -13723,7 +13720,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.093
+        "preauth": 0.101
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -13780,8 +13777,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.078,
-        "discharge": 0.049
+        "preauth": 0.111,
+        "discharge": 0.048
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -13838,8 +13835,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.074,
-        "discharge": 0.049
+        "preauth": 0.089,
+        "discharge": 0.058
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -13887,7 +13884,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.097
+        "preauth": 0.088
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -13935,7 +13932,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.105
+        "preauth": 0.087
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -13992,8 +13989,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.094,
-        "discharge": 0.047
+        "preauth": 0.102,
+        "discharge": 0.069
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -14050,8 +14047,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.087,
-        "discharge": 0.049
+        "preauth": 0.101,
+        "discharge": 0.065
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -14099,7 +14096,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.098
+        "preauth": 0.108
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -14156,8 +14153,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.093,
-        "discharge": 0.061
+        "preauth": 0.089,
+        "discharge": 0.043
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -14205,7 +14202,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.094
+        "preauth": 0.099
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -14253,7 +14250,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.082
+        "preauth": 0.098
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -14301,7 +14298,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.105
+        "preauth": 0.089
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -14349,7 +14346,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.076
+        "preauth": 0.081
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -14397,7 +14394,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.087
+        "preauth": 0.099
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -14450,8 +14447,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.083,
-        "discharge": 0.059
+        "preauth": 0.089,
+        "discharge": 0.066
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -14513,14 +14510,13 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.093,
-        "discharge": 0.054
+        "preauth": 0.108,
+        "discharge": 0.07
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
       "extraction": {
-        "invented": 10,
-        "correctly_blank": 1
+        "invented": 11
       },
       "insurer": "held_out"
     },
@@ -14571,8 +14567,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.094,
-        "discharge": 0.065
+        "preauth": 0.082,
+        "discharge": 0.066
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -14629,8 +14625,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.108,
-        "discharge": 0.057
+        "preauth": 0.083,
+        "discharge": 0.05
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -14687,8 +14683,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.096,
-        "discharge": 0.051
+        "preauth": 0.086,
+        "discharge": 0.061
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -14741,8 +14737,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.11,
-        "discharge": 0.057
+        "preauth": 0.106,
+        "discharge": 0.047
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -14795,8 +14791,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.072,
-        "discharge": 0.057
+        "preauth": 0.08,
+        "discharge": 0.046
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -14855,8 +14851,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.105,
-        "discharge": 0.062
+        "preauth": 0.076,
+        "discharge": 0.059
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -14906,7 +14902,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.085
+        "preauth": 0.082
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -14965,8 +14961,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.089,
-        "discharge": 0.069
+        "preauth": 0.096,
+        "discharge": 0.068
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -15025,8 +15021,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.099,
-        "discharge": 0.06
+        "preauth": 0.094,
+        "discharge": 0.073
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -15087,8 +15083,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.09,
-        "discharge": 0.077
+        "preauth": 0.103,
+        "discharge": 0.071
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -15141,8 +15137,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.092,
-        "discharge": 0.049
+        "preauth": 0.101,
+        "discharge": 0.069
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -15195,8 +15191,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.085,
-        "discharge": 0.052
+        "preauth": 0.103,
+        "discharge": 0.061
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -15255,8 +15251,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.076,
-        "discharge": 0.066
+        "preauth": 0.096,
+        "discharge": 0.074
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -15306,7 +15302,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.093
+        "preauth": 0.082
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -15365,8 +15361,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.092,
-        "discharge": 0.07
+        "preauth": 0.071,
+        "discharge": 0.043
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -15419,8 +15415,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.093,
-        "discharge": 0.058
+        "preauth": 0.102,
+        "discharge": 0.051
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -15470,7 +15466,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.092
+        "preauth": 0.106
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -15523,8 +15519,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.103,
-        "discharge": 0.057
+        "preauth": 0.086,
+        "discharge": 0.047
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -15577,8 +15573,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.098,
-        "discharge": 0.065
+        "preauth": 0.08,
+        "discharge": 0.058
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -15637,8 +15633,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.088,
-        "discharge": 0.059
+        "preauth": 0.093,
+        "discharge": 0.053
       },
       "llm_calls": 2,
       "llm_unavailable": 2,
@@ -15697,8 +15693,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.103,
-        "discharge": 0.047
+        "preauth": 0.086,
+        "discharge": 0.054
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -15751,8 +15747,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.085,
-        "discharge": 0.057
+        "preauth": 0.106,
+        "discharge": 0.068
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -15811,8 +15807,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.088,
-        "discharge": 0.068
+        "preauth": 0.099,
+        "discharge": 0.053
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -15871,8 +15867,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.087,
-        "discharge": 0.055
+        "preauth": 0.113,
+        "discharge": 0.061
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -15931,8 +15927,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.075,
-        "discharge": 0.052
+        "preauth": 0.123,
+        "discharge": 0.051
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -15993,8 +15989,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.085,
-        "discharge": 0.05
+        "preauth": 0.094,
+        "discharge": 0.072
       },
       "llm_calls": 2,
       "llm_unavailable": 2,
@@ -16055,8 +16051,8 @@
         "Evidence unsupported: The cited records name the condition but record no finding that needed admission"
       ],
       "prep_seconds": {
-        "preauth": 0.099,
-        "discharge": 0.062
+        "preauth": 0.102,
+        "discharge": 0.055
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -16106,7 +16102,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.081
+        "preauth": 0.087
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -16156,7 +16152,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.09
+        "preauth": 0.102
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -16215,8 +16211,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.09,
-        "discharge": 0.051
+        "preauth": 0.108,
+        "discharge": 0.068
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -16275,8 +16271,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.098,
-        "discharge": 0.069
+        "preauth": 0.086,
+        "discharge": 0.06
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -16335,8 +16331,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.072,
-        "discharge": 0.053
+        "preauth": 0.095,
+        "discharge": 0.068
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -16395,8 +16391,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.068,
-        "discharge": 0.054
+        "preauth": 0.108,
+        "discharge": 0.058
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -16446,7 +16442,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.103
+        "preauth": 0.115
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -16507,8 +16503,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.095,
-        "discharge": 0.054
+        "preauth": 0.279,
+        "discharge": 0.053
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -16567,8 +16563,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.087,
-        "discharge": 0.048
+        "preauth": 0.09,
+        "discharge": 0.06
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -16627,8 +16623,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.098,
-        "discharge": 0.048
+        "preauth": 0.1,
+        "discharge": 0.061
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -16687,7 +16683,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.087,
+        "preauth": 0.091,
         "discharge": 0.067
       },
       "llm_calls": 1,
@@ -16747,8 +16743,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.082,
-        "discharge": 0.055
+        "preauth": 0.096,
+        "discharge": 0.05
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -16822,8 +16818,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.095,
-        "discharge": 0.058
+        "preauth": 0.109,
+        "discharge": 0.057
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -16882,8 +16878,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.112,
-        "discharge": 0.077
+        "preauth": 0.1,
+        "discharge": 0.062
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -16944,8 +16940,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.083,
-        "discharge": 0.045
+        "preauth": 0.1,
+        "discharge": 0.061
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -17004,8 +17000,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.095,
-        "discharge": 0.055
+        "preauth": 0.098,
+        "discharge": 0.045
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -17066,8 +17062,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.094,
-        "discharge": 0.047
+        "preauth": 0.095,
+        "discharge": 0.051
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -17117,7 +17113,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.092
+        "preauth": 0.09
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -17177,7 +17173,7 @@
       "held_back_why": [],
       "prep_seconds": {
         "preauth": 0.089,
-        "discharge": 0.071
+        "discharge": 0.07
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -17236,8 +17232,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.093,
-        "discharge": 0.066
+        "preauth": 0.098,
+        "discharge": 0.049
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -17287,7 +17283,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.091
+        "preauth": 0.082
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -17337,7 +17333,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.08
+        "preauth": 0.098
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -17396,8 +17392,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.07,
-        "discharge": 0.047
+        "preauth": 0.079,
+        "discharge": 0.045
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -17456,8 +17452,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.087,
-        "discharge": 0.049
+        "preauth": 0.086,
+        "discharge": 0.047
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -17507,7 +17503,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.072
+        "preauth": 0.084
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -17566,8 +17562,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.085,
-        "discharge": 0.045
+        "preauth": 0.08,
+        "discharge": 0.055
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -17617,7 +17613,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.098
+        "preauth": 0.091
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -17667,7 +17663,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.098
+        "preauth": 0.083
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -17717,7 +17713,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.223
+        "preauth": 0.102
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -17767,7 +17763,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.091
+        "preauth": 0.098
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -17817,7 +17813,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.086
+        "preauth": 0.109
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -17870,8 +17866,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.082,
-        "discharge": 0.068
+        "preauth": 0.172,
+        "discharge": 0.059
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -17937,14 +17933,13 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.08,
-        "discharge": 0.055
+        "preauth": 0.098,
+        "discharge": 0.071
       },
       "llm_calls": 2,
       "llm_unavailable": 2,
       "extraction": {
-        "invented": 10,
-        "correctly_blank": 1
+        "invented": 11
       },
       "insurer": "held_out"
     },
@@ -17997,8 +17992,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.081,
-        "discharge": 0.048
+        "preauth": 0.09,
+        "discharge": 0.065
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -18057,8 +18052,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.075,
-        "discharge": 0.045
+        "preauth": 0.083,
+        "discharge": 0.046
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -18117,8 +18112,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.087,
-        "discharge": 0.054
+        "preauth": 0.092,
+        "discharge": 0.066
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -18171,8 +18166,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.101,
-        "discharge": 0.065
+        "preauth": 0.122,
+        "discharge": 0.06
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -18225,8 +18220,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.095,
-        "discharge": 0.068
+        "preauth": 0.103,
+        "discharge": 0.066
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -18285,8 +18280,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.077,
-        "discharge": 0.049
+        "preauth": 0.078,
+        "discharge": 0.046
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -18336,7 +18331,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.071
+        "preauth": 0.078
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -18395,8 +18390,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.101,
-        "discharge": 0.063
+        "preauth": 0.078,
+        "discharge": 0.071
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -18455,8 +18450,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.08,
-        "discharge": 0.065
+        "preauth": 0.104,
+        "discharge": 0.063
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -18517,8 +18512,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.091,
-        "discharge": 0.048
+        "preauth": 0.072,
+        "discharge": 0.043
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -18571,8 +18566,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.088,
-        "discharge": 0.05
+        "preauth": 0.079,
+        "discharge": 0.047
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -18625,8 +18620,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.119,
-        "discharge": 0.057
+        "preauth": 0.071,
+        "discharge": 0.044
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -18685,8 +18680,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.095,
-        "discharge": 0.05
+        "preauth": 0.07,
+        "discharge": 0.047
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -18736,7 +18731,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.09
+        "preauth": 0.113
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -18795,8 +18790,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.08,
-        "discharge": 0.05
+        "preauth": 0.082,
+        "discharge": 0.071
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -18850,7 +18845,7 @@
       "held_back_why": [],
       "prep_seconds": {
         "preauth": 0.08,
-        "discharge": 0.048
+        "discharge": 0.062
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -18900,7 +18895,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.081
+        "preauth": 0.089
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -18953,8 +18948,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.08,
-        "discharge": 0.063
+        "preauth": 0.077,
+        "discharge": 0.067
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -19007,8 +19002,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.099,
-        "discharge": 0.055
+        "preauth": 0.095,
+        "discharge": 0.065
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -19075,8 +19070,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.099,
-        "discharge": 0.051
+        "preauth": 0.102,
+        "discharge": 0.065
       },
       "llm_calls": 2,
       "llm_unavailable": 2,
@@ -19135,8 +19130,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.073,
-        "discharge": 0.052
+        "preauth": 0.112,
+        "discharge": 0.074
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -19189,7 +19184,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.11,
+        "preauth": 0.111,
         "discharge": 0.069
       },
       "llm_calls": 1,
@@ -19249,8 +19244,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.09,
-        "discharge": 0.068
+        "preauth": 0.097,
+        "discharge": 0.058
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -19309,8 +19304,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.084,
-        "discharge": 0.046
+        "preauth": 0.099,
+        "discharge": 0.077
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -19369,8 +19364,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.078,
-        "discharge": 0.052
+        "preauth": 0.108,
+        "discharge": 0.069
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -19431,8 +19426,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.106,
-        "discharge": 0.069
+        "preauth": 0.09,
+        "discharge": 0.057
       },
       "llm_calls": 2,
       "llm_unavailable": 2,
@@ -19493,8 +19488,8 @@
         "Evidence unsupported: The cited records name the condition but record no finding that needed admission"
       ],
       "prep_seconds": {
-        "preauth": 0.077,
-        "discharge": 0.055
+        "preauth": 0.087,
+        "discharge": 0.062
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -19544,7 +19539,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.076
+        "preauth": 0.097
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -19594,7 +19589,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.067
+        "preauth": 0.079
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -19653,8 +19648,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.076,
-        "discharge": 0.073
+        "preauth": 0.084,
+        "discharge": 0.06
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -19713,8 +19708,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.076,
-        "discharge": 0.049
+        "preauth": 0.107,
+        "discharge": 0.055
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -19773,8 +19768,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.088,
-        "discharge": 0.054
+        "preauth": 0.081,
+        "discharge": 0.064
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -19833,8 +19828,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.114,
-        "discharge": 0.048
+        "preauth": 0.083,
+        "discharge": 0.064
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -19884,7 +19879,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.084
+        "preauth": 0.085
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -19945,8 +19940,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.077,
-        "discharge": 0.052
+        "preauth": 0.092,
+        "discharge": 0.062
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -20005,8 +20000,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.069,
-        "discharge": 0.051
+        "preauth": 0.098,
+        "discharge": 0.066
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -20065,8 +20060,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.07,
-        "discharge": 0.046
+        "preauth": 0.081,
+        "discharge": 0.07
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -20125,8 +20120,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.089,
-        "discharge": 0.058
+        "preauth": 0.095,
+        "discharge": 0.056
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -20185,7 +20180,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.078,
+        "preauth": 0.087,
         "discharge": 0.05
       },
       "llm_calls": 1,
@@ -20260,8 +20255,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.102,
-        "discharge": 0.059
+        "preauth": 0.091,
+        "discharge": 0.062
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -20320,8 +20315,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.088,
-        "discharge": 0.055
+        "preauth": 0.087,
+        "discharge": 0.054
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -20382,8 +20377,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.092,
-        "discharge": 0.049
+        "preauth": 0.094,
+        "discharge": 0.063
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -20442,8 +20437,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.101,
-        "discharge": 0.063
+        "preauth": 0.088,
+        "discharge": 0.06
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -20505,7 +20500,7 @@
       "held_back_why": [],
       "prep_seconds": {
         "preauth": 0.087,
-        "discharge": 0.047
+        "discharge": 0.048
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -20555,7 +20550,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.093
+        "preauth": 0.113
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -20614,8 +20609,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.1,
-        "discharge": 0.079
+        "preauth": 0.084,
+        "discharge": 0.062
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -20674,8 +20669,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.096,
-        "discharge": 0.058
+        "preauth": 0.088,
+        "discharge": 0.064
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -20725,7 +20720,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.097
+        "preauth": 0.096
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -20775,7 +20770,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.08
+        "preauth": 0.131
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -20834,8 +20829,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.083,
-        "discharge": 0.063
+        "preauth": 0.082,
+        "discharge": 0.05
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -20894,8 +20889,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.092,
-        "discharge": 0.049
+        "preauth": 0.106,
+        "discharge": 0.055
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -20945,7 +20940,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.07
+        "preauth": 0.085
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -21004,8 +20999,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.081,
-        "discharge": 0.04
+        "preauth": 0.099,
+        "discharge": 0.054
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -21055,7 +21050,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.082
+        "preauth": 0.085
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -21105,7 +21100,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.08
+        "preauth": 0.105
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -21155,7 +21150,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.087
+        "preauth": 0.091
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -21205,7 +21200,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.097
+        "preauth": 0.107
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -21255,7 +21250,7 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.087
+        "preauth": 0.1
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -21308,8 +21303,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.089,
-        "discharge": 0.05
+        "preauth": 0.079,
+        "discharge": 0.055
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -21375,14 +21370,13 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.091,
-        "discharge": 0.068
+        "preauth": 0.109,
+        "discharge": 0.055
       },
       "llm_calls": 2,
       "llm_unavailable": 2,
       "extraction": {
-        "invented": 10,
-        "correctly_blank": 1
+        "invented": 11
       },
       "insurer": "held_out"
     },
@@ -21435,8 +21429,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.106,
-        "discharge": 0.066
+        "preauth": 0.095,
+        "discharge": 0.047
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -21495,8 +21489,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.094,
-        "discharge": 0.055
+        "preauth": 0.074,
+        "discharge": 0.042
       },
       "llm_calls": 1,
       "llm_unavailable": 1,
@@ -21555,8 +21549,8 @@
       "necessity_held_back": 0,
       "held_back_why": [],
       "prep_seconds": {
-        "preauth": 0.08,
-        "discharge": 0.043
+        "preauth": 0.086,
+        "discharge": 0.049
       },
       "llm_calls": 1,
       "llm_unavailable": 1,

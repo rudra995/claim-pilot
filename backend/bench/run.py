@@ -500,7 +500,7 @@ def markdown(result: dict[str, Any]) -> str:
                     cells.append(f"{s['llm_calls']} / {s['llm_unavailable']}" if key is None else fmt(s[key]))
                 lines.append(f"| {label} | " + " | ".join(cells) + " |")
             lines.append("")
-    for name, label in (("development", "used while building the reader"), ("held_out", "written after the reader was frozen, scored once")):
+    for name, label in (("development", "used while building the reader"), ("held_out", "written after the reader was frozen and never tuned on; re-scored once after a later findings/impression fix, same result")):
         c = result["challenge_documents"][name]
         failed = [f"{row['doc_id']}: {check['check']} (got {row['code_outcome']})" if check["check"].startswith("code") else f"{row['doc_id']}: {check['check']}"
                   for row in c["rows"] for check in row["checks"] if not check["passed"]]

@@ -250,3 +250,9 @@ Pick in this order: PM-JAY mode, FHIR export, Hindi/Kannada patient notes, hospi
 **Checks:**
 - [ ] Fresh clone to running demo with one command
 - [ ] Run the full 5-minute demo script twice without errors
+
+---
+
+## Refinement pass
+
+After Phase 10, a refinement pass revisited Phases 4, 6, 7, 8, 9, 12 and 14 without changing the roadmap above. What changed, how it was checked, and what is still open are in [`docs/REFINEMENT.md`](docs/REFINEMENT.md).
