@@ -114,7 +114,7 @@ def test_the_same_file_twice_is_added_once(db: Path) -> None:
     (b"not a pdf", "Only PDF"),
     (b"%PDF-1.4 broken", "could not be opened"),
     (b"%PDF-" + b"0" * (5 * 1024 * 1024), "limit"),
-])
+], ids=["not-pdf", "broken-pdf", "too-big"])  # short ids: the 5 MB body in a test id breaks Windows' env-var limit
 def test_bad_uploads_are_refused_with_a_fix(db: Path, content: bytes, message: str) -> None:
     case = load("case2.json")
     claim_id = run_admission(case, db).claim_id

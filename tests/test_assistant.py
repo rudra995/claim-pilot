@@ -153,3 +153,10 @@ def test_officer_copilot_summarises_the_desk(clients):
     result = ask(staff, 'How many claims are waiting for me?', path='/api/assistant/ask')
     assert result['verified'] and result['intent'] == 'desk'
     assert 'Total 2 claims' in result['sources'][0]['text']
+
+
+def test_officer_copilot_says_so_when_nothing_matches(clients):
+    staff, _, _ = clients
+    claim_id = start(staff)
+    result = ask(staff, 'Who won the cricket world cup in 1983?', claim_id, path='/api/assistant/ask')
+    assert result['sources'] == [] and "Nothing in this claim's record" in result['answer']

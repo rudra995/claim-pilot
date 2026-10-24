@@ -43,6 +43,9 @@ def run_once(record: bool) -> list[tuple[str, bool, str]]:
         results.append((step, bool(ok), detail))
 
     with TestClient(create_app(folder / "demo.db")) as client:
+        signed_in = client.post("/api/auth/login", json={"username": "officer@claimpilot.demo", "password": "OfficerDemo!2026"})
+        assert signed_in.status_code == 200, signed_in.text
+
         def wait(claim_id: str) -> dict:
             client.app.state.runner.wait(claim_id)
             return client.get(f"/api/claims/{claim_id}").json()

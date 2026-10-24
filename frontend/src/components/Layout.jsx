@@ -57,7 +57,7 @@ export default function Layout({ children }) {
       <div className="flex min-w-0 flex-1 flex-col">
         <TopBar title={title} waiting={waiting} live={live} />
         <Assistant mode="officer" claimId={openClaim} patientName={openClaim ? names.current[openClaim] : null} />
-        <main className="min-w-0 flex-1 overflow-y-auto">
+        <main data-shell className="min-w-0 flex-1 overflow-y-auto transition-[padding] duration-300">
           <div key={pathname.split('/').slice(0, 2).join('/')} className="mx-auto max-w-[1360px] animate-fade-up px-6 pb-12 pt-7 lg:px-9">{children}</div>
         </main>
       </div>

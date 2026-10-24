@@ -13,3 +13,9 @@ models/*.ubj
 data/uploads/
 data/imports/
 .env
+
+# local tooling and agent notes
+.playwright-mcp/
+AGENTS.md
+CLAUDE.md
+BUILD_PHASES.md

@@ -148,14 +148,18 @@ export function Donut({ parts, show, hide, format = (v) => v, center, caption, s
   const c = 2 * Math.PI * r
   const shown = parts.filter((p) => p.value)
   const gap = shown.length > 1 ? 4 : 0
+  // a tiny share still gets a readable arc; the arcs are then scaled back to fill the ring
+  const raw = shown.map((p) => Math.max((p.value / (sum || 1)) * c, 22))
+  const scale = c / (raw.reduce((a, b) => a + b, 0) || 1)
+  const arcs = raw.map((len) => len * scale)
   let offset = 0
   return (
     <div className="flex flex-wrap items-center gap-6">
       <div className="relative shrink-0" style={{ width: size, height: size }}>
         <svg viewBox="0 0 100 100" className="h-full w-full -rotate-90">
           <circle cx="50" cy="50" r={r} fill="none" stroke="#edf2ef" strokeWidth="14" />
-          {sum > 0 && shown.map((p) => {
-            const len = (p.value / sum) * c
+          {sum > 0 && shown.map((p, i) => {
+            const len = arcs[i]
             const seg = (
               <circle key={p.label} cx="50" cy="50" r={r} fill="none" stroke={p.color} strokeWidth="14" strokeLinecap="round"
                 strokeDasharray={`${Math.max(0.5, len - gap - 7)} ${c}`} strokeDashoffset={-(offset + 3.5)} {...hover(show, hide, `${p.label}: ${format(p.value)}`)}

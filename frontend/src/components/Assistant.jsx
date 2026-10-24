@@ -38,6 +38,12 @@ export default function Assistant({ mode, claimId, patientName }) {
     return () => clearInterval(timer)
   }, [open, mode, claimId, base])
 
+  // On wide screens the page makes room for the open chat instead of hiding under it (see index.css).
+  useEffect(() => {
+    document.body.dataset.assistant = open ? 'open' : 'closed'
+    return () => { delete document.body.dataset.assistant }
+  }, [open])
+
   useEffect(() => { setMessages([]) }, [claimId, mode])
   useEffect(() => { end.current?.scrollIntoView({ behavior: 'smooth', block: 'end' }) }, [messages, busy, open])
 

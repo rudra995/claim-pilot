@@ -376,6 +376,8 @@ HINTS = [
 HINT_BOOST = 0.15
 MIN_SCORE = 0.22  # cosine similarity below this isn't about the question
 TOP_K = 4
+NO_MATCH = ("Nothing in this claim's record covers that. Try asking about the policy, the insurer's decisions, "
+            "risks to fix, costs, documents or the diagnosis.")
 
 AGENT_NAMES = {
     "document_reader": "Document reader", "clinical_coder": "Clinical coder", "policy": "Policy checker",
@@ -444,7 +446,7 @@ def retrieve(question: str, chunks: list[Chunk], k: int = TOP_K) -> list[Chunk]:
     scored = sorted(((sim + boost(c), i) for i, (sim, c) in enumerate(zip(similarity, chunks))), reverse=True)
     picked: list[Chunk] = []
     for score, i in scored:
-        if len(picked) == k or (picked and score < MIN_SCORE):
+        if len(picked) == k or score < MIN_SCORE:
             break
         # skip a long chunk that mostly repeats one already picked (a finding quoting its clause, say)
         words = _tokens(chunks[i].text.split(" (source:")[0])
@@ -537,9 +539,9 @@ def _compose(picked: list[Chunk], refs: list[Source]) -> tuple[list[Source], str
     for ref in refs:
         sources.append(Source(f"S{len(sources) + 1}", ref.kind, ref.label, ref.text))
     lines = []
-    for s in sources:
+    for n, s in enumerate(sources):
         text = s.text if len(s.text) <= 320 else s.text[:320].rsplit(" ", 1)[0] + "…"
-        lines.append(f"• {s.label}: {text} [{s.id}]")
+        lines.append(f"{'Best match ·' if n == 0 else '•'} {s.label}: {text} [{s.id}]")
     return sources, "\n".join(lines)
 
 
@@ -559,10 +561,15 @@ def ask_officer(db_path: Path | str, question: str, claim: dict | None, case: Ca
         else:
             picked = retrieve(question, chunks)
             refs = reference_sources(question, 0) if not any(c.kind == "glossary" for c in picked[:1]) else []
+            if not picked and not refs:
+                return _finish("desk", [], NO_MATCH, None, system=OFFICER_SYSTEM)
         sources, text = _compose(picked, refs[:1])
         return _finish("desk", sources, text, question, system=OFFICER_SYSTEM)
 
     chunks = _claim_chunks(db_path, claim, case, latest) + _glossary_chunks()
-    sources, text = _compose(retrieve(question, chunks), [])
+    picked = retrieve(question, chunks)
+    if not picked:
+        return _finish("claim", [], NO_MATCH, None, system=OFFICER_SYSTEM)
+    sources, text = _compose(picked, [])
     return _finish("claim", sources, text, question, system=OFFICER_SYSTEM, db_path=db_path, claim_id=claim["claim_id"],
                    masker=Masker.for_case(case) if case else None)

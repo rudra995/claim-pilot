@@ -57,3 +57,10 @@
     transition-duration: 1ms !important;
   }
 }
+
+/* Make room for the open assistant on wide screens, so tabs and tables aren't hidden under it. */
+@media (min-width: 1680px) {
+  body[data-assistant='open'] main[data-shell] {
+    padding-right: 420px;
+  }
+}
