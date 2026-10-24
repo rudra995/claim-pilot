@@ -3,6 +3,7 @@
 The portal's sign-in middleware already limits patients to /api/portal/ and their own claims.
 """
 
+import threading
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
@@ -27,6 +28,8 @@ class Reply(BaseModel):
 
 def install(app, db_path: Path | str, describe: Callable[[str | None], list[dict[str, Any]]]) -> None:
     """`describe(claim_id)` gives the officer-facing summaries of claims (all of them when claim_id is None)."""
+    # load the embedding model in the background so the first question doesn't wait for it
+    threading.Thread(target=assistant._embed, args=(["warm up"],), daemon=True).start()
 
     def latest_claim(patient_id: str) -> str | None:
         with connect(db_path) as conn:

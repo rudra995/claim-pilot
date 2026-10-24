@@ -352,9 +352,6 @@ OFFICER_SYSTEM = (
     "plainly. Use only the numbered sources and put [S#] after every fact. Never calculate or state a number that "
     "is not in a source. You can't send, approve or change anything; say what the officer could do instead."
 )
-WHY = re.compile(r"\b(why|cut|deduct|reduc|denied|deny|partial|appeal|lower)\b", re.IGNORECASE)
-RISK = re.compile(r"\b(risk|flag|fix|problem|issue|missing|wrong|before (i )?send)\b", re.IGNORECASE)
-NEXT = re.compile(r"\b(next|status|stage|state|what should|what do|waiting|stuck|where)\b", re.IGNORECASE)
 STATE_WORDS = {
     "ADMITTED": "being prepared", "PREAUTH_DRAFT": "being prepared", "RISK_CHECK": "in the risk check",
     "AWAITING_HUMAN": "waiting for your approval", "SUBMITTED": "with the insurer", "QUERY_RAISED": "answering an insurer query",
@@ -364,81 +361,208 @@ STATE_WORDS = {
 }
 DESK = re.compile(r"\b(how many|which (claims|patients)|list|queue|today|all claims|desk|pending)\b", re.IGNORECASE)
 
+# Light hints on top of semantic search: a question that clearly asks "why was it cut" should
+# prefer the insurer's decisions, "what should I fix" the risk checker, and so on.
+HINTS = [
+    (re.compile(r"\b(why|cut|deduct|reduc|denied|deny|partial|appeal|lower|short)\b", re.IGNORECASE), {"thread", "appeal", "reconciliation"}),
+    (re.compile(r"\b(risk|flag|fix|problem|issue|missing|wrong|before (i )?send)\b", re.IGNORECASE), {"denial_risk"}),
+    (re.compile(r"\b(next|status|stage|state|where|stuck|waiting)\b", re.IGNORECASE), {"claim"}),
+    (re.compile(r"\b(policy|clause|cover|covered|limit|cap|sub-limit|co-pay|copay|exclu|waiting period|room rent)\b", re.IGNORECASE), {"policy"}),
+    (re.compile(r"\b(estimate|typical|cost|bill|stay|days)\b", re.IGNORECASE), {"cost_estimator", "discharge"}),
+    (re.compile(r"\b(paid|payment|settle|recover|reconcil)\b", re.IGNORECASE), {"reconciliation"}),
+    (re.compile(r"\b(diagnos|icd|code|coded)\b", re.IGNORECASE), {"clinical_coder"}),
+    (re.compile(r"\b(document|report|x-ray|xray|upload|attach|query|asked)\b", re.IGNORECASE), {"document_reader", "query_responder", "thread"}),
+]
+HINT_BOOST = 0.15
+MIN_SCORE = 0.22  # cosine similarity below this isn't about the question
+TOP_K = 4
 
-def ask_officer(db_path: Path | str, question: str, claim: dict | None, case: Case | None, latest: dict[str, dict], rows: list[dict]) -> dict[str, Any]:
-    """Answer an officer from the claim's own record, or from the desk's claims when no claim is open."""
-    question = question.strip()
-    sources: list[Source] = []
-    lines: list[str] = []
+AGENT_NAMES = {
+    "document_reader": "Document reader", "clinical_coder": "Clinical coder", "policy": "Policy checker",
+    "cost_estimator": "Cost estimator", "preauth": "Pre-auth writer", "denial_risk": "Risk checker",
+    "query_responder": "Query responder", "discharge": "Discharge writer", "appeal": "Appeal writer",
+    "reconciliation": "Reconciliation",
+}
 
-    def add(kind: str, label: str, text: str) -> str:
-        source = Source(f"S{len(sources) + 1}", kind, label, text)
-        sources.append(source)
-        return source.id
 
-    if claim is None:
-        waiting = [r for r in rows if r["state"] == "AWAITING_HUMAN"]
-        counts: dict[str, int] = {}
-        for r in rows:
-            counts[r["state"]] = counts.get(r["state"], 0) + 1
-        by_state = "; ".join(f"{STATE_WORDS.get(state, state)}: {n}" for state, n in sorted(counts.items())) or "none"
-        sid = add("desk", "Claims on this desk", f"Total {len(rows)} claims. By state: {by_state}")
-        lines.append(f"There are {len(rows)} claims on the desk; by state: {by_state} [{sid}].")
-        if waiting:
-            sid = add("desk", "Waiting for a person", "; ".join(f"{r['patient']} ({r['claim_id']}): {r.get('last_reason') or 'needs review'}" for r in waiting[:6]))
-            lines.append(f"Waiting for you: {sources[-1].text} [{sid}].")
-        if not DESK.search(question):
-            ref = reference_sources(question, len(sources) + 1)
-            sources += ref
-            lines += [f"Reference wording, {s.label.split(': ', 1)[1]}: “{s.text[:240]}…” [{s.id}]" for s in ref]
-        return _finish("desk", sources, " ".join(lines), question, system=OFFICER_SYSTEM)
+@dataclass(frozen=True)
+class Chunk:
+    """One retrievable piece of the claim record: what an officer could be asking about."""
+    kind: str  # Source.kind shown to the officer
+    topic: str  # what HINTS match: an agent name, "thread", "policy", "claim", "glossary", "desk"
+    label: str
+    text: str
 
+
+_vectors: dict[str, list[float]] = {}  # embeddings by text; the record changes slowly, so they're reused
+_embedder: Any = None
+
+
+def _embed(texts: list[str]) -> list[list[float]] | None:
+    """Sentence embeddings from Chroma's default model (all-MiniLM-L6-v2), or None if it can't load."""
+    global _embedder
+    try:
+        if _embedder is None:
+            from chromadb.utils import embedding_functions
+            _embedder = embedding_functions.DefaultEmbeddingFunction()
+        missing = [t for t in dict.fromkeys(texts) if t not in _vectors]
+        if missing:
+            for text, vector in zip(missing, _embedder(missing)):
+                _vectors[text] = [float(x) for x in vector]
+        return [_vectors[t] for t in texts]
+    except Exception:  # model not downloaded on this machine: rank by shared words instead
+        return None
+
+
+def _cosine(a: list[float], b: list[float]) -> float:
+    dot = sum(x * y for x, y in zip(a, b))
+    norm = (sum(x * x for x in a) ** 0.5) * (sum(y * y for y in b) ** 0.5)
+    return dot / norm if norm else 0.0
+
+
+def retrieve(question: str, chunks: list[Chunk], k: int = TOP_K) -> list[Chunk]:
+    """The chunks most related to the question: semantic similarity plus a small boost from HINTS."""
+    if not chunks:
+        return []
+    texts = [f"{c.label}. {c.text}" for c in chunks]
+    vectors = _embed([question, *texts])
+    if vectors is not None:
+        q = vectors[0]
+        similarity = [_cosine(q, v) for v in vectors[1:]]
+    else:
+        q_tokens = _tokens(question)
+        similarity = [len(q_tokens & _tokens(t)) / (len(q_tokens) or 1) for t in texts]
+    wanted = set().union(*(topics for pattern, topics in HINTS if pattern.search(question)))
+    asked = question.lower()
+
+    def boost(c: Chunk) -> float:
+        if c.topic == "glossary":  # the exact term asked about, longest match first
+            term = c.label.split(": ", 1)[1]
+            return 0.1 + 0.01 * len(term) if term in asked else 0.0
+        return HINT_BOOST if c.topic in wanted else 0.0
+
+    scored = sorted(((sim + boost(c), i) for i, (sim, c) in enumerate(zip(similarity, chunks))), reverse=True)
+    picked: list[Chunk] = []
+    for score, i in scored:
+        if len(picked) == k or (picked and score < MIN_SCORE):
+            break
+        # skip a long chunk that mostly repeats one already picked (a finding quoting its clause, say)
+        words = _tokens(chunks[i].text.split(" (source:")[0])
+        if len(words) >= 8 and any(len(words & _tokens(p.text)) > 0.8 * len(words) for p in picked):
+            continue
+        picked.append(chunks[i])
+    return picked
+
+
+def _claim_chunks(db_path: Path | str, claim: dict, case: Case | None, latest: dict[str, dict]) -> list[Chunk]:
     claim_id = claim["claim_id"]
-    sid = add("claim", f"Claim {claim_id}", f"{claim['patient']}, {claim['procedure'].replace('_', ' ')}, {claim['insurer']} via {claim['tpa_id']}. "
-              f"State: {STATE_WORDS.get(claim['state'], claim['state'])}. Requested {inr(claim['requested'])}; approved {inr(claim['approved'])}. "
-              f"Last step: {claim.get('last_reason') or 'none recorded'}.")
-    lines.append(f"{claim['patient']}'s claim is {STATE_WORDS.get(claim['state'], claim['state'])}: {claim.get('last_reason') or 'no step recorded yet'} [{sid}].")
+    chunks = [Chunk("claim", "claim", f"Claim {claim_id}",
+                    f"{claim['patient']}, {claim['procedure'].replace('_', ' ')}, {claim['insurer']} via {claim['tpa_id']}. "
+                    f"State: {STATE_WORDS.get(claim['state'], claim['state'])}. Requested {inr(claim['requested'])}; "
+                    f"approved {inr(claim['approved'])}. Last step: {claim.get('last_reason') or 'none recorded'}.")]
 
-    thread = exchange.thread(db_path, claim_id)
-    if WHY.search(question):
-        decisions = [m for m in thread if m.sender.value == "insurer" and getattr(m, "deductions", None)]
-        if decisions:
-            m = decisions[-1]
-            top = sorted(m.deductions, key=lambda d: -d.amount)[:4]
-            sid = add("thread", f"Insurer {m.type.value.replace('_', ' ').lower()}, {m.stage.value} round {m.round}",
-                      f"Approved {inr(getattr(m, 'approved_amount', None))}. Deductions: " + "; ".join(f"{d.item.split(':')[0]} {inr(d.amount)} (clause {d.clause})" for d in top))
-            lines.append(f"The insurer's latest decision approved {inr(getattr(m, 'approved_amount', None))}; the largest cuts were " +
-                         ", ".join(f"{d.item.split(':')[0]} {inr(d.amount)} under clause {d.clause}" for d in top[:3]) + f" [{sid}].")
-        denial = next((m for m in reversed(thread) if m.type.value == "DENY"), None)
-        if denial:
-            sid = add("thread", f"Insurer denial, round {denial.round}", f"{denial.reason} (clause {denial.clause})")
-            lines.append(f"The insurer denied it: {denial.reason} [{sid}].")
-        appeal = latest.get("appeal", {}).get("data")
-        if appeal:
-            contested = appeal.get("contested") or []
-            if contested:
-                sid = add("agent", "Appeal writer", "; ".join(f"{c['clause']}: insurer cut {inr(c['insurer_cut'])}, policy supports {inr(c['policy_cut'])}" for c in contested))
-                lines.append(f"The appeal writer contests {sources[-1].text} [{sid}].")
-            evidence = appeal.get("evidence")
-            if evidence:
-                sid = add("agent", "Evidence check", f"Records {evidence['verdict']}: {evidence['reason']}")
-                lines.append(f"Evidence check: {evidence['reason']} [{sid}].")
-        if not decisions and not denial:
-            lines.append("The insurer hasn't cut or denied anything on this claim yet.")
+    for m in exchange.thread(db_path, claim_id):
+        who = "Insurer" if m.sender.value == "insurer" else "Hospital"
+        label = f"{who} {m.type.value.replace('_', ' ').lower()}, {m.stage.value} round {m.round}"
+        parts = []
+        if (amount := getattr(m, "approved_amount", None)) is not None:
+            parts.append(f"Approved {inr(amount)}.")
+        if (amount := getattr(m, "requested_amount", None)) is not None:
+            parts.append(f"Requested {inr(amount)}.")
+        if deductions := getattr(m, "deductions", None):
+            parts.append("Deductions: " + "; ".join(f"{d.item.split(':')[0]} {inr(d.amount)} (clause {d.clause})" for d in deductions) + ".")
+        for field in ("missing", "reason", "answer", "argument"):
+            if value := getattr(m, field, None):
+                parts.append(f"{field.capitalize()}: {value}.")
+        if clause := getattr(m, "clause", None):
+            parts.append(f"Clause {clause}.")
+        if parts:
+            chunks.append(Chunk("thread", "thread", label, " ".join(parts)))
 
-    if RISK.search(question) or not (WHY.search(question) or NEXT.search(question)):
-        risk = latest.get("denial_risk", {}).get("data")
-        if risk and risk.get("items"):
-            sid = add("agent", "Risk checker", "; ".join(f"{i['issue']}: {i['evidence'].split('; model weight')[0]}. Fix: {i['fix']}" for i in risk["items"]))
-            lines.append("Before sending, the risk checker flags: " + "; ".join(f"{i['issue']} (fix: {i['fix']})" for i in risk["items"]) + f" [{sid}].")
-        elif risk:
-            sid = add("agent", "Risk checker", "No issues found on the latest package.")
-            lines.append(f"The risk checker found nothing likely to be cut [{sid}].")
+    for actor, record in latest.items():
+        if actor.startswith("tpa_"):  # the insurer's own reviewers: the hospital only sees their messages
+            continue
+        output = record.get("output") or {}
+        name = AGENT_NAMES.get(actor, actor.replace("_", " ").capitalize())
+        for finding in output.get("findings", []):
+            if actor == "denial_risk" and finding["issue"] != "Denial risk":
+                continue  # each flagged item is added below, with its fix
+            evidence = finding["evidence"].split("; model weight")[0]
+            chunks.append(Chunk("agent", actor, f"{name}: {finding['issue']}", f"{evidence} (source: {finding['source']})"))
+        if actor == "denial_risk":
+            items = (record.get("data") or {}).get("items", [])
+            if not items:
+                chunks.append(Chunk("agent", actor, "Risk checker: nothing to fix", "No issues found on the latest package; nothing is flagged to fix before sending."))
+            for item in items:
+                chunks.append(Chunk("agent", actor, f"Risk checker: {item['issue']}", f"{item['evidence'].split('; model weight')[0]}. Fix: {item['fix']}"))
 
     if case is not None:
-        policy = policy_sources(case, question, len(sources) + 1, prefix="Policy")
-        sources += policy
-        lines += [f"{s.label}: “{s.text}” [{s.id}]" for s in policy]
+        seen = set()
+        for rule in case.policy.rules:
+            if rule.clause_text not in seen:
+                seen.add(rule.clause_text)
+                chunks.append(Chunk("policy", "policy", f"Policy, clause {rule.clause_id}", rule.clause_text))
+    return chunks
 
-    return _finish("claim", sources, " ".join(lines), question, system=OFFICER_SYSTEM, db_path=db_path, claim_id=claim_id,
+
+def _glossary_chunks() -> list[Chunk]:
+    seen, chunks = set(), []
+    for term, meaning in GLOSSARY.items():
+        if meaning not in seen:
+            seen.add(meaning)
+            chunks.append(Chunk("glossary", "glossary", f"Glossary: {term}", meaning))
+    return chunks
+
+
+def _desk_chunks(rows: list[dict]) -> list[Chunk]:
+    counts: dict[str, int] = {}
+    for r in rows:
+        counts[r["state"]] = counts.get(r["state"], 0) + 1
+    by_state = "; ".join(f"{STATE_WORDS.get(state, state)}: {n}" for state, n in sorted(counts.items())) or "none"
+    chunks = [Chunk("desk", "desk", "Claims on this desk", f"Total {len(rows)} claims. By state: {by_state}")]
+    waiting = [r for r in rows if r["state"] == "AWAITING_HUMAN"]
+    if waiting:
+        chunks.append(Chunk("desk", "desk", "Waiting for a person",
+                            "; ".join(f"{r['patient']} ({r['claim_id']}): {r.get('last_reason') or 'needs review'}" for r in waiting[:6])))
+    for r in rows[:30]:
+        chunks.append(Chunk("desk", "desk", f"Claim {r['claim_id']}",
+                            f"{r['patient']}, {r['procedure'].replace('_', ' ')}: {STATE_WORDS.get(r['state'], r['state'])}. "
+                            f"Requested {inr(r['requested'])}; approved {inr(r['approved'])}. Last step: {r.get('last_reason') or 'none'}."))
+    return chunks
+
+
+def _compose(picked: list[Chunk], refs: list[Source]) -> tuple[list[Source], str]:
+    """Number the retrieved chunks as sources and quote them, most relevant first."""
+    sources = [Source(f"S{i + 1}", c.kind, c.label, c.text) for i, c in enumerate(picked)]
+    for ref in refs:
+        sources.append(Source(f"S{len(sources) + 1}", ref.kind, ref.label, ref.text))
+    lines = []
+    for s in sources:
+        text = s.text if len(s.text) <= 320 else s.text[:320].rsplit(" ", 1)[0] + "…"
+        lines.append(f"• {s.label}: {text} [{s.id}]")
+    return sources, "\n".join(lines)
+
+
+def ask_officer(db_path: Path | str, question: str, claim: dict | None, case: Case | None, latest: dict[str, dict], rows: list[dict]) -> dict[str, Any]:
+    """Answer an officer by retrieving the parts of the claim record (or the desk) closest to the question.
+
+    Retrieval is semantic (sentence embeddings over the claim's state, insurer thread, agent findings,
+    policy clauses and glossary), nudged by a few keyword hints. The top chunks become the numbered
+    sources; the answer quotes them, or an LLM phrases them and the verifier checks it.
+    """
+    question = question.strip()
+    if claim is None:
+        chunks = _desk_chunks(rows) + _glossary_chunks()
+        if DESK.search(question):  # the desk summary leads any question about the queue
+            picked = chunks[:2] + [c for c in retrieve(question, chunks[2:], k=2) if c not in chunks[:2]]
+            refs = []
+        else:
+            picked = retrieve(question, chunks)
+            refs = reference_sources(question, 0) if not any(c.kind == "glossary" for c in picked[:1]) else []
+        sources, text = _compose(picked, refs[:1])
+        return _finish("desk", sources, text, question, system=OFFICER_SYSTEM)
+
+    chunks = _claim_chunks(db_path, claim, case, latest) + _glossary_chunks()
+    sources, text = _compose(retrieve(question, chunks), [])
+    return _finish("claim", sources, text, question, system=OFFICER_SYSTEM, db_path=db_path, claim_id=claim["claim_id"],
                    masker=Masker.for_case(case) if case else None)

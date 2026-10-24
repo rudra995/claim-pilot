@@ -153,8 +153,9 @@ export function PageHeader({ title, subtitle, action, eyebrow }) {
 
 // A tinted square holding an icon, as on the KPI tiles.
 const CHIPS = {
-  green: 'bg-accent-50 text-accent-600', blue: 'bg-sky-50 text-sky-600', amber: 'bg-amber-50 text-amber-600',
-  violet: 'bg-violet-50 text-violet-600', rose: 'bg-rose-50 text-rose-600', ink: 'bg-[#eef1ef] text-ink-soft',
+  // every tone is a shade of the brand green so tiles sit together; rose is kept for real problems
+  green: 'bg-accent-50 text-accent-600', blue: 'bg-accent-100/70 text-accent-800', amber: 'bg-[#eef5e4] text-[#4f7a2a]',
+  violet: 'bg-[#e3f1ec] text-[#22745f]', rose: 'bg-rose-50 text-rose-600', ink: 'bg-[#eef1ef] text-ink-soft',
 }
 export function IconChip({ name, tone = 'green', size = 'md' }) {
   const sizes = { sm: 'h-8 w-8 rounded-[10px] [&>svg]:h-4 [&>svg]:w-4', md: 'h-10 w-10 rounded-xl [&>svg]:h-5 [&>svg]:w-5', lg: 'h-12 w-12 rounded-2xl [&>svg]:h-6 [&>svg]:w-6' }

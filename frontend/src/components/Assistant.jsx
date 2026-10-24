@@ -155,7 +155,7 @@ function Bot({ answer, index }) {
     <div className="flex animate-fade-up gap-2.5" style={stagger(index % 3, 40)}>
       <BotAvatar />
       <div className="min-w-0 max-w-[88%] space-y-2">
-        <div className="rounded-2xl rounded-tl-md bg-white px-4 py-3 text-sm leading-relaxed text-ink shadow-card">
+        <div className="whitespace-pre-line rounded-2xl rounded-tl-md bg-white px-4 py-3 text-sm leading-relaxed text-ink shadow-card">
           {parts.map((part, i) => {
             const cite = part.match(/^\[(S\d+)\]$/)
             if (!cite) return <span key={i}>{part}</span>

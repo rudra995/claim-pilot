@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { api, useLoad, useTrace } from '../api'
 import { useAuth } from '../auth'
 import { nextStep } from '../story'
-import { ANSWER_KEYS, BarList, ChartCard, Columns, Donut, Legend, ModeBars, MODE_COLORS, MUTED, PillColumns, SERIES, StackedBars } from '../components/charts'
+import { ANSWER_KEYS, BarList, ChartCard, Columns, Donut, Legend, ModeBars, MODE_COLORS, PillColumns, SERIES, SOFT, StackedBars, WARN } from '../components/charts'
 import {
   Avatar, Button, Card, CardHeader, CountUp, EmptyState, Icon, KpiTile, PageHeader, Skeleton, Status, ago, money, pct, procedureName, stagger,
 } from '../components/ui'
@@ -37,7 +37,7 @@ export default function Dashboard() {
           pill={tasks.length ? 'Action needed' : 'All clear'} pillTone={tasks.length ? 'attention' : 'good'} hint="Approve, edit or hold back" />
         <KpiTile icon="check" tone="blue" label="Pre-auth approved in full, first answer"
           value={k ? <CountUp value={k.approved_in_full_first_time === null ? null : Math.round(k.approved_in_full_first_time * 100)} format={(v) => `${v}%`} /> : <Skeleton className="mt-1 h-8 w-16" />}
-          pill={k?.preauth_answers ? `${k.preauth_answers} answers` : null} pillTone="info" hint={k?.preauth_answers ? `${pct(k.part_approved_first_time)} more part-approved` : 'No insurer answers yet'} />
+          pill={k?.preauth_answers ? `${k.preauth_answers} answers` : null} pillTone="neutral" hint={k?.preauth_answers ? `${pct(k.part_approved_first_time)} more part-approved` : 'No insurer answers yet'} />
         <KpiTile icon="rupee" tone="violet" label="Approved by insurers" value={k ? <CountUp value={k.approved_total} format={money} /> : <Skeleton className="mt-1 h-8 w-24" />}
           pill={k?.requested_total ? `${pct(k.approved_share_of_requested)} of asked` : null} hint={k?.requested_total ? `of ${money(k.requested_total)} requested` : null} />
       </div>
@@ -224,8 +224,8 @@ function Analytics({ d }) {
           footer="A cut beyond the wording isn't automatically wrong: medical-necessity cuts are judged on the records, and appealed only when the evidence supports it.">
           {({ show, hide }) => (
             <Donut show={show} hide={hide} format={money} center={money(split.recovered_by_appeal)} caption="recovered" parts={[
-              { label: 'Backed by the policy wording', value: split.policy_backed, color: MUTED },
-              { label: 'Beyond the wording', value: split.disputed, color: '#efb23f' },
+              { label: 'Backed by the policy wording', value: split.policy_backed, color: SOFT },
+              { label: 'Beyond the wording', value: split.disputed, color: WARN },
               { label: 'Recovered by appeal', value: split.recovered_by_appeal, color: SERIES },
             ]} />
           )}

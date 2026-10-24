@@ -130,8 +130,20 @@ def test_officer_copilot_explains_risk_with_sources(clients):
     claim_id = start(staff)
     result = ask(staff, 'What should I fix before I send this?', claim_id, path='/api/assistant/ask')
     assert result['verified']
-    risk = next(s for s in result['sources'] if s['label'] == 'Risk checker')
-    assert 'X-ray' in risk['text'] or 'xray' in risk['text'].lower()
+    risk = [s['text'] for s in result['sources'] if s['label'].startswith('Risk checker')]
+    assert any('x-ray' in text.lower() or 'xray' in text.lower() for text in risk)
+
+
+def test_officer_copilot_answers_different_questions_from_different_sources(clients):
+    staff, _, _ = clients
+    claim_id = start(staff)
+    fix = ask(staff, 'What should I fix before I send this?', claim_id, path='/api/assistant/ask')
+    room = ask(staff, 'What does the policy say about room rent?', claim_id, path='/api/assistant/ask')
+    cost = ask(staff, 'What is the typical bill and length of stay?', claim_id, path='/api/assistant/ask')
+    assert 'room' in room['sources'][0]['text'].lower()
+    assert any(s['label'] == 'Policy, clause 4.2' for s in room['sources'])
+    assert cost['sources'][0]['label'].startswith('Cost estimator')
+    assert len({fix['answer'], room['answer'], cost['answer']}) == 3
 
 
 def test_officer_copilot_summarises_the_desk(clients):
